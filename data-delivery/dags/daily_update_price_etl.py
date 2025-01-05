@@ -2,7 +2,6 @@ from airflow.decorators import dag, task
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from datetime import datetime, timedelta
 import pandas as pd
-from airflow.macros import ds_add, ds_format
 from modules.ssi_client import SSIClient
 from modules.extract import SSI_AUTHENTICATION
 
@@ -23,7 +22,7 @@ def get_daily_price(from_date: str = None, to_date: str = None):
 
 default_args = {
     'owner': 'InvestorAI',
-    'start_date': datetime(2024, 12, 31, 1),
+    'start_date': datetime(2025, 1, 5),
     'email': 'admin@investorai.live',
     'retries': 3,
     'retry_delay': timedelta(minutes=5)
@@ -32,7 +31,7 @@ default_args = {
 @dag(
     dag_id='update_daily_stock_price',
     default_args=default_args,
-    schedule='@daily',
+    schedule='30 8 * * *',
     catchup=False
 )
 def update_daily_stock_price():
