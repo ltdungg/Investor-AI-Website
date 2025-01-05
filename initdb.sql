@@ -11,7 +11,7 @@ CREATE TABLE stock.industries (
 
 CREATE TABLE stock.stock_information (
     "symbol" TEXT PRIMARY KEY,
-    "compnay_name" TEXT,
+    "company_name" TEXT,
     "description" TEXT,
     "icb1" INT REFERENCES stock.industries(icb_id),
     "icb2" INT REFERENCES stock.industries(icb_id),
