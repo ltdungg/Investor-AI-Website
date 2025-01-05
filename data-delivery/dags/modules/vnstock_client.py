@@ -14,13 +14,14 @@ class VnStockClient:
 
         self._stocks_by_exchange['exchange'] = self._stocks_by_exchange['exchange'].apply(lambda x: "HOSE" if x == 'HSX' else x)
 
-        self._total_stocks = len(self._stocks_by_exchange.index) - 1580
-
         self._stock_dict = {
             'symbol': self._stocks_by_exchange['symbol'].tolist(),
             'exchange': self._stocks_by_exchange['exchange'].tolist()
         }
 
+    def get_industries_icb(self):
+        return self._vci_source.listing.industries_icb()
+    
     def get_stock_list(self):
         return self._stocks_by_exchange['symbol'].tolist()
 
@@ -57,7 +58,7 @@ class VnStockClient:
 
         return data
 
-    async def _companies_profile(self):
+    async def _companies_profile(self, stock_dict: dict):
         """
         Đây là hàm để hợp nhất dữ liệu các mã chứng khoán.
 
@@ -67,7 +68,10 @@ class VnStockClient:
         Return:
             pandas.DataFrame
         """
-        tasks = [self.get_company_profile(self._stock_dict['symbol'][i], self._stock_dict['exchange'][i]) for i in range(self._total_stocks)]
+        
+        total_stocks = len(stock_dict['symbol'])
+        
+        tasks = [self.get_company_profile(stock_dict['symbol'][i], stock_dict['exchange'][i]) for i in range(total_stocks)]
         profiles = await asyncio.gather(*tasks)
         return pd.concat(profiles, ignore_index=True)
 
@@ -80,16 +84,23 @@ class VnStockClient:
         """
         time_start = datetime.datetime.now()
 
-        df = asyncio.run(self._companies_profile())
+        df = asyncio.run(self._companies_profile(self._stock_dict))
         while True:
             try:
                 if (df['message'] == "API rate limit exceeded").any():
                     print("Đang chạy lại")
                     time.sleep(120)
                     retry_stock_list = df['stock_id'][df['message'] == "API rate limit exceeded"].tolist()
+                    retry_stock_exchange = df['exchange'][df['message'] == "API rate limit exceeded"].tolist()
+                    
+                    retry_stock_dict = {
+                        'symbol': retry_stock_list,
+                        'exchange': retry_stock_exchange
+                    }
+                    
                     df['message'] = df['message'].fillna("Success")
                     df = df[~(df['message'] == "API rate limit exceeded")]
-                    df2 = asyncio.run(self._companies_profile(retry_stock_list))
+                    df2 = asyncio.run(self._companies_profile(retry_stock_dict))
                     df = pd.concat([df2, df], ignore_index=True)
                 else:
                     break
@@ -115,11 +126,6 @@ class VnStockClient:
         return df2
     
 
-if __name__ == '__main__':
-    client = VnStockClient()
-    data = client.get_all_companies_profile()
-    print(data.info())
-    print(data.head())
 
 
 

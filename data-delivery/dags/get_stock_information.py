@@ -8,6 +8,8 @@ from modules.extract import SSI_AUTHENTICATION
 
 postgres_conn_id = "postgres"
 stock_information_table = 'stock.stock_information'
+industries_code_table = 'stock.industries'
+
 
 def get_company_information() -> pd.DataFrame:
     print("Bắt đầu lấy dữ liệu thông tin các công ty...")
@@ -36,13 +38,50 @@ default_args = {
 )
 def get_stock_information():
     
-    @task(task_id='extract_and_transform')
-    def extract_and_transform() -> pd.DataFrame:
+    @task(task_id='extract_industries_code')
+    def extract_industries_code() -> pd.DataFrame:
+        vnstock = VnStockClient()
+        
+        data = vnstock.get_industries_icb()
+        
+        return data
+    
+    @task(task_id='load_industries_code')
+    def load_industries_code(data: pd.DataFrame):
+        if data.empty:
+            return
+        
+        pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
+        connection = pg_hook.get_conn()
+        cur = connection.cursor()
+        
+        # DELETE ALL INDUSTRIES
+        delete_query = f'DELETE FROM {industries_code_table}'
+        try:
+            cur.execute(delete_query)
+            connection.commit()
+        except: 
+            pass
+        else:
+            for index, row in data.iterrows():
+                insert_query = "INSERT INTO " + industries_code_table + " (icb_id, icb_name, en_icb_name, level) \
+                    VALUES (%s, %s, %s, %s)"
+                
+                data = (row['icb_code'], row['icb_name'], row['en_icb_name'], row['level'])
+                
+                cur.execute(insert_query, data)
+                connection.commit()
+        
+        cur.close()
+        connection.close()
+    
+    @task(task_id='extract_and_transform_stock_information')
+    def extract_and_transform_stock_information() -> pd.DataFrame:
         data = get_company_information()
         return data 
     
-    @task(task_id='load') 
-    def load(data: pd.DataFrame):
+    @task(task_id='load_stock_information') 
+    def load_stock_information(data: pd.DataFrame):
         
         if data.empty:
             return
@@ -62,19 +101,20 @@ def get_stock_information():
             pass
         else:
             for index, row in data.iterrows():
-                insert_query = f"INSERT INTO {stock_information_table} \
-                    (symbol, company_name, description, icb1, icb2, icb3, icb4, exchange, history_dev, company_promise, business_risk, key_developments, business_strategies) \
-                    VALUES ('{row['symbol']}', '{row['company_name']}', '{row['company_profile']}', {row['icb_code1']}, {row['icb_code2']}, {row['icb_code3']}, {row['icb_code4']}, \
-                        '{row['exchange']}', '{row['history_dev']}', '{row['company_promise']}', '{row['business_risk']}', '{row['key_developments']}', '{row['business_strategies']}')"
-
-                cur.execute(insert_query)
+                insert_query = "INSERT INTO stock.stock_information (symbol, company_name, description, icb1, icb2, icb3, icb4, exchange, history_dev, company_promise, business_risk, key_developments, business_strategies) \
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                data = (row['symbol'],row['company_name'] ,row['company_profile'], row['icb_code1'], row['icb_code2'], row['icb_code3'], row['icb_code4'], 
+                           row['exchange'], row['history_dev'], row['company_promise'], row['business_risk'], row['key_developments'], row['business_strategies'])
+                print(insert_query)
+                cur.execute(insert_query, data)
                 connection.commit()
         
         cur.close()
         connection.close()
         
-    data = extract_and_transform()
-    load(data)
+    load_industries_code(extract_industries_code())
+    load_stock_information(extract_and_transform_stock_information())
+    
     
 
 get_stock_information()
