@@ -35,6 +35,7 @@ CREATE TABLE stock.stock_price (
     "low" REAL,
     "close" REAL,
     "volume" REAL,
-    "value" REAL
+    "value" REAL,
+    PRIMARY KEY ("symbol", "trading_date")
 );
 
