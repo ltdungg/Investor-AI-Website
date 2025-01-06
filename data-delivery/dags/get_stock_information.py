@@ -105,10 +105,11 @@ def get_stock_information():
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                 data = (row['symbol'],row['company_name'] ,row['company_profile'], row['icb_code1'], row['icb_code2'], row['icb_code3'], row['icb_code4'], 
                            row['exchange'], row['history_dev'], row['company_promise'], row['business_risk'], row['key_developments'], row['business_strategies'])
-                print(insert_query)
                 cur.execute(insert_query, data)
                 connection.commit()
-        
+
+            print("Get stock information success")
+            
         cur.close()
         connection.close()
         

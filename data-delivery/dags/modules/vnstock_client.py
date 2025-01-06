@@ -22,6 +22,9 @@ class VnStockClient:
     def get_industries_icb(self):
         return self._vci_source.listing.industries_icb()
     
+    def get_stock_dict(self):
+        return self._stock_dict
+    
     def get_stock_list(self):
         return self._stocks_by_exchange['symbol'].tolist()
 

@@ -59,7 +59,7 @@ class SSIClient:
         else:
             raise Exception(f"Không thành công")
 
-    def _get_all_history_price_of_one_symbol(self, symbol):
+    def _get_all_history_price_of_one_symbol(self, symbol: str):
         time_start = datetime.now()
         print(f"Đang lấy tất cả lịch sử giá của mã {symbol}")
         from_date = '01/01/2000'
@@ -91,13 +91,16 @@ class SSIClient:
         print(f"Tổng thời gian lấy dữ liệu mã {symbol} là: {(time_end - time_start).total_seconds()}s")
         return data
 
-    def get_all_history_price(self, stock_list: list):
+    def get_all_history_price(self, stock_dict: dict):
         print("Đang lấy dữ liệu lịch sử giá...")
 
+        total_stocks = len(stock_dict['symbol'])
+        
         stock_price_history = []
-        for symbol in stock_list:
-            symbol_price_history = self._get_all_history_price_of_one_symbol(symbol)
+        for i in range(total_stocks):
+            symbol_price_history = self._get_all_history_price_of_one_symbol(stock_dict['symbol'][i])
             df = pd.DataFrame.from_dict(symbol_price_history)
+            df['Exchange'] = stock_dict['exchange'][i]
             stock_price_history.append(df)
 
         return pd.concat(stock_price_history, ignore_index=True)
