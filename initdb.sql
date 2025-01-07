@@ -1,6 +1,8 @@
 CREATE SCHEMA stock;
 
 CREATE TYPE exchange_dt AS ENUM ('HOSE', 'HNX', 'UPCOM');
+CREATE TYPE user_role_dt AS ENUM ('member', 'admin');
+CREATE TYPE favourite_stock_list_mode_dt AS ENUM ('private', 'public');
 
 CREATE TABLE stock.industries (
     "icb_id" INT PRIMARY KEY,
@@ -39,3 +41,30 @@ CREATE TABLE stock.stock_price (
     PRIMARY KEY ("symbol", "trading_date")
 );
 
+CREATE TABLE stock.user (
+    "user_id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "role" user_role_dt NOT NULL,
+    "created_at" DATE NOT NULL,
+    "updated_at" DATE
+)
+
+CREATE TABLE stock.favourite_stock_list (
+    "list_id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "mode" favourite_stock_list_mode_dt NOT NULL,
+    "author" INT REFERENCES stock.user("user_id"),
+    "created_at" DATE NOT NULL, 
+    "updated_at" DATE,
+    "symbols" TEXT[]
+)
+
+-- CREATE TABLE stock.finance_ratio (
+--     "symbol" TEXT NOT NULL,
+--     "quarter" INT NOT NULL,
+--     "year" INT NOT NULL,
+
+-- )
