@@ -22,7 +22,7 @@ def get_daily_price(from_date: str = None, to_date: str = None):
 
 default_args = {
     'owner': 'InvestorAI',
-    'start_date': datetime(2025, 1, 5),
+    'start_date': datetime(2025, 1, 7),
     'email': 'admin@investorai.live',
     'retries': 3,
     'retry_delay': timedelta(minutes=5)
@@ -32,14 +32,14 @@ default_args = {
     dag_id='update_daily_stock_price',
     default_args=default_args,
     schedule='30 8 * * *',
-    catchup=False
+    catchup=True
 )
 def update_daily_stock_price():
 
     @task(task_id='extract')
     def extract() -> pd.DataFrame:
         
-        date = (datetime.now() - timedelta(days=2)).strftime('%d/%m/%Y')
+        date = datetime.now().strftime('%d/%m/%Y')
         
         data = get_daily_price(date, date)
 
@@ -85,7 +85,7 @@ def update_daily_stock_price():
                 cur.execute(query=query)
                 connection.commit()
             except:
-                continue
+                raise Exception("Trích xuất dữ liệu không thành công, hoặc đã tồn tại trong bảng")
             
         cur.close()
         connection.close()

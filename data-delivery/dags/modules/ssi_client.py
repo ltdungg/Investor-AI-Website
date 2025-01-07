@@ -1,6 +1,5 @@
 import requests
 from requests.adapters import HTTPAdapter
-# from requests.packages.urllib3.util.retry import Retry
 from datetime import datetime
 import math
 import time
@@ -51,11 +50,6 @@ class SSIClient:
             'PageSize': pageSize,
             'ascending': ascending
         }
-        # session = requests.Session()
-        # retry = Retry(total=5, backoff_factor=0.1, status_forcelist=[ 500, 502, 503, 504 ])
-        # adapter = HTTPAdapter(max_retries=retry)
-        # session.mount('http://', adapter)
-        # session.mount('https://', adapter)
         response = requests.get(url=url,
                             headers=self._header,
                             params=params)
@@ -120,10 +114,7 @@ class SSIClient:
             pageIndex=1,
             pageSize=1000
         )
-        try:
-            data = daily_data['data']
-        except KeyError:
-            return {}
+        data = daily_data['data']
         total_records = int(daily_data['totalRecord'])
         total_index = math.ceil(total_records / 1000)
 
