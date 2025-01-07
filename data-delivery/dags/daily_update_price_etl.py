@@ -35,12 +35,11 @@ default_args = {
     catchup=True
 )
 def update_daily_stock_price():
-
     @task(task_id='extract')
-    def extract() -> pd.DataFrame:
+    def extract(ds, **kwargs) -> pd.DataFrame:
         
-        date = datetime.now().strftime('%d/%m/%Y')
-        
+        date = kwargs['execution_date'].strftime('%d/%m/%Y')
+        print(f"Execution date: {date}")
         data = get_daily_price(date, date)
 
         return data
@@ -67,15 +66,14 @@ def update_daily_stock_price():
         
 
     @task(task_id='load')
-    def load(data: pd.DataFrame):
+    def load(data: pd.DataFrame, **kwargs):
         
         if data.empty:
-            print(f"Không có dữ liệu ngày {datetime.now().strftime('%d/%m/%Y')}")
+            print(f"Không có dữ liệu ngày {kwargs['execution_date'].strftime('%d/%m/%Y')}")
             return
         
         pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
         connection = pg_hook.get_conn()
-        
         cur = connection.cursor()
         
         for index, row in data.iterrows():
@@ -84,13 +82,21 @@ def update_daily_stock_price():
             try:
                 cur.execute(query=query)
                 connection.commit()
+
             except:
-                raise Exception("Trích xuất dữ liệu không thành công, hoặc đã tồn tại trong bảng")
+
+                connection.rollback()
+                update_query = """UPDATE stock.stock_price
+                SET "open" = %s, "high"= %s, "low"= %s, "close"= %s, "volume"= %s, "value"= %s
+                WHERE "symbol" = %s AND "trading_date" = %s"""
+                data = (row['Open'], row['High'], row['Low'], row['Close'], 
+                        row['Volume'], row['Value'], row['Symbol'], row['TradingDate'])
+                cur.execute(update_query, data)
+                connection.commit()
             
         cur.close()
         connection.close()
         
-
     extract = extract()
     transform = transform(extract)
     load(transform)
