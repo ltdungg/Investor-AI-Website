@@ -114,20 +114,26 @@ class SSIClient:
             pageIndex=1,
             pageSize=1000
         )
-        data = daily_data['data']
-        total_records = int(daily_data['totalRecord'])
-        total_index = math.ceil(total_records / 1000)
-
-        for i in range(2, total_index + 1):
-            time.sleep(1)
-            daily_data = self._get_daily_price(
-                fromDate=from_date,
-                toDate=to_date,
-                pageIndex=i,
-                pageSize=1000
-            )
-            for result in daily_data['data']:
-                data.append(result)
+        try:
+            data = daily_data['data']
+            total_records = int(daily_data['totalRecord'])
+            total_index = math.ceil(total_records / 1000)
+        except KeyError:
+            return pd.DataFrame()
+        else:
+            for i in range(2, total_index + 1):
+                time.sleep(1)
+                daily_data = self._get_daily_price(
+                    fromDate=from_date,
+                    toDate=to_date,
+                    pageIndex=i,
+                    pageSize=1000
+                )
+                try:
+                    for result in daily_data['data']:
+                        data.append(result)
+                except KeyError:
+                    break
 
         return pd.DataFrame.from_dict(data)
 
