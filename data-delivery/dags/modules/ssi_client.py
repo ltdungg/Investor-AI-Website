@@ -1,4 +1,6 @@
 import requests
+from requests.adapters import HTTPAdapter
+# from requests.packages.urllib3.util.retry import Retry
 from datetime import datetime
 import math
 import time
@@ -49,15 +51,18 @@ class SSIClient:
             'PageSize': pageSize,
             'ascending': ascending
         }
-
+        # session = requests.Session()
+        # retry = Retry(total=5, backoff_factor=0.1, status_forcelist=[ 500, 502, 503, 504 ])
+        # adapter = HTTPAdapter(max_retries=retry)
+        # session.mount('http://', adapter)
+        # session.mount('https://', adapter)
         response = requests.get(url=url,
-                                headers=self._header,
-                                params=params)
-
+                            headers=self._header,
+                            params=params)
         if response.status_code == 200:
-            return response.json()
-        else:
-            raise Exception(f"Không thành công")
+            return response.json()             
+
+        raise Exception("Không trích xuất dữ liệu thành công")
 
     def _get_all_history_price_of_one_symbol(self, symbol: str):
         time_start = datetime.now()
@@ -70,8 +75,8 @@ class SSIClient:
                                          pageIndex=1,
                                          pageSize=1000
                                          )
-
         data = response['data']
+        
         total_records = int(response['totalRecord'])
         total_page_index = math.ceil(total_records / 1000)
 
@@ -83,7 +88,10 @@ class SSIClient:
                                             pageIndex=i,
                                             pageSize=1000
                                             )
-            result = request['data']
+            try:
+                result = request['data']
+            except KeyError:
+                continue
             for res in result:
                 data.append(res)
 
@@ -115,9 +123,7 @@ class SSIClient:
         try:
             data = daily_data['data']
         except KeyError:
-            return pd.DataFrame()
-        else:
-            pass
+            return {}
         total_records = int(daily_data['totalRecord'])
         total_index = math.ceil(total_records / 1000)
 
