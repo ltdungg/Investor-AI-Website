@@ -1,0 +1,152 @@
+@import "./../../styles/variable";
+@import "./../../styles/mixin";
+
+footer.footer {
+    position: relative;
+    color: $white;
+
+    .background {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        background: url(./../../assets/images/background.png) no-repeat center;
+        background-size: cover;
+    }
+
+    .content {
+        position: relative;
+        background-color: rgba(0, 23, 72, 0.8);
+        padding: 1rem;
+        z-index: 1;
+    }
+
+    header {
+        @include flex(center, center);
+        $font-size: 1.5rem;
+
+        font-size: $font-size;
+
+        .Logo {
+            height: 3.5rem;
+            font-size: $font-size;
+            color: $white;
+        }
+    }
+
+    section {
+        @include flex(space-around, flex-start);
+        margin-bottom: 3rem;
+        gap: 2rem;
+
+        .left-side {
+            .infor {
+                margin-left: 1rem;
+            }
+
+            .subcribe {
+                label {
+                    @include flex(unset, center);
+                    @include margin-y(2rem);
+                    gap: 1rem;
+
+                    .mail-icon {
+                        $size: 4rem;
+                        @include block($size, 50%);
+                        @include flex(center, center);
+
+                        font-size: $size * 0.7;
+                        background-color: #0cb0ff;
+                    }
+
+                    .title {
+                        h3,
+                        p {
+                            margin: 0;
+                        }
+
+                        h3 {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+
+                $radius: 1rem;
+                #sub,
+                button {
+                    padding: 0.5rem 1rem;
+                    margin: 0;
+                    border: none;
+                    font-size: 1rem;
+                }
+
+                #sub {
+                    border-top-left-radius: $radius;
+                    border-bottom-left-radius: $radius;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                button {
+                    background-color: #0086ff;
+                    border-top-right-radius: $radius;
+                    border-bottom-right-radius: $radius;
+                    color: $white;
+                    font-weight: bold;
+
+                    &:hover {
+                        background-color: #0059ff;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .right-side {
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 3rem;
+
+            h3 {
+                @include margin-y(0.8rem);
+            }
+
+            .item a {
+                display: block;
+                text-decoration: none;
+                color: $white;
+                @include margin-y(0.5rem);
+
+                &:hover {
+                    color: rgb(123, 196, 255);
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $md) {
+    header {
+        flex-direction: column;
+    }
+
+    section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .subcribe {
+        display: none;
+    }
+
+    .left-side,
+    .right-side {
+        width: 100%;
+    }
+}

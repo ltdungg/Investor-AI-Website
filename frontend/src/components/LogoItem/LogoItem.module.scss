@@ -1,0 +1,16 @@
+@import "./../../styles/variable";
+@import "./../../styles/mixin";
+
+.LogoItem {
+  @include flex (center, center);
+  width: fit-content;
+  height: 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: $black;
+  letter-spacing: 0.2rem;
+
+  img {
+    height: 100%;
+  }
+}

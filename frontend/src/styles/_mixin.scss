@@ -1,0 +1,31 @@
+@mixin margin-x($width) {
+  margin-left: $width;
+  margin-right: $width;
+}
+
+@mixin margin-y($width) {
+  margin-top: $width;
+  margin-bottom: $width;
+}
+
+@mixin padding-x($width) {
+  padding-left: $width;
+  padding-right: $width;
+}
+
+@mixin padding-y($width) {
+  padding-top: $width;
+  padding-bottom: $width;
+}
+
+@mixin block($size, $radius) {
+  height: $size;
+  width: $size;
+  border-radius: $radius;
+}
+
+@mixin flex($justify, $align) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+}
