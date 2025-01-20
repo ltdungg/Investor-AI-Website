@@ -4,27 +4,12 @@
 footer.footer {
     position: relative;
     color: $white;
-
-    .background {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-
-        background: url(./../../assets/images/background.png) no-repeat center;
-        background-size: cover;
-    }
-
-    .content {
-        position: relative;
-        background-color: rgba(0, 23, 72, 0.8);
-        padding: 1rem;
-        z-index: 1;
-    }
+    background: url(./../../assets/images/background.png) no-repeat center;
+    background-size: cover;
+    padding: 1rem;
 
     header {
-        @include flex(center, center);
+        @include flex(center, center, 0);
         $font-size: 1.5rem;
 
         font-size: $font-size;
@@ -37,7 +22,7 @@ footer.footer {
     }
 
     section {
-        @include flex(space-around, flex-start);
+        @include flex(space-around, flex-start, 0);
         margin-bottom: 3rem;
         gap: 2rem;
 
@@ -48,17 +33,16 @@ footer.footer {
 
             .subcribe {
                 label {
-                    @include flex(unset, center);
+                    @include flex(unset, center, 1rem);
                     @include margin-y(2rem);
-                    gap: 1rem;
 
                     .mail-icon {
                         $size: 4rem;
                         @include block($size, 50%);
-                        @include flex(center, center);
+                        @include flex(center, center, 0);
 
                         font-size: $size * 0.7;
-                        background-color: #0cb0ff;
+                        background-color: $blue;
                     }
 
                     .title {
@@ -92,7 +76,7 @@ footer.footer {
                 }
 
                 button {
-                    background-color: #0086ff;
+                    background-color: $blue;
                     border-top-right-radius: $radius;
                     border-bottom-right-radius: $radius;
                     color: $white;
@@ -124,7 +108,7 @@ footer.footer {
                 @include margin-y(0.5rem);
 
                 &:hover {
-                    color: rgb(123, 196, 255);
+                    color: $blue;
                 }
             }
         }
@@ -132,21 +116,24 @@ footer.footer {
 }
 
 @media (max-width: $md) {
-    header {
-        flex-direction: column;
-    }
+    footer.footer {
+        header {
+            flex-direction: column;
+            text-align: center;
+        }
 
-    section {
-        flex-direction: column;
-        text-align: center;
-    }
+        section {
+            flex-direction: column;
+            text-align: center;
+        }
 
-    .subcribe {
-        display: none;
-    }
+        .subcribe {
+            display: none;
+        }
 
-    .left-side,
-    .right-side {
-        width: 100%;
+        .left-side,
+        .right-side {
+            width: 100%;
+        }
     }
 }

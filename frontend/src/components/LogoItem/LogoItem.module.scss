@@ -2,15 +2,16 @@
 @import "./../../styles/mixin";
 
 .LogoItem {
-  @include flex (center, center);
-  width: fit-content;
-  height: 2rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: $black;
-  letter-spacing: 0.2rem;
+    @include flex(center, center, 0);
+    user-select: none;
+    width: fit-content;
+    height: 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: $black;
+    letter-spacing: 0.2rem;
 
-  img {
-    height: 100%;
-  }
+    img {
+        height: 100%;
+    }
 }

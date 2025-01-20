@@ -1,0 +1,10 @@
+@import "./../../../styles/variable";
+@import "./../../../styles/mixin";
+
+.popup-container {
+    position: absolute;
+    border-radius: 1.5rem;
+    background-color: $white;
+    top: 100%;
+    z-index: 1000;
+}
