@@ -3,6 +3,7 @@
 
 .LogoItem {
     @include flex(center, center, 0);
+    font-family: "Tektur", serif;
     user-select: none;
     width: fit-content;
     height: 2rem;
