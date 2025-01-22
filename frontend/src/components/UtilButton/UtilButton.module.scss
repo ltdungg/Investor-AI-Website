@@ -1,0 +1,14 @@
+@use "sass:math";
+@import "./../../styles/variable";
+@import "./../../styles/mixin";
+$size: 4rem;
+
+.util-btn {
+    @include btn(0, $white, 2px solid $gray-blue, 50%);
+    @include block($size, 50%);
+    @include flex(center, center, 0);
+    font-size: math.div($size, 2);
+    color: $blue;
+    z-index: 3000;
+    background-color: $white;
+}

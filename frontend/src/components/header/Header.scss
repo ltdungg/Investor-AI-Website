@@ -4,8 +4,7 @@
 header.header {
     overflow-x: hidden;
     position: relative;
-    background: url("./../../assets/images/background.png") no-repeat top;
-    background-size: cover;
+    @include background("./../../assets/images/background.png");
     height: 100vh;
     color: $white;
 

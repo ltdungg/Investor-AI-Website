@@ -1,0 +1,85 @@
+@import "./../../../styles/variable";
+@import "./../../../styles/mixin";
+
+.introducing-features {
+    @include background("./../../../assets/images/background.png");
+    position: relative;
+    color: $white;
+    padding: 2rem;
+    min-height: 100vh;
+
+    h2 {
+        margin: auto;
+        width: fit-content;
+    }
+
+    h1 {
+        margin: 1rem auto;
+        width: fit-content;
+        font-size: 3rem;
+    }
+
+    .features {
+        @include flex(space-evenly, center, 1rem);
+        flex-wrap: wrap;
+        margin-top: 3rem;
+
+        .feature-item {
+            @include flex(center, center, 1rem);
+            width: 10rem;
+            border-radius: 0.8rem;
+            background-color: $white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: $black;
+            padding: 0.5rem 0;
+            transition: background-color 0.3s;
+
+            .feature-item__icon {
+                font-size: 1.2rem;
+            }
+
+            &:hover {
+                background-color: $sea-blue;
+            }
+        }
+    }
+
+    .introduce {
+        @include flex(space-between, center, 0);
+        overflow: hidden;
+        flex-direction: column;
+        background-color: $blue;
+        position: absolute;
+        bottom: -2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 3rem 2rem;
+        border-radius: 1.5rem;
+        height: 50vh;
+        width: 80vw;
+        text-align: center;
+        margin: auto;
+
+        h3 {
+            font-size: 3rem;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+
+            .typing-area {
+                width: 100%;
+            }
+        }
+        p {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+    }
+}
+
+@media (max-width: $sm) {
+    .introduce {
+        display: none !important;
+    }
+}
