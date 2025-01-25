@@ -1,0 +1,139 @@
+@import "./../../styles/variable";
+@import "./../../styles/mixin";
+
+footer.footer {
+    position: relative;
+    color: $white;
+    background: url(./../../assets/images/background.png) no-repeat center;
+    background-size: cover;
+    padding: 1rem;
+
+    header {
+        @include flex(center, center, 0);
+        $font-size: 1.5rem;
+
+        font-size: $font-size;
+
+        .Logo {
+            height: 3.5rem;
+            font-size: $font-size;
+            color: $white;
+        }
+    }
+
+    section {
+        @include flex(space-around, flex-start, 0);
+        margin-bottom: 3rem;
+        gap: 2rem;
+
+        .left-side {
+            .infor {
+                margin-left: 1rem;
+            }
+
+            .subcribe {
+                label {
+                    @include flex(unset, center, 1rem);
+                    @include margin-y(2rem);
+
+                    .mail-icon {
+                        $size: 4rem;
+                        @include block($size, 50%);
+                        @include flex(center, center, 0);
+
+                        font-size: $size * 0.7;
+                        background-color: $blue;
+                    }
+
+                    .title {
+                        h3,
+                        p {
+                            margin: 0;
+                        }
+
+                        h3 {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+
+                $radius: 1rem;
+                #sub,
+                button {
+                    padding: 0.5rem 1rem;
+                    margin: 0;
+                    border: none;
+                    font-size: 1rem;
+                }
+
+                #sub {
+                    border-top-left-radius: $radius;
+                    border-bottom-left-radius: $radius;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                button {
+                    background-color: $blue;
+                    border-top-right-radius: $radius;
+                    border-bottom-right-radius: $radius;
+                    color: $white;
+                    font-weight: bold;
+
+                    &:hover {
+                        background-color: #0059ff;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .right-side {
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 3rem;
+
+            h3 {
+                @include margin-y(0.8rem);
+            }
+
+            .item a {
+                display: block;
+                text-decoration: none;
+                color: $white;
+                @include margin-y(0.5rem);
+
+                &:hover {
+                    color: $blue;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $md) {
+    footer.footer {
+        header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .subcribe {
+            display: none;
+        }
+
+        .left-side,
+        .right-side {
+            width: 100%;
+        }
+    }
+}

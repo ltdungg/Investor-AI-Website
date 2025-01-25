@@ -1,0 +1,65 @@
+@import "./../../../styles/variable";
+@import "./../../../styles/mixin";
+
+.tool-container {
+    color: $black;
+    padding: 1.5rem;
+
+    .tool-title {
+        position: relative;
+        margin-top: 0;
+        font-size: 1.5rem;
+        color: $blue;
+
+        &::after {
+            display: block;
+            position: absolute;
+            content: " ";
+            right: calc(100% + 1rem);
+            top: 0;
+            bottom: 0;
+            width: 0.3rem;
+            background-color: $light-blue;
+            border-radius: 1rem;
+        }
+    }
+
+    .tool-list {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: auto auto;
+        @include padding-x(1rem);
+
+        .tool-item {
+            color: $black;
+            @include flex(flex-start, center, 0.5rem);
+            min-width: 10rem;
+
+            &:hover {
+                color: $blue;
+            }
+        }
+    }
+}
+
+@media (max-width: $md) {
+    .tool-container {
+        display: block;
+        position: unset;
+        background-color: transparent;
+        width: 100%;
+
+        .tool-title {
+            display: none;
+        }
+
+        .tool-list {
+            grid-template-columns: auto !important;
+            justify-content: start;
+
+            .tool-item {
+                color: $white !important;
+            }
+        }
+    }
+}

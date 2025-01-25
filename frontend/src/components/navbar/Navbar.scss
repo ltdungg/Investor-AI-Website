@@ -1,0 +1,117 @@
+@import "./../../styles/variable";
+@import "./../../styles/mixin";
+
+.nav-containter {
+    @include flex(space-between, center, 0);
+    position: relative;
+    background: transparent;
+    color: $white;
+    padding: 0.5rem 1rem;
+    z-index: 100;
+
+    .nav__logo,
+    a {
+        color: $white;
+        text-decoration: none;
+    }
+
+    .nav__list {
+        $light-blue: #0086ff;
+        @include flex(unset, center, 0);
+
+        .search-icon {
+            font-size: 1.5rem;
+        }
+
+        .sign-in,
+        .register {
+            @include margin-x(0.3rem);
+            @include btn(0.5rem 0, $white, 1px solid $blue, 1rem);
+
+            justify-content: center !important;
+            width: 6.5rem;
+        }
+
+        .sign-in a {
+            color: $blue;
+        }
+
+        .register {
+            background-color: $blue;
+        }
+    }
+    .nav__item {
+        @include margin-x(1rem);
+        @include padding-y(0.3rem);
+        @include flex(center, flex-end, 0);
+        flex-wrap: wrap;
+        position: relative;
+        color: $white;
+        user-select: none;
+
+        & > *:first-child {
+            cursor: pointer;
+        }
+
+        &:not(.nav__sign-btn)::after {
+            position: absolute;
+            display: block;
+            left: 0;
+            right: 100%;
+            bottom: 1px;
+            height: 2px;
+            background-color: $sea-blue;
+            content: "";
+            transition: right 0.3s;
+        }
+        &:hover::after {
+            right: 0;
+        }
+    }
+
+    .nav__menu-btn {
+        display: none;
+    }
+}
+
+@media (max-width: $md) {
+    .nav-containter {
+        align-content: flex-start;
+        position: fixed;
+
+        width: 100vw;
+        background-color: $black;
+        flex-wrap: wrap;
+        .nav__list {
+            height: 100vh;
+            // display: none;
+            align-items: flex-start;
+            flex-direction: column;
+            width: 100%;
+
+            .nav__item {
+                margin: 0.3rem auto;
+                justify-content: flex-start;
+                width: 90%;
+            }
+        }
+
+        .nav__search {
+            display: none !important;
+        }
+
+        .nav__menu-btn {
+            display: flex;
+            gap: 1rem;
+            margin-right: 1rem;
+            user-select: none;
+
+            .nav__item {
+                position: unset;
+                @include btn(0, transparent, none, 0);
+                margin: 0;
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
