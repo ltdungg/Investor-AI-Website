@@ -1,16 +1,15 @@
-@import "./../../../styles/variable";
-@import "./../../../styles/mixin";
+@use "./../../../styles/main";
 
 .search-container {
     width: 35rem;
-    color: $black;
+    color: main.$black;
     padding: 1rem 1.5rem 0 1.5rem;
     right: 10rem;
     
     
 
     .search-bar {
-        @include flex (unset, center, 1rem);
+        @include main.flex (unset, center, 1rem);
 
         .exit-search {
             display: none;
@@ -18,14 +17,14 @@
     }
 
     .search-box {
-        @include flex(space-evenly, center, 0);
+        @include main.flex(space-evenly, center, 0);
         margin: 0 auto 0 auto;
         height: 2rem;
         width: 95%;
         font-size: 1.3rem;
         padding: 0.2rem;
         border-radius: 10rem;
-        border: 1.5px solid $black;
+        border: 1.5px solid main.$black;
     }
 
     #search {
@@ -36,14 +35,14 @@
     }
 
     .search__category-item {
-        @include btn(0.2rem 0.5rem, $white, 1px solid $black, 1rem);
+        @include main.btn(0.2rem 0.5rem, main.$white, 1px solid main.$black, 1rem);
         margin: 1rem 0.3rem;
         width: 5rem;
         cursor: pointer;
     }
 
     .search__suggest-title {
-        @include flex(flex-start, center, 0.5rem);
+        @include main.flex(flex-start, center, 0.5rem);
         margin: 0 0 0 0.5rem;
         font-size: 1rem;
 
@@ -63,7 +62,7 @@
     }
 
     .search__trend {
-        border-right: 1px solid $black;
+        border-right: 1px solid main.$black;
     }
 
     .search__suggest-stocks-container {
@@ -74,14 +73,14 @@
         }
 
         .search__suggest-stock-item {
-            @include flex(flex-start, center, 1rem);
-            @include padding-x (0.5rem);
+            @include main.flex(flex-start, center, 1rem);
+            @include main.padding-x (0.5rem);
             font-size: 1rem;
-            color: $black;
+            color: main.$black;
             border-radius: 0.5rem;
 
             h6 {
-                color: $blue;
+                color: main.$blue;
                 font-size: 1em;
                 margin: 0;
             }
@@ -94,19 +93,19 @@
             }
 
             &:hover {
-                background-color: $sea-blue;
+                background-color: main.$sea-blue;
             }
         }
     }
 
     .search__category-item-current {
-        background-color: $blue;
-        color: $white;
+        background-color: main.$blue;
+        color: main.$white;
         border: none;
     }
 }
 
-@media (max-width: $md) {
+@media (max-width: main.$md) {
     .search-container {
         left: 0;
         top: 0;
@@ -122,7 +121,7 @@
     }
 }
 
-@media (max-width: $sm) {
+@media (max-width: main.$sm) {
     .search__suggest-stocks-container {
         flex-direction: column;
 

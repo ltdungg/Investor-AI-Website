@@ -1,10 +1,9 @@
-@import "./../../../styles/variable";
-@import "./../../../styles/mixin";
+@use "./../../../styles/main";
 
 .introducing-features {
-    @include background("./../../../assets/images/background.png");
+    @include main.background("./../../../assets/images/background.png");
     position: relative;
-    color: $white;
+    color: main.$white;
     padding: 2rem;
     min-height: 100vh;
 
@@ -20,18 +19,18 @@
     }
 
     .features {
-        @include flex(space-evenly, center, 1rem);
+        @include main.flex(space-evenly, center, 1rem);
         flex-wrap: wrap;
         margin-top: 3rem;
 
         .feature-item {
-            @include flex(center, center, 1rem);
+            @include main.flex(center, center, 1rem);
             width: 10rem;
             border-radius: 0.8rem;
-            background-color: $white;
+            background-color: main.$white;
             text-decoration: none;
             font-size: 1.1rem;
-            color: $black;
+            color: main.$black;
             padding: 0.5rem 0;
             transition: background-color 0.3s;
 
@@ -40,16 +39,16 @@
             }
 
             &:hover {
-                background-color: $sea-blue;
+                background-color: main.$sea-blue;
             }
         }
     }
 
     .introduce {
-        @include flex(space-between, center, 0);
+        @include main.flex(space-between, center, 0);
         overflow: hidden;
         flex-direction: column;
-        background-color: $blue;
+        background-color: main.$blue;
         position: absolute;
         bottom: -2rem;
         left: 50%;
@@ -78,7 +77,7 @@
     }
 }
 
-@media (max-width: $sm) {
+@media (max-width: main.$sm) {
     .introduce {
         display: none !important;
     }

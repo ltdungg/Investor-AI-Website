@@ -1,8 +1,7 @@
-@import "./../../../styles/variable";
-@import "./../../../styles/mixin";
+@use "./../../../styles/main";
 
 .introducing-members {
-    background-color: $gray-white-100;
+    background-color: main.$gray-white-100;
     padding: 2rem;
 
     h2 {
@@ -17,59 +16,59 @@
     }
 
     .members {
-        @include flex(space-evenly, unset, 1rem);
+        @include main.flex(space-evenly, unset, 1rem);
         flex-wrap: wrap;
         width: 100%;
     }
 
     .member-card {
-        background-color: $white;
+        background-color: main.$white;
         $size: 25vw;
         width: $size;
         min-width: 20rem;
         height: $size * 0.8;
         min-height: 15rem;
         border-radius: 1.5rem;
-        border: 2px solid $black;
+        border: 2px solid main.$black;
         padding: 0 1rem 1rem 1rem;
-        color: $blue;
+        color: main.$blue;
 
         .member-name {
-            @include flex(space-between, center, 1rem);
+            @include main.flex(space-between, center, 1rem);
             margin: 0.8rem 0.5rem;
         }
 
         .linkedin-link {
-            @include block(2rem, 50%);
-            @include flex(center, center, 0);
-            color: $white;
-            background-color: $gray-blue;
+            @include main.block(2rem, 50%);
+            @include main.flex(center, center, 0);
+            color: main.$white;
+            background-color: main.$gray-blue;
         }
 
         hr {
             height: 1.5px;
-            background-color: $blue;
+            background-color: main.$blue;
             border: none;
         }
 
         &:nth-child(1),
         &:nth-child(3) {
-            background-color: $blue;
+            background-color: main.$blue;
             border: none;
-            color: $white;
+            color: main.$white;
 
             .linkedin-link {
-                border: 2px solid $white;
+                border: 2px solid main.$white;
             }
 
             hr {
-                background-color: $white;
+                background-color: main.$white;
             }
         }
     }
 }
 
-@media (max-width: $sm) {
+@media (max-width: main.$sm) {
     .introducing-members {
         // padding: 0;
 
