@@ -2,8 +2,9 @@
 
 .nav-containter {
     @include main.flex(space-between, center, 0);
-    position: relative;
-    background: transparent;
+    position: fixed;
+    width: 100%;
+    background: #02042f;
     color: main.$white;
     padding: 0.5rem 2rem;
     z-index: 100;

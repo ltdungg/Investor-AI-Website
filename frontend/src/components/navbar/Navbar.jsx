@@ -56,7 +56,7 @@ function Navbar() {
                         <Link to="/">Trang chủ</Link>
                     </div>
                     <div className="nav__item">
-                        <a href="./">Về chúng tôi</a>
+                        <Link to="/about-us">Về chúng tôi</Link>
                     </div>
                     <div
                         className="nav__item nav__tool"
@@ -85,10 +85,10 @@ function Navbar() {
                         />
                     </div>
                     <div className="nav__item sign-in nav__sign-btn">
-                        <a href="./">Đăng nhập</a>
+                        <Link to="/login">Đăng nhập</Link>
                     </div>
                     <div className="nav__item register nav__sign-btn">
-                        <a href="./">Đăng ký</a>
+                        <Link to="/register">Đăng ký</Link>
                     </div>
                 </div>
             )}
