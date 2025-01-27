@@ -1,15 +1,14 @@
-@import "./../../styles/variable";
-@import "./../../styles/mixin";
+@use "./../../styles/main";
 
 .LogoItem {
-    @include flex(center, center, 0);
+    @include main.flex(center, center, 0);
     font-family: "Tektur", serif;
     user-select: none;
     width: fit-content;
     height: 2rem;
     font-size: 1rem;
     font-weight: bold;
-    color: $black;
+    color: main.$black;
     letter-spacing: 0.2rem;
 
     img {

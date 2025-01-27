@@ -1,0 +1,74 @@
+@use "./../../../styles/main";
+
+.contact-introduce {
+    @include main.flex(space-evenly, center, 1rem);
+    padding: 3rem;
+    height: 100vh;
+    background-color: main.$gray-white-100;
+
+    .introduce-side {
+        width: 60%;
+        h2 {
+            font-weight: 500;
+            font-size: 2rem;
+        }
+
+        p {
+            width: 80%;
+            text-align: justify;
+            margin-bottom: 2rem
+        }
+
+        button {
+            @include main.btn(0.4rem 2rem, main.$blue, none, 10rem);
+            color: main.$white;
+            font-size: 1.2rem;
+            font-weight: bolder;
+        }
+    }
+
+    .img-side {
+        @include main.flex(center, center, 0);
+        width: 40%;
+        position: relative;
+
+        & > * {
+            @include main.block(10rem, 1rem);
+        }
+
+        .circle {
+            background-color: #77f574;
+            border-radius: 50%;
+        }
+
+        $img1: -80%;
+        $img2: -20%;
+
+        .img1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate($img1, $img1);
+            z-index: 1;
+        }
+
+        .img2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate($img2, $img2);
+            z-index: 0;
+        }
+    }
+}
+
+@media (max-width: main.$md) {
+    .contact-introduce {
+        .introduce-side {
+            width: 100%;
+        }
+        .img-side {
+            display: none;
+        }
+    }
+}

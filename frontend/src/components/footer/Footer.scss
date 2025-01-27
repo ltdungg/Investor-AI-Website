@@ -1,15 +1,13 @@
-@import "./../../styles/variable";
-@import "./../../styles/mixin";
+@use "./../../styles/main";
 
 footer.footer {
+    @include main.background("./../../assets/images/background.png");
     position: relative;
-    color: $white;
-    background: url(./../../assets/images/background.png) no-repeat center;
-    background-size: cover;
+    color: main.$white;
     padding: 1rem;
 
     header {
-        @include flex(center, center, 0);
+        @include main.flex(center, center, 0);
         $font-size: 1.5rem;
 
         font-size: $font-size;
@@ -17,12 +15,12 @@ footer.footer {
         .Logo {
             height: 3.5rem;
             font-size: $font-size;
-            color: $white;
+            color: main.$white;
         }
     }
 
     section {
-        @include flex(space-around, flex-start, 0);
+        @include main.flex(space-around, flex-start, 0);
         margin-bottom: 3rem;
         gap: 2rem;
 
@@ -33,16 +31,16 @@ footer.footer {
 
             .subcribe {
                 label {
-                    @include flex(unset, center, 1rem);
-                    @include margin-y(2rem);
+                    @include main.flex(unset, center, 1rem);
+                    @include main.margin-y(2rem);
 
                     .mail-icon {
                         $size: 4rem;
-                        @include block($size, 50%);
-                        @include flex(center, center, 0);
+                        @include main.block($size, 50%);
+                        @include main.flex(center, center, 0);
 
                         font-size: $size * 0.7;
-                        background-color: $blue;
+                        background-color: main.$blue;
                     }
 
                     .title {
@@ -76,10 +74,10 @@ footer.footer {
                 }
 
                 button {
-                    background-color: $blue;
+                    background-color: main.$blue;
                     border-top-right-radius: $radius;
                     border-bottom-right-radius: $radius;
-                    color: $white;
+                    color: main.$white;
                     font-weight: bold;
 
                     &:hover {
@@ -98,24 +96,24 @@ footer.footer {
             gap: 3rem;
 
             h3 {
-                @include margin-y(0.8rem);
+                @include main.margin-y(0.8rem);
             }
 
             .item a {
                 display: block;
                 text-decoration: none;
-                color: $white;
-                @include margin-y(0.5rem);
+                color: main.$white;
+                @include main.margin-y(0.5rem);
 
                 &:hover {
-                    color: $blue;
+                    color: main.$blue;
                 }
             }
         }
     }
 }
 
-@media (max-width: $md) {
+@media (max-width: main.$md) {
     footer.footer {
         header {
             flex-direction: column;

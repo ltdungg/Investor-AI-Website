@@ -1,3 +1,4 @@
+import { memo } from "react";
 import LogoItem from "../LogoItem/LogoItem";
 import "./Footer.scss";
 
@@ -76,4 +77,4 @@ function Footer() {
     );
 }
 
-export default Footer;
+export default memo(Footer);

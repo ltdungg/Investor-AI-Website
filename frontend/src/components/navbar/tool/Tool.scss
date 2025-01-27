@@ -1,15 +1,14 @@
-@import "./../../../styles/variable";
-@import "./../../../styles/mixin";
+@use "./../../../styles/main";
 
 .tool-container {
-    color: $black;
+    color: main.$black;
     padding: 1.5rem;
 
     .tool-title {
         position: relative;
         margin-top: 0;
         font-size: 1.5rem;
-        color: $blue;
+        color: main.$blue;
 
         &::after {
             display: block;
@@ -19,30 +18,30 @@
             top: 0;
             bottom: 0;
             width: 0.3rem;
-            background-color: $light-blue;
+            background-color: main.$light-blue;
             border-radius: 1rem;
         }
     }
 
     .tool-list {
+        @include main.padding-x(1rem);
         display: grid;
         gap: 1rem;
         grid-template-columns: auto auto;
-        @include padding-x(1rem);
 
         .tool-item {
-            color: $black;
-            @include flex(flex-start, center, 0.5rem);
+            @include main.flex(flex-start, center, 0.5rem);
+            color: main.$black;
             min-width: 10rem;
 
             &:hover {
-                color: $blue;
+                color: main.$blue;
             }
         }
     }
 }
 
-@media (max-width: $md) {
+@media (max-width: main.$md) {
     .tool-container {
         display: block;
         position: unset;
@@ -58,7 +57,7 @@
             justify-content: start;
 
             .tool-item {
-                color: $white !important;
+                color: main.$white !important;
             }
         }
     }

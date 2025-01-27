@@ -1,13 +1,11 @@
-@import "./../../styles/variable";
-@import "./../../styles/mixin";
+@use "./../../styles/main";
 
 header.header {
+    @include main.background("./../../assets/images/background.png");
     overflow-x: hidden;
     position: relative;
-    background: url("./../../assets/images/background.png") no-repeat top;
-    background-size: cover;
     height: 100vh;
-    color: $white;
+    color: main.$white;
 
     .slogan {
         font-family: "Tektur", serif;
@@ -18,7 +16,7 @@ header.header {
         transform: translate(-50%, -50%);
         z-index: 0;
 
-        $font-size: 2em;
+        $font-size: 2.5em;
 
         h1 {
             font-size: $font-size * 2.7;
@@ -33,8 +31,8 @@ header.header {
     }
 
     .start-btn {
-        @include btn(1rem, transparent, none, 1rem);
-        color: $white;
+        @include main.btn(1rem, transparent, none, 1rem);
+        color: main.$white;
         cursor: pointer;
         position: absolute;
         bottom: 5%;
@@ -51,11 +49,23 @@ header.header {
         }
     }
 }
+@media (max-width: main.$sm) {
+    .slogan {
+        $font-size: 1rem;
+        text-decoration: solid;
 
-@media (max-width: $md) {
+        h1 {
+            font-size: $font-size * 2.7 !important;
+        }
+        p {
+            font-size: $font-size !important;
+        }
+    }
+}
+@media (max-width: main.$md) {
     header.header {
         .slogan {
-            $font-size: 1em;
+            $font-size: 1.5rem;
             text-decoration: solid;
 
             h1 {

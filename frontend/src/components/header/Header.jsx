@@ -2,18 +2,9 @@ import { FaAnglesDown } from "react-icons/fa6";
 
 import Navbar from "../navbar/Navbar";
 import "./Header.scss";
+import ScrollTo from "../../utils/ScrollTo";
 
 function Header() {
-    function scrollToContent() {
-        const content = document.querySelector(".content");
-        if (content) {
-            window.scrollTo({
-                top: content.offsetTop,
-                behavior: "smooth",
-            });
-        }
-    }
-
     return (
         <>
             <header className="header">
@@ -22,7 +13,7 @@ function Header() {
                     <h1>TECHNOLOGY</h1>
                     <p>Where your financial future is shaped.</p>
                 </div>
-                <button className="start-btn" onClick={scrollToContent}>
+                <button className="start-btn" onClick={() => {ScrollTo(".content")}}>
                     <div>Bắt đầu</div>
                     <div className="start-btn__arrow">
                         <FaAnglesDown />

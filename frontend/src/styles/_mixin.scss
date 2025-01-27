@@ -37,4 +37,10 @@
     padding: $padd;
     border: $border;
     border-radius: $radius;
+    cursor: pointer;
+}
+
+@mixin background($url){
+    background: url($url) no-repeat center;
+    background-size: cover;
 }

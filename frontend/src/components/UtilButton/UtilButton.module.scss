@@ -1,0 +1,13 @@
+@use "sass:math";
+@use "./../../styles/main";
+$size: 4rem;
+
+.util-btn {
+    @include main.btn(0, main.$white, 2px solid main.$gray-blue, 50%);
+    @include main.block($size, 50%);
+    @include main.flex(center, center, 0);
+    font-size: math.div($size, 2);
+    color: main.$blue;
+    z-index: 3000;
+    background-color: main.$white;
+}
