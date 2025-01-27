@@ -5,7 +5,7 @@ function LogoItem(props) {
     return (
         <div className={`${LogoStyle.LogoItem} ${props.className}`}>
             <img src={logo} alt="logo" />
-            INVESTORAI
+            <div>INVESTORAI</div>
         </div>
     );
 }

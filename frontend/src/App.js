@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import Contact from "./components/Contact/Contact";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import Home from "./components/home/Home";
@@ -14,7 +13,7 @@ function App() {
             <div className="content"></div>
             <Routes>
                 <Route index element={<Home />} />
-                <Route path="/contact" element={<Contact />} />
+                
             </Routes>
             <Footer />
             <UtilButtonContainer>

@@ -16,16 +16,16 @@
     }
 
     .members {
-        @include main.flex(space-evenly, unset, 1rem);
+        @include main.flex(space-evenly, unset, 3rem);
         flex-wrap: wrap;
         width: 100%;
     }
 
     .member-card {
         background-color: main.$white;
-        $size: 25vw;
+        $size: 20vw;
         width: $size;
-        min-width: 20rem;
+        min-width: 19rem;
         height: $size * 0.8;
         min-height: 15rem;
         border-radius: 1.5rem;
@@ -53,7 +53,7 @@
 
         &:nth-child(1),
         &:nth-child(3) {
-            background-color: main.$blue;
+            background-color: main.$dark-blue-100;
             border: none;
             color: main.$white;
 
