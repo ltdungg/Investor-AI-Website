@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -10,10 +11,11 @@ function App() {
     return (
         <div className="App">
             <Header />
-            <div className="content">
-                <Home />
-                <Contact />
-            </div>
+            <div className="content"></div>
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="/contact" element={<Contact />} />
+            </Routes>
             <Footer />
             <UtilButtonContainer>
                 <ToTopButton />

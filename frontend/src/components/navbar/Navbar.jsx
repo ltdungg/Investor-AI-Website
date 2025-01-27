@@ -7,6 +7,7 @@ import Tool from "./tool/Tool";
 import Search from "./search/Search";
 import "./Navbar.scss";
 import { memo, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
     const breakPoint = 768;
@@ -52,7 +53,7 @@ function Navbar() {
             {(isLargeScreen || isVisible) && (
                 <div className="nav__list">
                     <div className="nav__item">
-                        <a href="./">Trang chủ</a>
+                        <Link to="/">Trang chủ</Link>
                     </div>
                     <div className="nav__item">
                         <a href="./">Về chúng tôi</a>
@@ -75,7 +76,7 @@ function Navbar() {
                         />
                     </div>
                     <div className="nav__item">
-                        <a href="./">Liên hệ</a>
+                        <Link to="/contact">Liên hệ</Link>
                     </div>
                     <div className="nav__item nav__search">
                         <IoMdSearch
