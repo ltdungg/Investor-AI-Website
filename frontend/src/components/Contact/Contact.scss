@@ -86,6 +86,8 @@
             input[type="submit"] {
                 @include main.btn(0.7rem, main.$dark-blue-100, none, 0.5rem);
                 width: 50%;
+                font-size: 1rem;
+                font-weight: bold;
                 margin-left: auto;
                 color: main.$white;
             }
