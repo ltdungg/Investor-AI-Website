@@ -16,7 +16,7 @@ function Navbar() {
     const [isVisible, setVisible] = useState(false);
     const [isToolOpen, setToolOpen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(
-        window.innerWidth >= breakPoint
+        window.innerWidth > breakPoint
     );
 
     function handleSearch() {
@@ -25,7 +25,7 @@ function Navbar() {
 
     useEffect(() => {
         function handleResize() {
-            setIsLargeScreen(window.innerWidth >= breakPoint);
+            setIsLargeScreen(window.innerWidth > breakPoint);
         }
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
