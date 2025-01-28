@@ -1,12 +1,12 @@
-*{
+.login_container *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
+
 .login_container{
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    width: 100%;
     flex-wrap: wrap;
 }
 
@@ -27,23 +27,11 @@
     margin: 40px 0px;
 }
 .login_logo{
-    font-family: "Tektur", serif;
-    color: #fff;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    
-}
-.login_logo .logo_name{
-    font-size: 40px;
-    letter-spacing: 5px;
-}
-.login_logo img{
     height: 80px;
-    
+    font-size: 40px;
+    color: white;
 }
+
 .login_content h1{
     font-weight: 350;
     font-size: 50px;

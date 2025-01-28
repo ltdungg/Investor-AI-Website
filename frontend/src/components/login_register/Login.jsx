@@ -1,16 +1,11 @@
+import LogoItem from "../LogoItem/LogoItem";
 import "./Login.css"
-import logo from "../../assets/icons/Logo.png";
-import UtilButtonContainer from "../UtilButton/UtilButtonContainer"
-import ContactButton from "../UtilButton/ContactButton/ContactButton";
 function Login(){
     return(
         <>
             <div className="login_container">
                 <div className="login_content">
-                    <div className="login_logo">
-                        <img src={logo} alt="logo" />
-                        <p className="logo_name">INVESTORAI</p>
-                    </div>
+                    {/* <LogoItem className="login_logo" /> */}
                     <h1>Đăng nhập</h1>
                     <p className="tablet_change">Đăng nhập để tiếp tục sử dụng.</p>
                     <p>Chưa có tài khoản? <b className="register_button"> Đăng ký ngay</b></p>
@@ -31,9 +26,6 @@ function Login(){
                     </form>
                     
                 </div>
-                <UtilButtonContainer>
-                    <ContactButton />
-                </UtilButtonContainer>
             </div>
         </>
     );

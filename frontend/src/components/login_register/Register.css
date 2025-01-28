@@ -1,12 +1,12 @@
-*{
+.register_container *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
+
 .register_container{
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    width: 100%;
     flex-wrap: wrap;
 }
 
@@ -26,24 +26,13 @@
     font-size: 25px;
     margin: 40px 0px;
 }
-.register_logo{
-    font-family: "Tektur", serif;
-    color: #fff;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    
-}
-.register_logo .logo_name{
-    font-size: 40px;
-    letter-spacing: 5px;
-}
-.register_logo img{
+
+.register_logo {
     height: 80px;
-    
+    font-size: 40px;
+    color: white;
 }
+
 .register_content h1{
     font-weight: 350;
     font-size: 50px;

@@ -1,17 +1,12 @@
 import "./Register.css"
-import logo from "../../assets/icons/Logo.png";
-import UtilButtonContainer from "../UtilButton/UtilButtonContainer"
-import ContactButton from "../UtilButton/ContactButton/ContactButton";
-import vietnamflag from "../../assets/images/vn.png"
+import LogoItem from "../LogoItem/LogoItem";
+
 function Register(){
     return(
         <>
             <div className="register_container">
                 <div className="register_content">
-                    <div className="register_logo">
-                        <img src={logo} alt="logo" />
-                        <p className="logo_name">INVESTORAI</p>
-                    </div>
+                    {/* <LogoItem className="register_logo" /> */}
                     <h1>Đăng ký</h1>
                     <h1>Tài khoản mới</h1>
                     <p>Đã có tài khoản?<b className="register_button"> Đăng nhập ngay</b></p>
@@ -44,9 +39,6 @@ function Register(){
                     </form>
                     
                 </div>
-                <UtilButtonContainer>
-                    <ContactButton />
-                </UtilButtonContainer>
             </div>
         </>
     );
