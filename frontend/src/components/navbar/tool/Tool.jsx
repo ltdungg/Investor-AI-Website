@@ -10,11 +10,12 @@ import { TbReportAnalytics } from "react-icons/tb";
 import PopupContainer from "../PopupContainer/PobupContainer";
 import "./Tool.scss";
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 function Tool(props) {
     const toolItems = [
         {
-            link: "./1",
+            link: "/stocks",
             icon: FaArrowTrendUp,
             tool: "Cổ phiếu",
         },
@@ -54,14 +55,14 @@ function Tool(props) {
             <div className="tool-list">
                 {toolItems.map((item) => {
                     return (
-                        <a
-                            href={item.link}
+                        <Link
+                            to={item.link}
                             className="tool-item"
                             key={item.link}
                         >
                             <item.icon className="tool__icon" />
                             {item.tool}
-                        </a>
+                        </Link>
                     );
                 })}
             </div>

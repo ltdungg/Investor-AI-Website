@@ -3,6 +3,7 @@
 .nav-containter {
     @include main.flex(space-between, center, 0);
     position: fixed;
+    top: 0;
     width: 100%;
     background: #02042f;
     color: main.$white;
