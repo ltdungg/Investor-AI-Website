@@ -30,6 +30,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/stocks" element={<Stock />} />
                 </Routes>
             </div>
 
@@ -41,7 +42,6 @@ function App() {
                 <ToTopButton />
                 <ContactButton />
             </UtilButtonContainer>
-            <Stock></Stock>
         </div>
     );
 }

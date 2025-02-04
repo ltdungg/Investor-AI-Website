@@ -6,10 +6,10 @@ class MarketStocks extends Component {
     this.state = {
       stocks: [
         { id: "VNM", price_change: "13.33%", KLGD: "100,000"},
-        { id: "VNM", price_change: "13.33%", KLGD: "100,000"},
-        { id: "VNM", price_change: "13.33%", KLGD: "100,000"},
-        { id: "VNM", price_change: "13.33%", KLGD: "100,000"},
-        { id: "VNM", price_change: "13.33%", KLGD: "100,000"},
+        { id: "KNM", price_change: "13.33%", KLGD: "100,000"},
+        { id: "VKM", price_change: "13.33%", KLGD: "100,000"},
+        { id: "VLM", price_change: "13.33%", KLGD: "100,000"},
+        { id: "VNA", price_change: "13.33%", KLGD: "100,000"},
 
       ],
     }

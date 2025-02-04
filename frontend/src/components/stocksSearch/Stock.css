@@ -1,9 +1,7 @@
-
-
-html{
+.stocks_page{
+    padding-top: 10rem;
     background-color: #F5F6F8;
 }
-
 
 .flex_container{
     margin-bottom: 100px;
@@ -35,7 +33,7 @@ html{
 }
 .Market_volatility{
     background-color: #F5F6F8;
-    height: 900px;
+    /* height: 900px; */
 }
 
 @media  (min-width: 740px) and (max-width: 1024px){

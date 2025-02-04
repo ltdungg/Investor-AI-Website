@@ -1,0 +1,41 @@
+@use "./../../../styles/main";
+
+.stock-price__table-row {
+    transition: background-color 0.3s;
+    border-bottom: 1px;
+    cursor: pointer;
+
+    &:nth-child(2n + 1) {
+        background-color: #e6f1fe;
+    }
+
+    td {
+        padding: 1rem;
+        text-align: center;
+
+        &:first-child {
+            text-align: left;
+            $width: 20rem;
+            width: $width;
+
+            p {
+                @extend .text-overflow;
+                width: $width;
+                margin: 0;
+            }
+
+            h3 {
+                width: fit-content;
+                margin: 0;
+            }
+        }
+    }
+
+    .fluctuation {
+        font-weight: bold;
+    }
+
+    &:hover {
+        background-color: main.$gray-white-200;
+    }
+}

@@ -1,4 +1,3 @@
-import { CiSearch} from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
 import { IoMicOutline } from "react-icons/io5";
 import "./SearchBar.css";
