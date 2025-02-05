@@ -1,0 +1,195 @@
+.register_container *{
+    margin: 0;
+    padding: 0;
+}
+
+.register_container{
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.register_content{
+    background: linear-gradient(#080821, #2928A1);
+    color: #fff;
+    padding: 50px;
+    flex: 1;
+}
+
+.register_content .register_button{
+    color: #60BBDE;
+    cursor: pointer;
+}
+
+.register_content p{
+    font-size: 25px;
+    margin: 40px 0px;
+}
+
+.register_logo {
+    height: 80px;
+    font-size: 40px;
+    color: white;
+}
+
+.register_content h1{
+    font-weight: 350;
+    font-size: 50px;
+    margin: 20px 0px;
+}
+
+.register_content .block{
+    margin-top: 100px;
+    margin-bottom: 70px;
+    width: 70px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+}
+
+.register_content button{
+    color: #0086FF;
+    font-weight: bold;
+    border-radius: 30px;
+    width: 200px;
+    height: 35px;
+    border: 1px solid black;
+    font-size: 20px;
+    cursor: pointer;
+}
+.register_page{
+    flex: 2;
+    flex-direction: column;
+    background-color: #F5F6F8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register_page .row{
+    display: flex;
+    flex-direction: row;
+}
+
+.register_page .row input{
+    width: 267px;
+    margin-right: 5px;
+}
+
+.register_page label{
+    color: #727171;
+    font-size: 20px;
+}
+
+.register_page input{
+    margin: 5px 0px;
+    width: 540px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 10px;
+    color: #727171;
+}
+
+.register_page p{
+    color: #0072FF;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: right;
+    margin: 10px 0px;
+    cursor: pointer;
+}
+
+.register_page .register_button{
+    width: 543px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 25px;
+    color: #fff;
+    font-weight: bold;
+    background: linear-gradient(to right,#8661FC,#5FD8E8);
+    border: 1px solid #7695F3;
+    cursor: pointer;
+}
+
+.ContactButton{
+    display: flex;
+    float: right;
+}
+
+@media  (min-width: 740px) and (max-width: 1024px){
+    .tablet_change{
+        display: none;
+    }
+    .register_content{
+        width: 100vw;
+    }
+    .register_page{
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
+@media (max-width: 739px){
+    .tablet_change{
+        display: none;
+    }
+    .register_content{
+        width: 100vw;
+    }
+    .register_logo .logo_name{
+        font-size: 20px;
+        letter-spacing: 5px;
+    }
+    .register_logo img{
+        height: 40px;
+        
+    }
+    .register_content h1{
+        font-weight: 350;
+        font-size: 30px;
+        margin: 20px 0px;
+    }
+    .register_content p{
+        font-size: 15px;
+        margin:20px 0px;
+    }
+    .register_content button{
+        width: 150px;
+        font-size: 15px;
+    }
+    .register_page input{
+        width: 300px;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid black;
+        padding: 10px;
+    }
+    .register_page{
+        width: 100vw;
+        height: 100vh;
+
+    }
+    .register_page label{
+        color: #727171;
+        font-size: 15px;
+    }
+    .register_page .row input{
+        width: 150px;
+        margin-right: 5px;
+    }
+    
+    
+    .register_page .register_button{
+        width: 300px;
+        height: 40px;
+        border-radius: 5px;
+        font-size: 25px;
+        color: #fff;
+        font-weight: bold;
+        background: linear-gradient(to right,#8661FC,#5FD8E8);
+        border: 1px solid #7695F3;
+        cursor: pointer;
+    }
+}

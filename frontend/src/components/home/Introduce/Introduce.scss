@@ -14,7 +14,7 @@
         }
 
         p {
-            width: 80%;
+            width: 95%;
             text-align: justify;
             margin-bottom: 2rem
         }
@@ -33,7 +33,7 @@
         position: relative;
 
         & > * {
-            @include main.block(10rem, 1rem);
+            @include main.block(15rem, 1rem);
         }
 
         .circle {

@@ -12,7 +12,7 @@ function Footer() {
             </header>
             <section>
                 <div className="left-side">
-                    <div className="contact">
+                    <div className="contact-informations">
                         <h3>Liên hệ với chúng tôi:</h3>
                         <div className="infor">
                             <div>Email: admin@investorai.live</div>

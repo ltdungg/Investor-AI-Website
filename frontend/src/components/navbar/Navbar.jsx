@@ -1,13 +1,13 @@
 import { IoMdSearch } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-
+import { memo, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import LogoItem from "../LogoItem/LogoItem";
 import Tool from "./tool/Tool";
 import Search from "./search/Search";
 import "./Navbar.scss";
-import { memo, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 
 function Navbar() {
     const breakPoint = 768;
@@ -16,7 +16,7 @@ function Navbar() {
     const [isVisible, setVisible] = useState(false);
     const [isToolOpen, setToolOpen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(
-        window.innerWidth >= breakPoint
+        window.innerWidth > breakPoint
     );
 
     function handleSearch() {
@@ -25,7 +25,7 @@ function Navbar() {
 
     useEffect(() => {
         function handleResize() {
-            setIsLargeScreen(window.innerWidth >= breakPoint);
+            setIsLargeScreen(window.innerWidth > breakPoint);
         }
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
@@ -56,7 +56,7 @@ function Navbar() {
                         <Link to="/">Trang chủ</Link>
                     </div>
                     <div className="nav__item">
-                        <a href="./">Về chúng tôi</a>
+                        <Link to="/about-us">Về chúng tôi</Link>
                     </div>
                     <div
                         className="nav__item nav__tool"
@@ -85,10 +85,10 @@ function Navbar() {
                         />
                     </div>
                     <div className="nav__item sign-in nav__sign-btn">
-                        <a href="./">Đăng nhập</a>
+                        <Link to="/login">Đăng nhập</Link>
                     </div>
                     <div className="nav__item register nav__sign-btn">
-                        <a href="./">Đăng ký</a>
+                        <Link to="/register">Đăng ký</Link>
                     </div>
                 </div>
             )}

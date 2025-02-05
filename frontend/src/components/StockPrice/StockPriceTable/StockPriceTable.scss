@@ -1,0 +1,25 @@
+@use "./../../../styles/main";
+
+.stock-price__table {
+    width: 65rem;
+    margin: auto;
+    border-spacing: 0px;
+
+    thead {
+        background: linear-gradient(to right, #81e6ea, #014bae);
+        color: #f3fafc;
+        text-align: center;
+
+        th {
+            @include main.padding-y(0.5rem);
+            $radius: 0.5rem;
+
+            &:first-child {
+                border-start-start-radius: $radius;
+            }
+            &:last-child {
+                border-top-right-radius: $radius;
+            }
+        }
+    }
+}

@@ -19,19 +19,19 @@
     }
 
     .features {
-        @include main.flex(space-evenly, center, 1rem);
+        @include main.flex(center, center, 2rem);
         flex-wrap: wrap;
         margin-top: 3rem;
 
         .feature-item {
             @include main.flex(center, center, 1rem);
-            width: 10rem;
+            width: 12rem;
             border-radius: 0.8rem;
             background-color: main.$white;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             color: main.$black;
-            padding: 0.5rem 0;
+            padding: 0.6rem 0;
             transition: background-color 0.3s;
 
             .feature-item__icon {
@@ -55,8 +55,9 @@
         transform: translateX(-50%);
         padding: 3rem 2rem;
         border-radius: 1.5rem;
-        height: 50vh;
-        width: 80vw;
+        height: 55vh;
+        width: 60vw;
+        min-width: 44rem;
         text-align: center;
         margin: auto;
 
@@ -77,7 +78,7 @@
     }
 }
 
-@media (max-width: main.$sm) {
+@media (max-width: main.$md) {
     .introduce {
         display: none !important;
     }

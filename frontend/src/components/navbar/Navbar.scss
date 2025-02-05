@@ -2,10 +2,12 @@
 
 .nav-containter {
     @include main.flex(space-between, center, 0);
-    position: relative;
-    background: transparent;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #02042f;
     color: main.$white;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem;
     z-index: 100;
 
     .nav__logo,
@@ -24,7 +26,7 @@
         .sign-in,
         .register {
             @include main.margin-x(0.3rem);
-            @include main.btn(0.5rem 0, main.$white, 1px solid main.$blue, 1rem);
+            @include main.btn(0.3rem 0, main.$white, 1px solid main.$blue, 1rem);
 
             justify-content: center !important;
             width: 6.5rem;
@@ -46,6 +48,7 @@
         position: relative;
         color: main.$white;
         user-select: none;
+        font-weight: 500;
 
         & > *:first-child {
             cursor: pointer;
@@ -76,7 +79,7 @@
     .nav-containter {
         align-content: flex-start;
         position: fixed;
-
+        padding: 0.5rem;
         width: 100vw;
         background-color: main.$black;
         flex-wrap: wrap;
