@@ -27,6 +27,7 @@
     margin: 40px 0px;
 }
 .login_logo{
+    margin-top: 50px;
     height: 80px;
     font-size: 40px;
     color: white;
@@ -113,10 +114,7 @@
     float: right;
 }
 
-@media  (min-width: 740px) and (max-width: 1024px){
-    .tablet_change{
-        display: none;
-    }
+@media  (min-width: 740px) {
     .login_content{
         width: 100vw;
     }
@@ -127,6 +125,12 @@
 }
 
 @media (max-width: 739px){
+    .login_logo {
+        font-size: 25px;
+        color: white;
+        letter-spacing: 10px;
+        font-weight: 500;
+    }
     .tablet_change{
         display: none;
     }
