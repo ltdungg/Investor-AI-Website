@@ -7,7 +7,7 @@
     width: 100%;
     background: #02042f;
     color: main.$white;
-    padding: 0.5rem 2rem;
+    padding: 0.8rem 2rem;
     z-index: 100;
 
     .nav__logo,
@@ -26,7 +26,12 @@
         .sign-in,
         .register {
             @include main.margin-x(0.3rem);
-            @include main.btn(0.3rem 0, main.$white, 1px solid main.$blue, 1rem);
+            @include main.btn(
+                0.3rem 0,
+                main.$white,
+                1px solid main.$blue,
+                1rem
+            );
 
             justify-content: center !important;
             width: 6.5rem;
@@ -59,7 +64,7 @@
             display: block;
             left: 0;
             right: 100%;
-            bottom: 1px;
+            bottom: -5px;
             height: 2px;
             background-color: main.$sea-blue;
             content: "";
@@ -72,6 +77,22 @@
 
     .nav__menu-btn {
         display: none;
+    }
+    .nav__tool-container {
+        top: calc(100% + 5px);
+    }
+    .span-tool {
+        position: relative;
+
+        &::after {
+            position: absolute;
+            display: block;
+            top: 100%;
+            left: 0;
+            right: 0;
+            height: 1rem;
+            content: "";
+        }
     }
 }
 
