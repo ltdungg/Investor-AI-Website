@@ -3,18 +3,19 @@
 .contact-introduce {
     @include main.flex(space-evenly, center, 1rem);
     padding: 3rem;
-    height: 100vh;
+    min-height: 100vh;
     background-color: main.$gray-white-100;
 
     .introduce-side {
         width: 60%;
         h2 {
             font-weight: 500;
-            font-size: 2rem;
+            font-size: 3rem;
         }
 
         p {
             width: 95%;
+            font-size: 1.5rem;
             text-align: justify;
             margin-bottom: 2rem
         }
@@ -33,7 +34,7 @@
         position: relative;
 
         & > * {
-            @include main.block(15rem, 1rem);
+            @include main.block(17rem, 1rem);
         }
 
         .circle {

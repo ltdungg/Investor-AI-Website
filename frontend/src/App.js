@@ -9,6 +9,7 @@ import Contact from "./components/Contact/Contact";
 import Navbar from "./components/navbar/Navbar";
 import Login from "./components/login_register/Login";
 import Register from "./components/login_register/Register";
+import Stock from "./components/stocksSearch/Stock";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/stocks" element={<Stock />} />
                 </Routes>
             </div>
 

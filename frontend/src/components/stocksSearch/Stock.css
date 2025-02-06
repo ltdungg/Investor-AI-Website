@@ -1,0 +1,60 @@
+.stocks_page{
+    padding-top: 10rem;
+    background-color: #F5F6F8;
+}
+
+.flex_container{
+    margin-bottom: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.search_container{
+    margin-top: 25px;
+    text-align: center;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.search_container h1{
+    font-size: 40px;
+}
+.search_container p{
+    font-size: 24px;
+}
+.market_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.Market_volatility{
+    background-color: #F5F6F8;
+    /* height: 900px; */
+}
+
+@media  (min-width: 740px) and (max-width: 1024px){
+    .search_container h1{
+        font-size: 40px;
+    }
+    
+}
+
+@media (max-width: 739px){
+    .Market_volatility h1{
+        margin-left: 35px;
+    }
+    .search_container h1{
+        font-size: 20px;
+    }
+    .search_container p{
+        font-size: 15px;
+    }
+    .search_container{
+        width: 400px;
+
+    }
+}

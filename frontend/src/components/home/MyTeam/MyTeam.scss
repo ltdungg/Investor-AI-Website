@@ -16,7 +16,7 @@
     }
 
     .members {
-        @include main.flex(space-evenly, unset, 3rem);
+        @include main.flex(space-evenly, unset, 3rem 5rem);
         flex-wrap: wrap;
         width: 100%;
     }
@@ -64,6 +64,14 @@
             hr {
                 background-color: main.$white;
             }
+        }
+    }
+}
+
+@media (max-width: main.$xl) {
+    .introducing-members {
+        .members {
+            gap: 3rem !important;
         }
     }
 }

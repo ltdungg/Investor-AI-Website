@@ -4,14 +4,18 @@
     @include main.flex(space-evenly, flex-start, 2rem);
     flex-wrap: wrap;
     min-height: 100vh;
-    padding: 5rem;
+    padding: 5rem 10vw;
 
     .faqs__left-side {
-        width: 45%;
+        width: 49%;
 
         h1 {
-            font-size: 4rem;
+            font-size: 5rem;
             margin: 0;
+        }
+
+        p {
+            font-size: 1.5rem;
         }
 
         .contact-btn {
@@ -21,6 +25,7 @@
                 2px solid main.$blue,
                 0.8rem
             );
+            margin-top: 1rem;
             color: main.$blue;
             font-weight: bolder;
             font-size: 2rem;
