@@ -5,7 +5,7 @@ function Login(){
         <>
             <div className="login_container">
                 <div className="login_content">
-                    {/* <LogoItem className="login_logo" /> */}
+                    <LogoItem className="login_logo" />
                     <h1>Đăng nhập</h1>
                     <p className="tablet_change">Đăng nhập để tiếp tục sử dụng.</p>
                     <p>Chưa có tài khoản? <b className="register_button"> Đăng ký ngay</b></p>

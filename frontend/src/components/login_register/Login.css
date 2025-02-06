@@ -30,11 +30,13 @@
     height: 80px;
     font-size: 40px;
     color: white;
+    letter-spacing: 10px;
+    font-weight: 500;
 }
 
 .login_content h1{
     font-weight: 350;
-    font-size: 50px;
+    font-size: 75px;
     margin: 20px 0px;
 }
 
@@ -70,15 +72,17 @@
 .login_page label{
     color: #727171;
     font-size: 20px;
+    font-weight: 475;
 }
 
 .login_page input{
     margin: 5px 0px;
-    width: 540px;
-    height: 40px;
-    border-radius: 5px;
+    width: 650px;
+    height: 50px;
+    border-radius: 10px;
     border: 1px solid black;
     padding: 10px;
+    background-color: #F5F6F8;
 }
 
 .login_page p{
@@ -91,9 +95,9 @@
 }
 
 .login_page .login_button{
-    width: 540px;
-    height: 40px;
-    border-radius: 5px;
+    width: 650px;
+    height: 45px;
+    border-radius: 10px;
     font-size: 25px;
     color: #fff;
     font-weight: bold;
@@ -101,7 +105,9 @@
     border: 1px solid #7695F3;
     cursor: pointer;
 }
-
+.login_page .login_button:hover{ 
+    color: #0072FF;
+}
 .ContactButton{
     display: flex;
     float: right;

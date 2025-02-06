@@ -6,7 +6,7 @@ function Register(){
         <>
             <div className="register_container">
                 <div className="register_content">
-                    {/* <LogoItem className="register_logo" /> */}
+                    <LogoItem className="register_logo" />
                     <h1>Đăng ký</h1>
                     <h1>Tài khoản mới</h1>
                     <p>Đã có tài khoản?<b className="register_button"> Đăng nhập ngay</b></p>
