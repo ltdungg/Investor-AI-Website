@@ -23,7 +23,7 @@ function Register(){
                         <label htmlFor="email">Email</label><br></br>
                         <input type="text" id="email" name="email" /> <br></br>
                         <label htmlFor="phone_number">Số điện thoại</label><br></br>
-                        <input type="text" id="phone_number" name="phone_number" value={"+84"} /> <br></br>
+                        <input type="text" id="phone_number" name="phone_number" placeholder="+84" /> <br></br>
                         <div className="row">
                             <div>
                                 <label htmlFor="passworkd">Mật khẩu</label> <br></br>
@@ -31,7 +31,7 @@ function Register(){
                             </div>
                             <div>
                                 <label htmlFor="passworkd">Nhập lại mật khẩu</label> <br></br>
-                                <input type="password" id="password" name="password"/>
+                                <input type="password" id="re-password" name="password"/>
                             </div>
                         </div>
                         <p>Quên mật khẩu?</p>
