@@ -68,7 +68,7 @@ function Navbar() {
                         }}
                         onClick={() => setToolOpen(!isToolOpen)}
                     >
-                        <span>Công cụ</span>
+                        <span className="span-tool">Công cụ</span>
                         <FaAngleDown />
                         <Tool
                             isToolopen={isToolOpen}

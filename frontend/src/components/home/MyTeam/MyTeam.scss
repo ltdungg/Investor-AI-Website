@@ -16,7 +16,7 @@
     }
 
     .members {
-        @include main.flex(space-evenly, unset, 3rem);
+        @include main.flex(space-evenly, unset, 3rem 6rem);
         flex-wrap: wrap;
         width: 100%;
     }
@@ -68,13 +68,31 @@
     }
 }
 
+@media (max-width: main.$xl) {
+    .introducing-members {
+        .members {
+            gap: 3rem !important;
+        }
+    }
+}
+
+@media (max-width: main.$md) {
+    .introducing-members {
+        .members {
+            gap: 1rem !important;
+        }
+    }
+}
+
 @media (max-width: main.$sm) {
     .introducing-members {
         // padding: 0;
+        .members {
+            gap: 1rem !important;
+        }
 
         .member-card {
             width: 100%;
-            min-width: 0;
         }
     }
 }

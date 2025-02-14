@@ -17,20 +17,10 @@ function Stock() {
                     <SearchBar />
                 </div>
             </div>
-            <div className="flex_container">
-                <div className="Market_volatility">
-                    <h1>Diễn biến thị trường</h1>
-                    <div className="market_container">
-                        <MarketStocks
-                            textColor="#00BF63"
-                            title="Top Tăng Giá"
-                        />
-                        <MarketStocks
-                            textColor="#FF3131"
-                            title="Top Giảm Giá"
-                        />
-                    </div>
-                </div>
+            <h1 className="Market_volatility">Diễn biến thị trường</h1>
+            <div className="market_container">
+                <MarketStocks textColor="#00BF63" title="Top Tăng Giá" />
+                <MarketStocks textColor="#FF3131" title="Top Giảm Giá" />
             </div>
             <StockPrice />
         </div>

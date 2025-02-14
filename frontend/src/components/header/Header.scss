@@ -6,6 +6,8 @@ header.header {
     position: relative;
     height: 100vh;
     color: main.$white;
+    box-shadow: inset 0px -30px 30px #06073d;
+    z-index: 1;
 
     .slogan {
         font-family: "Tektur", serif;
