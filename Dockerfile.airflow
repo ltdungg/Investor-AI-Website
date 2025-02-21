@@ -1,0 +1,18 @@
+FROM apache/airflow:latest
+
+COPY --from=openjdk:11.0.11-jdk-slim /usr/local/openjdk-11 /usr/local/openjdk-11
+ENV JAVA_HOME /usr/local/openjdk-11
+ENV PATH $JAVA_HOME/bin:$PATH
+
+COPY --from=apache/hadoop:3.4.1 /opt/hadoop /opt/hadoop
+ENV HADOOP_HOME /opt/hadoop
+
+USER airflow
+
+COPY ./data-delivery/requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir pyspark \
+    apache-airflow-providers-apache-spark \
+    apache-airflow-providers-amazon \
+    apache-airflow-providers-postgres
