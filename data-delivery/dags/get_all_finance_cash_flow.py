@@ -21,7 +21,7 @@ default_args = {
     description='Get all finance cash flow data',
     catchup=False
 )
-def get_all_finance_ratio(**kwargs):
+def get_all_finance_cash_flow(**kwargs):
 
     @task(task_id='reset_finance_cash_flow_table')
     def reset_finance_cash_flow_table():
@@ -48,4 +48,4 @@ def get_all_finance_ratio(**kwargs):
     reset_finance_cash_flow_table()
     get_all_finance_cash_flow_table()
 
-get_all_finance_ratio()
+get_all_finance_cash_flow()
