@@ -204,6 +204,15 @@ services:
       - -c
       - airflow
 
+  front-end:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+
+  back-end:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
 
 volumes:
   postgres-db-volume:
