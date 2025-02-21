@@ -18,7 +18,7 @@ default_args = {
 @dag(
     dag_id='get_all_finance_balance_sheet',
     default_args=default_args,
-    description='Get all finance ratio data',
+    description='Get all finance balance sheet data',
     catchup=False
 )
 def get_all_finance_balance_sheet(**kwargs):
