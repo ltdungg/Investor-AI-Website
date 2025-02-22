@@ -1,0 +1,96 @@
+@use "./../../styles/main";
+
+.contact {
+    @include main.flex(space-evenly, center, 0);
+    background-color: main.$white;
+    padding: 3rem;
+    height: 100vh;
+
+    .contact__left-side {
+        width: 45%;
+
+        h1,
+        .icon {
+            color: main.$blue;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 2.3rem;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        .contact-by-social-media {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.4rem;
+        }
+
+        .icon {
+            font-size: 1.2rem;
+        }
+    }
+
+    .contact__right-side {
+        box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.395);
+        padding: 2rem;
+        border-radius: 0.5rem;
+        width: 45%;
+        $gap: 1rem;
+
+        .contact__form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: $gap;
+
+            .user-infor {
+                display: flex;
+                justify-content: space-evenly;
+                gap: $gap;
+            }
+
+            .contact__field {
+                width: 100%;
+                $height: 2.5rem;
+
+                label {
+                    display: block;
+                    margin: 0.5rem 0;
+                    font-size: 0.85rem;
+                    color: rgb(102, 102, 102);
+                    font-weight: 500;
+                }
+
+                input,
+                textarea {
+                    width: 100%;
+                    font-size: 0.9rem;
+                    padding: 1rem;
+                    border-radius: 0.3rem;
+                    border: 1px solid main.$black;
+                }
+
+                textarea {
+                    resize: none;
+                    height: 6rem;
+                }
+            }
+
+            input[type="submit"] {
+                @include main.btn(0.7rem, main.$dark-blue-100, none, 0.5rem);
+                width: 50%;
+                font-size: 1rem;
+                font-weight: bold;
+                margin-left: auto;
+                color: main.$white;
+            }
+        }
+    }
+}

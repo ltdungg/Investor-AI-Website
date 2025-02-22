@@ -1,0 +1,21 @@
+@use "./../../styles/main";
+
+.LogoItem {
+    @include main.flex(center, center, 0);
+    font-family: "Tektur", serif;
+    user-select: none;
+    width: fit-content;
+    height: 2.1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: main.$black;
+    letter-spacing: 0.2rem;
+
+    img {
+        height: 100%;
+    }
+
+    div {
+        transform: translateY(10%);
+    }
+}

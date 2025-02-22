@@ -1,0 +1,139 @@
+@use "./../../styles/main";
+
+.nav-containter {
+    @include main.flex(space-between, center, 0);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #02042f;
+    color: main.$white;
+    padding: 0.8rem 2rem;
+    z-index: 100;
+
+    .nav__logo,
+    a {
+        color: main.$white;
+        text-decoration: none;
+    }
+
+    .nav__list {
+        @include main.flex(unset, center, 0);
+
+        .search-icon {
+            font-size: 1.5rem;
+        }
+
+        .sign-in,
+        .register {
+            @include main.margin-x(0.3rem);
+            @include main.btn(
+                0.3rem 0,
+                main.$white,
+                1px solid main.$blue,
+                1rem
+            );
+
+            justify-content: center !important;
+            width: 6.5rem;
+        }
+
+        .sign-in a {
+            color: main.$blue;
+        }
+
+        .register {
+            background-color: main.$blue;
+        }
+    }
+    .nav__item {
+        @include main.margin-x(1rem);
+        @include main.padding-y(0.3rem);
+        @include main.flex(center, flex-end, 0);
+        flex-wrap: wrap;
+        position: relative;
+        color: main.$white;
+        user-select: none;
+        font-weight: 500;
+
+        & > *:first-child {
+            cursor: pointer;
+        }
+
+        &:not(.nav__sign-btn)::after {
+            position: absolute;
+            display: block;
+            left: 0;
+            right: 100%;
+            bottom: -5px;
+            height: 2px;
+            background-color: main.$sea-blue;
+            content: "";
+            transition: right 0.3s;
+        }
+        &:hover::after {
+            right: 0;
+        }
+    }
+
+    .nav__menu-btn {
+        display: none;
+    }
+    .nav__tool-container {
+        top: calc(100% + 5px);
+    }
+    .span-tool {
+        position: relative;
+
+        &::after {
+            position: absolute;
+            display: block;
+            top: 100%;
+            left: 0;
+            right: 0;
+            height: 1rem;
+            content: "";
+        }
+    }
+}
+
+@media (max-width: main.$md) {
+    .nav-containter {
+        align-content: flex-start;
+        position: fixed;
+        padding: 0.5rem;
+        width: 100vw;
+        background-color: main.$black;
+        flex-wrap: wrap;
+        .nav__list {
+            height: 100vh;
+            // display: none;
+            align-items: flex-start;
+            flex-direction: column;
+            width: 100%;
+
+            .nav__item {
+                margin: 0.3rem auto;
+                justify-content: flex-start;
+                width: 90%;
+            }
+        }
+
+        .nav__search {
+            display: none !important;
+        }
+
+        .nav__menu-btn {
+            display: flex;
+            gap: 1rem;
+            margin-right: 1rem;
+            user-select: none;
+
+            .nav__item {
+                position: unset;
+                @include main.btn(0, transparent, none, 0);
+                margin: 0;
+                font-size: 1.5rem;
+            }
+        }
+    }
+}

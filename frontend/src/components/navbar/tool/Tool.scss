@@ -1,0 +1,64 @@
+@use "./../../../styles/main";
+
+.tool-container {
+    color: main.$black;
+    padding: 1.5rem;
+
+    .tool-title {
+        position: relative;
+        margin-top: 0;
+        font-size: 1.5rem;
+        color: main.$blue;
+
+        &::after {
+            display: block;
+            position: absolute;
+            content: " ";
+            right: calc(100% + 1rem);
+            top: 0;
+            bottom: 0;
+            width: 0.3rem;
+            background-color: main.$light-blue;
+            border-radius: 1rem;
+        }
+    }
+
+    .tool-list {
+        @include main.padding-x(1rem);
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: auto auto;
+
+        .tool-item {
+            @include main.flex(flex-start, center, 0.5rem);
+            color: main.$black;
+            min-width: 10rem;
+
+            &:hover {
+                color: main.$blue;
+            }
+        }
+    }
+}
+
+@media (max-width: main.$md) {
+    .tool-container {
+        display: block;
+        position: unset;
+        background-color: transparent;
+        width: 100%;
+
+        .tool-title {
+            display: none;
+        }
+
+        .tool-list {
+            grid-template-columns: auto !important;
+            justify-content: start;
+
+            .tool-item {
+                color: main.$white !important;
+            }
+        }
+    }
+}

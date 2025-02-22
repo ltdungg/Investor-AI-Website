@@ -1,0 +1,8 @@
+@forward "./variable";
+@forward "./mixin";
+
+.text-overflow {
+    white-space: nowrap; /* Không cho phép dòng văn bản xuống dòng */
+    overflow: hidden; /* Ẩn phần văn bản vượt quá */
+    text-overflow: ellipsis; /* Hiển thị ba dấu chấm (...) khi văn bản bị cắt */
+}

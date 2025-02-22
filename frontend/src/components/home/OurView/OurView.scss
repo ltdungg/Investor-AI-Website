@@ -1,0 +1,90 @@
+@use "sass:math";
+@use "./../../../styles/main";
+
+.our-view {
+    position: relative;
+    min-height: 100vh;
+    $gap: 1rem;
+    $radius: 1rem;
+
+    .our-view__background {
+        @include main.background("./../../../assets/images/background.png");
+        filter: grayscale(80%) brightness(200%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+
+    .our-view__content {
+        @include main.flex(center, center, $gap);
+        min-height: 100vh;
+        flex-wrap: wrap;
+        padding: 5vw;
+
+        .our-view__container {
+            @include main.flex(center, center, $gap);
+            width: 70vh;
+            height: 70vh;
+            flex-wrap: wrap;
+        }
+
+        .rectangle,
+        .square {
+            @include main.flex(space-around, unset, 0);
+            flex-direction: column;
+            height: calc(50% - math.div($gap, 2));
+            padding: 1rem;
+            border-radius: $radius;
+
+            h3 {
+                @include main.flex(space-between, center, 0);
+                font-size: 2em;
+                margin: 0;
+            }
+
+            p {
+                @include main.flex(space-between, center, 0);
+                font-size: 1.2em;
+                margin: 0;
+            }
+        }
+
+        .square {
+            background-color: main.$white;
+            width: calc(50% - math.div($gap, 2));
+
+            h3 {
+                text-align: center;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
+        }
+
+        .rectangle {
+            background-color: main.$white;
+            width: 100%;
+
+            h3 {
+                font-size: 3rem;
+                font-weight: 400;
+            }
+        }
+        .bg-gray-100 {
+            background-color: main.$gray-white-100;
+        }
+        .bg-gray-200 {
+            background-color: main.$gray-white-200;
+        }
+        .bg-yellow {
+            background-color: #dbec61;
+        }
+        .bg-white {
+            background-color: main.$white;
+        }
+    }
+}

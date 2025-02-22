@@ -1,3 +1,4 @@
 data-delivery/logs/
 __pycache__
 *.tar/gz
+data-delivery/.venv/

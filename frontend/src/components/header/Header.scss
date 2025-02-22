@@ -1,0 +1,81 @@
+@use "./../../styles/main";
+
+header.header {
+    @include main.background("./images/background.png");
+    overflow-x: hidden;
+    position: relative;
+    height: 100vh;
+    color: main.$white;
+    box-shadow: inset 0px -30px 30px #06073d;
+    z-index: 1;
+
+    .slogan {
+        font-family: "Tektur", serif;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+
+        $font-size: 2.5em;
+
+        h1 {
+            font-size: $font-size * 2.7;
+            text-shadow: 0 0 1.5rem #00d9ff;
+            letter-spacing: 0.5rem;
+            margin: 0;
+        }
+        p {
+            margin: 0;
+            font-size: $font-size;
+        }
+    }
+
+    .start-btn {
+        @include main.btn(1rem, transparent, none, 1rem);
+        color: main.$white;
+        cursor: pointer;
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        opacity: 70%;
+        transition: background-color 0.3s;
+        user-select: none;
+        z-index: 0;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+@media (max-width: main.$sm) {
+    .slogan {
+        $font-size: 1rem;
+        text-decoration: solid;
+
+        h1 {
+            font-size: $font-size * 2.7 !important;
+        }
+        p {
+            font-size: $font-size !important;
+        }
+    }
+}
+@media (max-width: main.$md) {
+    header.header {
+        .slogan {
+            $font-size: 1.5rem;
+            text-decoration: solid;
+
+            h1 {
+                font-size: $font-size * 2.7;
+            }
+            p {
+                font-size: $font-size;
+            }
+        }
+    }
+}

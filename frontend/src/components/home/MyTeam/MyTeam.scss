@@ -1,0 +1,98 @@
+@use "./../../../styles/main";
+
+.introducing-members {
+    background-color: main.$gray-white-100;
+    padding: 2rem;
+
+    h2 {
+        margin: 1rem auto;
+        width: fit-content;
+    }
+
+    h1 {
+        margin: 1rem auto;
+        width: fit-content;
+        font-size: 3rem;
+    }
+
+    .members {
+        @include main.flex(space-evenly, unset, 3rem 6rem);
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .member-card {
+        background-color: main.$white;
+        $size: 20vw;
+        width: $size;
+        min-width: 19rem;
+        height: $size * 0.8;
+        min-height: 15rem;
+        border-radius: 1.5rem;
+        border: 2px solid main.$black;
+        padding: 0 1rem 1rem 1rem;
+        color: main.$blue;
+
+        .member-name {
+            @include main.flex(space-between, center, 1rem);
+            margin: 0.8rem 0.5rem;
+        }
+
+        .linkedin-link {
+            @include main.block(2rem, 50%);
+            @include main.flex(center, center, 0);
+            color: main.$white;
+            background-color: main.$gray-blue;
+        }
+
+        hr {
+            height: 1.5px;
+            background-color: main.$blue;
+            border: none;
+        }
+
+        &:nth-child(1),
+        &:nth-child(3) {
+            background-color: main.$dark-blue-100;
+            border: none;
+            color: main.$white;
+
+            .linkedin-link {
+                border: 2px solid main.$white;
+            }
+
+            hr {
+                background-color: main.$white;
+            }
+        }
+    }
+}
+
+@media (max-width: main.$xl) {
+    .introducing-members {
+        .members {
+            gap: 3rem !important;
+        }
+    }
+}
+
+@media (max-width: main.$md) {
+    .introducing-members {
+        .members {
+            gap: 1rem !important;
+        }
+    }
+}
+
+@media (max-width: main.$sm) {
+    .introducing-members {
+        // padding: 0;
+        .members {
+            gap: 1rem !important;
+        }
+
+        .member-card {
+            width: 100%;
+        }
+    }
+}

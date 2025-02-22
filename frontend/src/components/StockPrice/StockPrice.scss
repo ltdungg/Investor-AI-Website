@@ -1,0 +1,30 @@
+@use "./../../styles/main";
+
+.stock-price-container {
+    min-height: 100vh;
+
+    header {
+        @include main.flex(space-between, center, 1rem);
+        padding: 0 2rem;
+        margin: 4rem 0 2rem 0;
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        .stock-price__filters {
+            display: flex;
+            gap: 1rem;
+
+            .stock-price__filter {
+                background-color: main.$gray-white-100;
+                padding: 0.5rem 1rem;
+                border-radius: 0.3rem;
+            }
+        }
+    }
+
+    .table {
+        overflow-x: auto;
+    }
+}

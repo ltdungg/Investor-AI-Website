@@ -1,0 +1,9 @@
+@use "./../../../styles/main";
+
+.popup-container {
+    position: absolute;
+    border-radius: 1.5rem;
+    background-color: main.$white;
+    top: 100%;
+    z-index: 1000;
+}

@@ -1,0 +1,85 @@
+@use "./../../../styles/main";
+
+.introducing-features {
+    @include main.background("./../../../assets/images/background.png");
+    position: relative;
+    color: main.$white;
+    padding: 2rem;
+    min-height: 100vh;
+
+    h2 {
+        margin: auto;
+        width: fit-content;
+    }
+
+    h1 {
+        margin: 1rem auto;
+        width: fit-content;
+        font-size: 3rem;
+    }
+
+    .features {
+        @include main.flex(center, center, 2rem);
+        flex-wrap: wrap;
+        margin-top: 3rem;
+
+        .feature-item {
+            @include main.flex(center, center, 1rem);
+            width: 12rem;
+            border-radius: 0.8rem;
+            background-color: main.$white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            color: main.$black;
+            padding: 0.6rem 0;
+            transition: background-color 0.3s;
+
+            .feature-item__icon {
+                font-size: 1.2rem;
+            }
+
+            &:hover {
+                background-color: main.$sea-blue;
+            }
+        }
+    }
+
+    .introduce {
+        @include main.flex(space-between, center, 0);
+        overflow: hidden;
+        flex-direction: column;
+        background-color: main.$blue;
+        position: absolute;
+        bottom: -2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 3rem 2rem;
+        border-radius: 1.5rem;
+        height: 55vh;
+        width: 60vw;
+        min-width: 44rem;
+        text-align: center;
+        margin: auto;
+
+        h3 {
+            font-size: 3rem;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+
+            .typing-area {
+                width: 100%;
+            }
+        }
+        p {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+    }
+}
+
+@media (max-width: main.$md) {
+    .introduce {
+        display: none !important;
+    }
+}

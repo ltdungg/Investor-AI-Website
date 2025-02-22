@@ -22,7 +22,7 @@ def get_daily_price(from_date: str = None, to_date: str = None):
 
 default_args = {
     'owner': 'InvestorAI',
-    'start_date': datetime(2025, 1, 7),
+    'start_date': datetime(2025, 1, 6),
     'email': 'admin@investorai.live',
     'retries': 3,
     'retry_delay': timedelta(minutes=5)

@@ -1,0 +1,68 @@
+@use "./../../../styles/main";
+
+.contact-faqs {
+    @include main.flex(space-evenly, flex-start, 2rem);
+    flex-wrap: wrap;
+    min-height: 100vh;
+    padding: 5rem 10vw;
+
+    .faqs__left-side {
+        width: 49%;
+
+        h1 {
+            font-size: 5rem;
+            margin: 0;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+
+        .contact-btn {
+            @include main.btn(
+                0.5rem 1rem,
+                main.$white,
+                2px solid main.$blue,
+                0.8rem
+            );
+            margin-top: 1rem;
+            color: main.$blue;
+            font-weight: bolder;
+            font-size: 2rem;
+        }
+    }
+
+    .faqs__right-side {
+        flex: 1;
+
+        .li-faqs {
+            @include main.margin-y(1rem);
+            border: 2px solid main.$black;
+            border-radius: 0.3rem;
+            padding: 1rem;
+
+            .faqs-question {
+                @include main.flex(space-between, center, 0);
+                font-size: 1.2rem;
+                cursor: pointer;
+                margin: 0;
+
+                .li-faqs__icon {
+                    font-size: 2rem;
+                }
+            }
+
+            .li-faqs-open {
+                color: main.$blue;
+            }
+        }
+    }
+}
+
+@media (max-width: main.$lg) {
+    .contact-faqs {
+        .faqs__left-side {
+            width: 100%;
+        }
+    }
+}

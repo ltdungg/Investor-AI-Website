@@ -1,0 +1,137 @@
+@use "./../../styles/main";
+
+footer.footer {
+    @include main.background("./../../assets/images/background.png");
+    position: relative;
+    color: main.$white;
+    padding: 1rem;
+
+    header {
+        @include main.flex(center, center, 0);
+        $font-size: 1.5rem;
+
+        font-size: $font-size;
+
+        .Logo {
+            height: 3.5rem;
+            font-size: $font-size;
+            color: main.$white;
+        }
+    }
+
+    section {
+        @include main.flex(space-around, flex-start, 0);
+        margin-bottom: 3rem;
+        gap: 2rem;
+
+        .left-side {
+            .infor {
+                margin-left: 1rem;
+            }
+
+            .subcribe {
+                label {
+                    @include main.flex(unset, center, 1rem);
+                    @include main.margin-y(2rem);
+
+                    .mail-icon {
+                        $size: 4rem;
+                        @include main.block($size, 50%);
+                        @include main.flex(center, center, 0);
+
+                        font-size: $size * 0.7;
+                        background-color: main.$blue;
+                    }
+
+                    .title {
+                        h3,
+                        p {
+                            margin: 0;
+                        }
+
+                        h3 {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+
+                $radius: 1rem;
+                #sub,
+                button {
+                    padding: 0.5rem 1rem;
+                    margin: 0;
+                    border: none;
+                    font-size: 1rem;
+                }
+
+                #sub {
+                    border-top-left-radius: $radius;
+                    border-bottom-left-radius: $radius;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                button {
+                    background-color: main.$blue;
+                    border-top-right-radius: $radius;
+                    border-bottom-right-radius: $radius;
+                    color: main.$white;
+                    font-weight: bold;
+
+                    &:hover {
+                        background-color: #0059ff;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .right-side {
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 3rem;
+
+            h3 {
+                @include main.margin-y(0.8rem);
+            }
+
+            .item a {
+                display: block;
+                text-decoration: none;
+                color: main.$white;
+                @include main.margin-y(0.5rem);
+
+                &:hover {
+                    color: main.$blue;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: main.$md) {
+    footer.footer {
+        header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .subcribe {
+            display: none;
+        }
+
+        .left-side,
+        .right-side {
+            width: 100%;
+        }
+    }
+}
