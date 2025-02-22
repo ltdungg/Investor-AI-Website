@@ -10,9 +10,7 @@ postgres_connection_url = 'postgresql+psycopg2://airflow:airflow@postgres/airflo
 
 default_args = {
     'owner': 'InvestorAI',
-    'start_date': datetime(2025, 2, 21),
-    'retries': 3,
-    'retry_delay': timedelta(minutes=5)
+    'start_date': datetime(2025, 2, 21)
 }
 
 @dag(
@@ -38,7 +36,7 @@ def get_all_finance_ratio(**kwargs):
     @task(task_id='get_all_finance_ratio_table')
     def get_all_finance_ratio_table():
         vnstock = VnStockClient()
-        data = vnstock.get_list_of_stock_finace_ratio()
+        data = vnstock.get_list_of_stock_finance_ratio()
 
         engine = create_engine(postgres_connection_url)
         data.to_sql('finance_ratio', con=engine, if_exists='append', index=False, schema='stock', chunksize=10000)

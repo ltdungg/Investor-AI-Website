@@ -136,15 +136,20 @@ class VnStockClient:
             data['symbol'] = symbol
 
             data['year'] = data['year'].apply(int)
+            data.drop_duplicates(subset=['symbol', 'quarter', 'year'], inplace=True)
+
         except KeyError:
             data = pd.DataFrame()
 
         return data
 
-    def get_list_of_stock_finace_ratio(self):
+    def get_list_of_stock_finance_ratio(self):
         finance_ratio_data = []
         symbol_list = self.get_stock_list()
-        for symbol in symbol_list:
+        for i, symbol in enumerate(symbol_list):
+            if (i % 100 == 0):
+                print("Sleep 30 seconds")
+                time.sleep(30)
             print("Getting finance ratio for", symbol)
             data = self._get_stock_finance_ratio(symbol)
             finance_ratio_data.append(data)
@@ -159,6 +164,7 @@ class VnStockClient:
             data['symbol'] = symbol
             data['year'] = data['year'].apply(int)
             data['quarter'] = data['quarter'].apply(int)
+            data.drop_duplicates(subset=['symbol', 'quarter', 'year'], inplace=True)
 
         except KeyError:
             data = pd.DataFrame()
@@ -168,7 +174,10 @@ class VnStockClient:
     def get_list_of_stock_finance_balance_sheet(self):
         finance_balance_sheet_data = []
         symbol_list = self.get_stock_list()
-        for symbol in symbol_list[:20]:
+        for i, symbol in enumerate(symbol_list):
+            if (i % 100 == 0):
+                print("Sleep 30 seconds")
+                time.sleep(30)
             print("Getting finance balance sheet for", symbol)
             data = self._get_stock_finance_balance_sheet(symbol)
             finance_balance_sheet_data.append(data)
@@ -183,6 +192,7 @@ class VnStockClient:
             data['symbol'] = symbol
             data['year'] = data['year'].apply(int)
             data['quarter'] = data['quarter'].apply(int)
+            data.drop_duplicates(subset=['symbol', 'quarter', 'year'], inplace=True)
         except KeyError:
             data = pd.DataFrame()
         return data
@@ -190,7 +200,11 @@ class VnStockClient:
     def get_list_finance_cash_flow(self):
         finance_cash_flow_data = []
         symbol_list = self.get_stock_list()
-        for symbol in symbol_list:
+        for i, symbol in enumerate(symbol_list):
+            if (i % 100 == 0):
+                print("Sleep 30 seconds")
+                time.sleep(30)
+            print("Getting finance cash flow for", symbol)
             data = self._get_stock_finance_cash_flow(symbol)
             finance_cash_flow_data.append(data)
 
@@ -204,6 +218,7 @@ class VnStockClient:
             data['symbol'] = symbol
             data['year'] = data['year'].apply(int)
             data['quarter'] = data['quarter'].apply(int)
+            data.drop_duplicates(subset=['symbol', 'quarter', 'year'], inplace=True)
         except KeyError:
             data = pd.DataFrame()
 
@@ -212,7 +227,12 @@ class VnStockClient:
     def get_list_finance_income_statement(self):
         finance_income_statement_data = []
         symbol_list = self.get_stock_list()
-        for symbol in symbol_list:
+        for i, symbol in enumerate(symbol_list):
+            if (i % 50 == 0):
+                print("Sleep 30 seconds")
+                time.sleep(30)
+
+            print("Getting finance income statement for", symbol)
             data = self._get_stock_finance_income_statement(symbol)
             finance_income_statement_data.append(data)
 
@@ -220,9 +240,10 @@ class VnStockClient:
 
 if __name__ == '__main__':
     vnstock = VnStockClient()
-    data = vnstock.get_list_finance_income_statement()
+    pd.set_option('display.max_colwidth', None)
+    data = vnstock._get_stock_finance_cash_flow('XMC')
     print(data.info())
-    data.to_csv("vnstock_data.csv")
+    print(data)
 
 
 

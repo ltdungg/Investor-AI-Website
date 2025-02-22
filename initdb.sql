@@ -104,6 +104,23 @@ CREATE TABLE stock.finance_ratio (
     "payable_on_equity" REAL,
     "ebitda_on_stock_change" REAL,
     "book_value_per_share_change" REAL,
+    "interest_margin" REAL,
+	"non_interest_on_toi" REAL,
+	"bad_debt_percentage" REAL,
+	"provision_on_bad_debt" REAL,
+	"cost_of_financing" REAL,
+	"equity_on_loan" REAL,
+	"cost_to_income" REAL,
+	"pre_provision_on_toi" REAL,
+	"post_tax_on_toi" REAL,
+	"loan_on_earn_asset" REAL,
+	"loan_on_asset" REAL,
+	"loan_on_deposit" REAL,
+	"deposit_on_earn_asset" REAL,
+	"bad_debt_on_asset" REAL,
+	"liquidity_on_liability" REAL,
+	"cancel_debt" REAL,
+	"credit_growth" REAL,
     PRIMARY KEY ("symbol", "quarter", "year")
 );
 
@@ -128,6 +145,23 @@ CREATE TABLE stock.finance_balance_sheet (
     "un_distributed_income" REAL,
     "minor_share_holder_profit" INT,
     "payable" INT,
+	"central_bank_deposit" REAL,
+	"other_bank_deposit" REAL,
+	"other_bank_loan" REAL,
+	"stock_invest" REAL,
+	"customer_loan" REAL,
+	"bad_loan" REAL,
+	"provision" REAL,
+	"net_customer_loan" REAL,
+	"other_asset" REAL,
+	"other_bank_credit" REAL,
+	"owe_other_bank" REAL,
+	"owe_central_bank" REAL,
+	"valuable_paper" REAL,
+	"payable_interest" REAL,
+	"receivable_interest" REAL,
+	"deposit" REAL,
+	"fund" REAL,
     PRIMARY KEY ("symbol", "quarter", "year")
 );
 
@@ -163,5 +197,10 @@ CREATE TABLE stock.finance_income_statement (
     "year_share_holder_income_growth" REAL,
     "quarter_share_holder_income_growth" REAL,
     "ebitda" REAL,
+	"invest_profit" REAL,
+	"service_profit" REAL,
+	"other_profit" REAL,
+	"provision_expense" REAL,
+	"operation_income" REAL,
     PRIMARY KEY ("symbol", "quarter", "year")
 );

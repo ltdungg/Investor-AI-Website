@@ -10,9 +10,7 @@ postgres_connection_url = 'postgresql+psycopg2://airflow:airflow@postgres/airflo
 
 default_args = {
     'owner': 'InvestorAI',
-    'start_date': datetime(2025, 2, 21),
-    'retries': 3,
-    'retry_delay': timedelta(minutes=5)
+    'start_date': datetime(2025, 2, 21)
 }
 
 @dag(

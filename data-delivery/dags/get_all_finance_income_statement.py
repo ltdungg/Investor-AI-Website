@@ -10,9 +10,7 @@ postgres_connection_url = 'postgresql+psycopg2://airflow:airflow@postgres/airflo
 
 default_args = {
     'owner': 'InvestorAI',
-    'start_date': datetime(2025, 2, 21),
-    'retries': 3,
-    'retry_delay': timedelta(minutes=5)
+    'start_date': datetime(2025, 2, 21)
 }
 
 @dag(
@@ -41,7 +39,7 @@ def get_all_income_statement_ratio(**kwargs):
         data = vnstock.get_list_finance_income_statement()
 
         engine = create_engine(postgres_connection_url)
-        data.to_sql('finance_cash_flow', con=engine, if_exists='append', index=False, schema='stock', chunksize=10000)
+        data.to_sql('finance_income_statement', con=engine, if_exists='append', index=False, schema='stock', chunksize=10000)
 
         print("Get all finance cash flow table success")
 
