@@ -204,10 +204,12 @@ services:
       - -c
       - airflow
 
-#  front-end:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.frontend
+  front-end:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
 #
 #  back-end:
 #    build:
