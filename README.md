@@ -81,7 +81,7 @@ The project is packaged using Docker and managed with Docker Compose, making dep
 The project uses Docker Volumes to manage data, ensuring that data is not lost when containers are deleted.
 
 1.  **Download volume from Google Drive for data:**
-    1. PostgreSQL volume: [Click here to download](https://drive.google.com/file/d/18DQY4RD-WjA-ZTCWlCdTHnstaLfRbV2Y/view?usp=drive_link)
+    1. PostgreSQL volume: [Click here to download](https://drive.google.com/drive/folders/1s60rTqqWHU4lb1BU7u4hvJ_eUIZfJNOV?usp=drive_link)
     2. MinIO volume: [Not yet]()
 
 2.  **Import Data into Volumes:**
