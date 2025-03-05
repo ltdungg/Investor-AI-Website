@@ -25,14 +25,15 @@ default_args = {
     'start_date': datetime(2025, 1, 6),
     'email': 'admin@investorai.live',
     'retries': 3,
-    'retry_delay': timedelta(minutes=5)
+    'retry_delay': timedelta(minutes=3)
 }
 
 @dag(
     dag_id='update_daily_stock_price',
     default_args=default_args,
     schedule='30 8 * * *',
-    catchup=True
+    catchup=True,
+    max_active_runs=1
 )
 def update_daily_stock_price():
     @task(task_id='extract')
