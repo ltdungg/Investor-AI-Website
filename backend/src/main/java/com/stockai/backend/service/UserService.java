@@ -1,16 +1,23 @@
 package com.stockai.backend.service;
 
+import com.stockai.backend.dto.response.UserResponse;
 import com.stockai.backend.entity.User;
+import com.stockai.backend.mapper.UserMapper;
 import com.stockai.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor //tạo constructor với những final field hoặc có @NotNull
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+    UserMapper userMapper;
 
-    public User getUser(Integer id) {
-        return userRepository.findByUserId(id);
+    public UserResponse getUser(Integer id) {
+        User user = userRepository.findByUserId(id);
+        return userMapper.userToUserResponse(user);
     }
 }
