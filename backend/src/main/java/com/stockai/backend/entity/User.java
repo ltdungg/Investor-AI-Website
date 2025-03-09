@@ -21,9 +21,9 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class) // Bật Auditing
 public class User {
     @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-//    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stock.user_user_id_seq")
+    @SequenceGenerator(name = "stock.user_user_id_seq", sequenceName = "stock.user_user_id_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, updatable = false, nullable = false)
     Integer userId;
 
