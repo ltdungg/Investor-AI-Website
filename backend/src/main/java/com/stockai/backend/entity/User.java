@@ -3,6 +3,7 @@ package com.stockai.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,25 +21,27 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class) // Bật Auditing
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+//    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, updatable = false, nullable = false)
     Integer userId;
 
-    @Column(name = "name", nullable = false, updatable = false, unique = true)
+    @Column(name = "name", nullable = false)
     String name;
 
-    @Column(name = "email", nullable = false, updatable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     String email;
 
-    @Column(name = "phone", nullable = false, updatable = false, unique = true)
+    @Column(name = "phone", nullable = false, unique = true)
     String phone;
 
     @Column(name = "password", nullable = false)
     String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
+    @ColumnTransformer(write = "?::user_role_dt")
     UserRole role;
 
     @CreatedDate
