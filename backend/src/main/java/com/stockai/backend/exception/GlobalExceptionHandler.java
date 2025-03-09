@@ -25,4 +25,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getStatusCode())
                 .body(Objects.requireNonNull(e.getFieldError()).getDefaultMessage());
     }
+
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<String> handleAppException(final AppException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.status(e.getErrorCode().getCode()).body(e.getMessage());
+    }
 }

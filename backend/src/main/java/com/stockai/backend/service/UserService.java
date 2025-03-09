@@ -1,9 +1,11 @@
 package com.stockai.backend.service;
 
-import com.stockai.backend.dto.request.UserRequest;
+import com.stockai.backend.dto.request.CreateUserRequest;
 import com.stockai.backend.dto.response.UserResponse;
 import com.stockai.backend.entity.User;
 import com.stockai.backend.entity.UserRole;
+import com.stockai.backend.exception.AppException;
+import com.stockai.backend.exception.ErrorCode;
 import com.stockai.backend.mapper.UserMapper;
 import com.stockai.backend.repository.UserRepository;
 import lombok.AccessLevel;
@@ -22,12 +24,15 @@ public class UserService {
 
     public UserResponse getUser(Integer id) {
         User user = userRepository.findByUserId(id);
+        if (user == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_USER);
+        }
         return userMapper.userToUserResponse(user);
     }
 
-    public void createUser(UserRequest userRequest) {
-        User user = userMapper.userRequestToUser(userRequest);
-        if (userRepository.existsByEmailOrPhone(userRequest.getEmail(), userRequest.getPhone())) {
+    public void createUser(CreateUserRequest createUserRequest) {
+        User user = userMapper.userRequestToUser(createUserRequest);
+        if (userRepository.existsByEmailOrPhone(createUserRequest.getEmail(), createUserRequest.getPhone())) {
             throw new RuntimeException("User already exists");
         }
 
