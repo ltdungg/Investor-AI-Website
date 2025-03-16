@@ -1,5 +1,5 @@
 import axios from "axios";
-import { urlBackend, jwtTagStorage, defaultUrl } from "../../components/const/Global";
+import { urlBackend, jwtTagStorage, defaultUrl } from "../const/Global";
 
 const authenticationApi = axios.create({
     baseURL: urlBackend + "/auth", // URL của backend

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { isVariable } from "../jwtUtils";
-import { urlBackend, jwtTagStorage } from "../../components/const/Global";
+import { urlBackend, jwtTagStorage } from "../const/Global";
 
 const loginUrl = "/login";
 
