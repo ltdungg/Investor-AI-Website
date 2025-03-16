@@ -1,11 +1,7 @@
 package com.stockai.backend.controller;
 
-import com.stockai.backend.dto.request.CreateUserRequest;
 import com.stockai.backend.dto.response.UserResponse;
-import com.stockai.backend.exception.AppException;
-import com.stockai.backend.exception.ErrorCode;
 import com.stockai.backend.service.UserService;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,12 +19,5 @@ public class UserController {
     public ResponseEntity<?> getUser(@PathVariable Integer id) {
         UserResponse user = userService.getUser(id);
         return ResponseEntity.ok(user);
-    }
-
-    @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        userService.createUser(createUserRequest);
-
-        return ResponseEntity.ok("user created");
     }
 }

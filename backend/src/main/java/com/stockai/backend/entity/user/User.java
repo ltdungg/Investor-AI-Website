@@ -1,4 +1,4 @@
-package com.stockai.backend.entity;
+package com.stockai.backend.entity.user;
 
 import jakarta.persistence.*;
 import lombok.*;

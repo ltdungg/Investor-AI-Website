@@ -2,8 +2,8 @@ package com.stockai.backend.service;
 
 import com.stockai.backend.dto.request.CreateUserRequest;
 import com.stockai.backend.dto.response.UserResponse;
-import com.stockai.backend.entity.User;
-import com.stockai.backend.entity.UserRole;
+import com.stockai.backend.entity.user.User;
+import com.stockai.backend.entity.user.UserRole;
 import com.stockai.backend.exception.AppException;
 import com.stockai.backend.exception.ErrorCode;
 import com.stockai.backend.mapper.UserMapper;

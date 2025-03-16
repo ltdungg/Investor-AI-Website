@@ -1,4 +1,4 @@
-package com.stockai.backend.entity;
+package com.stockai.backend.entity.user;
 
 public enum UserRole {
     member,
