@@ -30,7 +30,7 @@ public class UserService {
         return userMapper.userToUserResponse(user);
     }
 
-    public void createUser(CreateUserRequest createUserRequest) {
+    public Integer createUser(CreateUserRequest createUserRequest) {
         User user = userMapper.userRequestToUser(createUserRequest);
         if (userRepository.existsByEmailOrPhone(createUserRequest.getEmail(), createUserRequest.getPhone())) {
             throw new RuntimeException("User already exists");
@@ -39,6 +39,6 @@ public class UserService {
         user.setRole(UserRole.member);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userRepository.save(user);
+        return userRepository.save(user).getUserId();
     }
 }

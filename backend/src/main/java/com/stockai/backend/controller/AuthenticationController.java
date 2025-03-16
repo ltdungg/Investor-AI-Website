@@ -3,6 +3,7 @@ package com.stockai.backend.controller;
 import com.stockai.backend.dto.request.CreateUserRequest;
 import com.stockai.backend.dto.request.LoginRequest;
 import com.stockai.backend.entity.user.MyUserDetail;
+import com.stockai.backend.entity.user.User;
 import com.stockai.backend.service.UserService;
 import com.stockai.backend.utils.JwtUtils;
 import jakarta.validation.Valid;
@@ -37,8 +38,9 @@ public class AuthenticationController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        userService.createUser(createUserRequest);
+        Integer userId = userService.createUser(createUserRequest);
+        User user = User.builder().userId(userId).build();
 
-        return ResponseEntity.ok("user created");
+        return ResponseEntity.ok(jwtUtils.generateToken(new MyUserDetail(user)));
     }
 }
