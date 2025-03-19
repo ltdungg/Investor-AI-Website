@@ -41,4 +41,13 @@ public class UserService {
 
         return userRepository.save(user).getUserId();
     }
+
+    public User findUserById(Integer id) {
+        User user = userRepository.findByUserId(id);
+        if (user == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_USER);
+        }
+
+        return user;
+    }
 }
