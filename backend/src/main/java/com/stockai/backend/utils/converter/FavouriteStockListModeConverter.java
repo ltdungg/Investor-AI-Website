@@ -1,4 +1,4 @@
-package com.stockai.backend.utils;
+package com.stockai.backend.utils.converter;
 
 import com.stockai.backend.entity.stock.Enum.FavouriteStockListMode;
 import jakarta.persistence.AttributeConverter;
@@ -9,7 +9,7 @@ public class FavouriteStockListModeConverter implements AttributeConverter<Favou
 
     @Override
     public String convertToDatabaseColumn(FavouriteStockListMode favouriteStockListMode) {
-        return favouriteStockListMode != null ? favouriteStockListMode.getValue() : null;
+        return favouriteStockListMode != null ? favouriteStockListMode.toString().toLowerCase() : null;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class FavouriteStockListModeConverter implements AttributeConverter<Favou
             return null;
         }
         for (FavouriteStockListMode mode : FavouriteStockListMode.values()) {
-            if (mode.getValue().equals(dbData)) {
+            if (mode.toString().equalsIgnoreCase(dbData)) {
                 return mode;
             }
         }

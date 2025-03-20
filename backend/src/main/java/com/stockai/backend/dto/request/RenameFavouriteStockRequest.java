@@ -9,9 +9,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LoginRequest {
-    @NotBlank(message = "Hãy điền email hoặc số điện thoại")
-    String emailOrPhone;
-    @NotBlank(message = "Mật khẩu không được trống")
-    String password;
+public class RenameFavouriteStockRequest {
+    @NotBlank(message = "List id is empty")
+    Long listId;
+
+    @NotBlank(message = "List name must not be empty")
+    String name;
 }

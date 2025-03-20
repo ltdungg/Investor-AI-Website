@@ -2,8 +2,8 @@ package com.stockai.backend.entity.stock;
 
 import com.stockai.backend.entity.stock.Enum.FavouriteStockListMode;
 import com.stockai.backend.entity.user.User;
-import com.stockai.backend.utils.FavouriteStockListModeConverter;
-import com.stockai.backend.utils.StringArrayConverter;
+import com.stockai.backend.utils.converter.FavouriteStockListModeConverter;
+import com.stockai.backend.utils.converter.StringArrayConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

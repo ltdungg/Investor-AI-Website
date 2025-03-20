@@ -1,13 +1,23 @@
 package com.stockai.backend.entity.stock.Enum;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-@Getter
-@AllArgsConstructor
 public enum FavouriteStockListMode {
-    PRIVATE("private"),
-    PUBLIC("public");
+    PRIVATE,
+    PUBLIC;
 
-    private final String value;
+    @JsonCreator
+    public static FavouriteStockListMode fromString(String value) {
+        try {
+            return FavouriteStockListMode.valueOf(value.toUpperCase()); // Chuyển chữ hoa
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid mode: " + value);
+        }
+    }
+
+    @JsonValue
+    public String toValue() {
+        return name().toLowerCase(); // Khi serialize, trả về chữ thường
+    }
 }

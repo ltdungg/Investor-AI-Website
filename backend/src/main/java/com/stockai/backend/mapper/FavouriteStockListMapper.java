@@ -7,6 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface FavouriteStockListMapper {
-    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "author", source = "author.userId")
     FavouriteStockListResponse toFavouriteStockListResponse(FavouriteStockList favouriteStockList);
 }

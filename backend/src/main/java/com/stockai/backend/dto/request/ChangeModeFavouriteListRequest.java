@@ -1,6 +1,6 @@
 package com.stockai.backend.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import com.stockai.backend.entity.stock.Enum.FavouriteStockListMode;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class NewFavouriteStockListRequest {
-    @NotBlank(message = "List name must not be empty")
-    String name;
+public class ChangeModeFavouriteListRequest {
+    Long listId;
+    FavouriteStockListMode mode;
 }

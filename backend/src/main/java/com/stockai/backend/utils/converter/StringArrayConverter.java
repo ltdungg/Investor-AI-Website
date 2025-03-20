@@ -1,4 +1,4 @@
-package com.stockai.backend.utils;
+package com.stockai.backend.utils.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
