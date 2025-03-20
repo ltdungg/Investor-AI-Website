@@ -34,17 +34,10 @@ public class FavouriteStockListController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> createNewFavoriteStock(@RequestBody NewFavouriteStockListRequest request) {
+    public ResponseEntity<?> createNewFavoriteStockList(@RequestBody NewFavouriteStockListRequest request) {
         favoriteStockListService.createNewFavouriteStockList(request);
 
         return ResponseEntity.ok("List of favourite stocks created");
-    }
-
-    @PutMapping("/add")
-    public ResponseEntity<?> addStockToList(@RequestBody AddStockToFavouriteListRequest request) {
-        favoriteStockListService.addStocksToList(request);
-
-        return ResponseEntity.ok("Add stock to list successfully");
     }
 
     @PutMapping("/rename")

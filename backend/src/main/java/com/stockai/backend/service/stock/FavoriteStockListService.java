@@ -1,6 +1,5 @@
 package com.stockai.backend.service.stock;
 
-import com.stockai.backend.dto.request.AddStockToFavouriteListRequest;
 import com.stockai.backend.dto.request.ChangeModeFavouriteListRequest;
 import com.stockai.backend.dto.request.NewFavouriteStockListRequest;
 import com.stockai.backend.dto.request.RenameFavouriteStockRequest;
@@ -14,6 +13,7 @@ import com.stockai.backend.mapper.FavouriteStockListMapper;
 import com.stockai.backend.repository.stock.FavouriteStockListRepository;
 import com.stockai.backend.service.UserService;
 import com.stockai.backend.utils.AuthenticationUtils;
+import com.stockai.backend.utils.FavouriteStockListUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,9 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @Service
@@ -36,6 +34,7 @@ public class FavoriteStockListService {
     FavouriteStockListMapper favouriteStockListMapper;
     UserService userService;
     AuthenticationUtils authenticationUtils;
+    FavouriteStockListUtils favouriteStockListUtils;
 
     public List<?> getFavouriteStockLists() {
         Integer userId = authenticationUtils.getPrincipal();
@@ -91,24 +90,10 @@ public class FavoriteStockListService {
         favouriteStockListRepository.save(newFavouriteStockList);
     }
 
-    public void addStocksToList(AddStockToFavouriteListRequest request) {
-        FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(request.getListId());
-        accessAbleChecker(favouriteStockList);
-
-        List<String> list = favouriteStockList.getSymbols();
-
-        Set<String> symbols = new LinkedHashSet<>(list);
-        symbols.addAll(request.getStocks());
-
-        favouriteStockList.setSymbols(new ArrayList<>(symbols));
-
-        favouriteStockListRepository.save(favouriteStockList);
-    }
-
     public void deleteFavouriteStockList(Long favouriteStockListId) {
         FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(favouriteStockListId);
 
-        accessAbleChecker(favouriteStockList);
+        favouriteStockListUtils.accessAbleChecker(favouriteStockList);
 
         favouriteStockListRepository.delete(favouriteStockList);
     }
@@ -116,7 +101,7 @@ public class FavoriteStockListService {
     public void renameFavoriteStockList(RenameFavouriteStockRequest request) {
         FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(request.getListId());
 
-        accessAbleChecker(favouriteStockList);
+        favouriteStockListUtils.accessAbleChecker(favouriteStockList);
         if (favouriteStockList.getName().equals(request.getName()))
             return;
 
@@ -129,20 +114,11 @@ public class FavoriteStockListService {
     public void changeModeFavouriteStockList(ChangeModeFavouriteListRequest request) {
         FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(request.getListId());
 
-        accessAbleChecker(favouriteStockList);
+        favouriteStockListUtils.accessAbleChecker(favouriteStockList);
         if (favouriteStockList.getMode() == request.getMode())
             return;
 
         favouriteStockList.setMode(request.getMode());
         favouriteStockListRepository.save(favouriteStockList);
-    }
-
-    private void accessAbleChecker(FavouriteStockList favouriteStockList) {
-        Integer userId = authenticationUtils.getPrincipal();
-
-        if (favouriteStockList == null)
-            throw new AppException(ErrorCode.NOT_FOUND_FAVOURITE_STOCK);
-        if (!userId.equals(favouriteStockList.getAuthor().getUserId()))
-            throw new AppException(ErrorCode.UNABLE_ACCESS_FAVOURITE_STOCK_LIST);
     }
 }
