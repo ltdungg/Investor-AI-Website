@@ -31,7 +31,7 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FavoriteStockService {
+public class FavoriteStockListService {
     FavouriteStockListRepository favouriteStockListRepository;
     FavouriteStockListMapper favouriteStockListMapper;
     UserService userService;
