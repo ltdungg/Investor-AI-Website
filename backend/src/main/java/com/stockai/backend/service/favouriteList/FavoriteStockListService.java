@@ -1,4 +1,4 @@
-package com.stockai.backend.service.stock;
+package com.stockai.backend.service.favouriteList;
 
 import com.stockai.backend.dto.request.ChangeModeFavouriteListRequest;
 import com.stockai.backend.dto.request.NewFavouriteStockListRequest;

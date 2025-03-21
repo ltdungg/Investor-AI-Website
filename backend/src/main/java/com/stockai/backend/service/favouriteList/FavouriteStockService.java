@@ -1,4 +1,4 @@
-package com.stockai.backend.service.stock;
+package com.stockai.backend.service.favouriteList;
 
 import com.stockai.backend.dto.request.AddStockToFavouriteListRequest;
 import com.stockai.backend.dto.request.DeleteStocksFromFavouriteListRequest;

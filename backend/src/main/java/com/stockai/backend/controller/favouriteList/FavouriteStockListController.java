@@ -1,10 +1,9 @@
-package com.stockai.backend.controller.stock;
+package com.stockai.backend.controller.favouriteList;
 
-import com.stockai.backend.dto.request.AddStockToFavouriteListRequest;
 import com.stockai.backend.dto.request.ChangeModeFavouriteListRequest;
 import com.stockai.backend.dto.request.NewFavouriteStockListRequest;
 import com.stockai.backend.dto.request.RenameFavouriteStockRequest;
-import com.stockai.backend.service.stock.FavoriteStockListService;
+import com.stockai.backend.service.favouriteList.FavoriteStockListService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
