@@ -4,7 +4,7 @@ import com.stockai.backend.dto.request.AddStockToFavouriteListRequest;
 import com.stockai.backend.dto.request.DeleteStocksFromFavouriteListRequest;
 import com.stockai.backend.entity.stock.FavouriteStockList;
 import com.stockai.backend.entity.stock.StockInformation;
-import com.stockai.backend.repository.stock.FavouriteStockListRepository;
+import com.stockai.backend.repository.favouriteList.FavouriteStockListRepository;
 import com.stockai.backend.repository.stock.StockInformationRepository;
 import com.stockai.backend.utils.FavouriteStockListUtils;
 import lombok.AccessLevel;

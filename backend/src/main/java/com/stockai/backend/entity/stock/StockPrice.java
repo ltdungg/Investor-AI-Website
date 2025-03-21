@@ -1,5 +1,6 @@
 package com.stockai.backend.entity.stock;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stockai.backend.entity.stock.Enum.Exchange;
 import com.stockai.backend.entity.stock.customId.StockPriceId;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class StockPrice {
     @OneToOne
     @MapsId("symbol")
     @JoinColumn(name = "symbol", referencedColumnName = "symbol")
+    @JsonIgnore
     StockInformation stockInformation;
 
     @Column(name = "exchange")

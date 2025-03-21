@@ -1,4 +1,4 @@
-package com.stockai.backend.repository.stock;
+package com.stockai.backend.repository.favouriteList;
 
 import com.stockai.backend.entity.stock.FavouriteStockList;
 import org.springframework.data.repository.CrudRepository;

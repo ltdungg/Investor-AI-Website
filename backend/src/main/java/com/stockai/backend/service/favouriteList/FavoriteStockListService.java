@@ -10,7 +10,7 @@ import com.stockai.backend.entity.user.User;
 import com.stockai.backend.exception.AppException;
 import com.stockai.backend.exception.ErrorCode;
 import com.stockai.backend.mapper.FavouriteStockListMapper;
-import com.stockai.backend.repository.stock.FavouriteStockListRepository;
+import com.stockai.backend.repository.favouriteList.FavouriteStockListRepository;
 import com.stockai.backend.service.UserService;
 import com.stockai.backend.utils.AuthenticationUtils;
 import com.stockai.backend.utils.FavouriteStockListUtils;
