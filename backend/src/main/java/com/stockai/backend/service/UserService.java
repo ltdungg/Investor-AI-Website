@@ -33,7 +33,7 @@ public class UserService {
     public Integer createUser(CreateUserRequest createUserRequest) {
         User user = userMapper.userRequestToUser(createUserRequest);
         if (userRepository.existsByEmailOrPhone(createUserRequest.getEmail(), createUserRequest.getPhone())) {
-            throw new RuntimeException("User already exists");
+            throw new AppException(ErrorCode.EXISTED_USER);
         }
 
         user.setRole(UserRole.member);

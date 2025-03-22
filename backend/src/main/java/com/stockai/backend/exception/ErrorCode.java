@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    EXISTED_USER(400, "User already existed"),
     NOT_FOUND_USER(400, "User not found"),
     NOT_FOUND_STOCK(400, "Stock not found"),
     NOT_FOUND_FAVOURITE_STOCK(400, "Favourite stock not found"),

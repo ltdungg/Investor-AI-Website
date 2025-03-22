@@ -34,9 +34,9 @@ public class FavouriteStockListController {
 
     @PostMapping("/")
     public ResponseEntity<?> createNewFavoriteStockList(@RequestBody NewFavouriteStockListRequest request) {
-        favoriteStockListService.createNewFavouriteStockList(request);
-
-        return ResponseEntity.ok("List of favourite stocks created");
+        return ResponseEntity.ok(
+                favoriteStockListService.createNewFavouriteStockList(request)
+        );
     }
 
     @PutMapping("/rename")

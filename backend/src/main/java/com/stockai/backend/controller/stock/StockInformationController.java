@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockInformationController {
     StockInformationService stockInformationService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getStockInformation(@PathVariable("id") String id) {
+    @GetMapping("/{symbol}")
+    public ResponseEntity<?> getStockInformation(@PathVariable("symbol") String id) {
         return ResponseEntity.ok(stockInformationService.getStockInformation(id));
     }
 }

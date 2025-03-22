@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@RequestMapping("/finance_income_statement")
+@RequestMapping("/finance-income-statement")
 public class FinanceIncomeStatementController {
     @Autowired
     @Qualifier("FinanceIncomeStatement")

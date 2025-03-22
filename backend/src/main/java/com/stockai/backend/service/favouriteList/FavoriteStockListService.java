@@ -73,7 +73,7 @@ public class FavoriteStockListService {
         return favouriteStockListMapper.toFavouriteStockListResponse(favouriteStockList);
     }
 
-    public void createNewFavouriteStockList(NewFavouriteStockListRequest newFavouriteStockListRequest) {
+    public Long createNewFavouriteStockList(NewFavouriteStockListRequest newFavouriteStockListRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String userIdString = authentication.getPrincipal().toString();
@@ -87,7 +87,7 @@ public class FavoriteStockListService {
                 .symbols(null)
                 .build();
 
-        favouriteStockListRepository.save(newFavouriteStockList);
+         return favouriteStockListRepository.save(newFavouriteStockList).getListId();
     }
 
     public void deleteFavouriteStockList(Long favouriteStockListId) {
