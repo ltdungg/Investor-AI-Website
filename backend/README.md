@@ -160,6 +160,21 @@ public class StockInformationResponse {
 }
 ```
 
+nếu không truyền symbol vào thì sẽ trả về toàn bộ cổ phiếu với mỗi cổ phiếu sẽ là như thế này:
+```java
+public class SimpleStockInformationDTO {
+    String symbol;
+    String companyName;
+    Integer icb1;
+    Integer icb2;
+    Integer icb3;
+    Integer icb4;
+    Exchange exchange;
+    Double close; //giá hiện tại
+    Double priceChange;//biến động giá
+}
+```
+
 #### 6. `/stock-price/{symbol}`
 
 Trả về thông tin **Giá Cổ Phiếu** cho mã cổ phiếu.

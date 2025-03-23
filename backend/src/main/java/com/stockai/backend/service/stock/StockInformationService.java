@@ -11,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -32,5 +35,12 @@ public class StockInformationService {
         stockInformationResponse.setIcb4(stockInformation.getIcb4().getIcbId());
 
         return stockInformationResponse;
+    }
+
+    public List<?> getAllStock() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -2);
+
+        return stockInformationRepository.findAllStockInformation(calendar.getTime());
     }
 }

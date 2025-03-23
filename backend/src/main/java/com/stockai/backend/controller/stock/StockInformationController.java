@@ -21,4 +21,9 @@ public class StockInformationController {
     public ResponseEntity<?> getStockInformation(@PathVariable("symbol") String id) {
         return ResponseEntity.ok(stockInformationService.getStockInformation(id));
     }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAllStockInformation() {
+        return ResponseEntity.ok(stockInformationService.getAllStock());
+    }
 }
