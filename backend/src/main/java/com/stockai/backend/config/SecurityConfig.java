@@ -27,7 +27,9 @@ public class SecurityConfig {
             "/finance-ratio/**",
             "/stock/**",
             "/stock-price/**",
-            "/industries/**"
+            "/industries/**",
+            "/swagger-ui/**",
+            "/api-doc/**",
     };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

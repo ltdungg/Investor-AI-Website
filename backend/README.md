@@ -1,5 +1,12 @@
 # Spring Boot API - Finance and Stock Information
 
+## Api auto generated
+
+- [API doc có ui trực quan (swagger)](http://localhost:8000/swagger-ui)
+- [API doc bằng json (chuẩn OpenAPI)](http://localhost:8000/api-doc)
+
+Lưu ý: hãy chạy dự án trước mới có thể mở được api doc tự sinh
+
 ## Cấu Hình
 
 Ứng dụng Spring Boot này cung cấp các endpoint để truy vấn thông tin tài chính và cổ phiếu. Các endpoint này có thể được
@@ -161,6 +168,7 @@ public class StockInformationResponse {
 ```
 
 nếu không truyền symbol vào thì sẽ trả về toàn bộ cổ phiếu với mỗi cổ phiếu sẽ là như thế này:
+
 ```java
 public class SimpleStockInformationDTO {
     String symbol;
