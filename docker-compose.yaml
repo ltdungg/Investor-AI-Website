@@ -76,6 +76,9 @@ services:
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=admin123456789
+      - MINIO_SERVER_ACCESS_KEY=minio-access-key
+      - MINIO_SERVER_SECRET_KEY=minio-secret-key
+      - MINIO_DEFAULT_BUCKETS=investor-ai-bucket
 
   postgres:
     image: postgres:13
@@ -212,11 +215,11 @@ services:
       dockerfile: Dockerfile.frontend
     ports:
       - "3000:3000"
-#
-#  back-end:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.backend
+
+  back-end:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
 
 volumes:
   postgres-db-volume:
