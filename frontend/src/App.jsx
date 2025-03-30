@@ -10,6 +10,7 @@ import Navbar from "./components/navbar/Navbar";
 import Login from "./components/login_register/Login";
 import Register from "./components/login_register/Register";
 import Stock from "./components/stocksSearch/Stock";
+import StockInfor from "./components/stock_information/stock_information";
 
 function App() {
     return (
@@ -31,6 +32,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/stocks" element={<Stock />} />
+                    <Route path="/stocks/*" element={<StockInfor />} />
                 </Routes>
             </div>
 
