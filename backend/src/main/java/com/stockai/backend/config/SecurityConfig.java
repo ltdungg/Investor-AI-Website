@@ -3,6 +3,7 @@ package com.stockai.backend.config;
 import com.stockai.backend.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,17 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+    private final String[] stockGetMethodPublic = {
+            "/finance-balance-sheet/**",
+            "/finance-cash-flow/**",
+            "/finance-income-statement/**",
+            "/finance-ratio/**",
+            "/stock/**",
+            "/stock-price/**",
+            "/industries/**",
+            "/swagger-ui/**",
+            "/api-doc/**",
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -26,6 +38,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, stockGetMethodPublic).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -4,14 +4,16 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LoginRequest {
-    @NotBlank(message = "Hãy điền email hoặc số điện thoại")
-    String emailOrPhone;
-    @NotBlank(message = "Mật khẩu không được trống")
-    String password;
+public class DeleteStocksFromFavouriteListRequest {
+    @NotBlank(message = "List id is empty")
+    Long listId;
+    @NotBlank(message = "Stock is null")
+    List<String> stocks;
 }

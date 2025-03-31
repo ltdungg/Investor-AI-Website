@@ -33,12 +33,21 @@ public class UserService {
     public Integer createUser(CreateUserRequest createUserRequest) {
         User user = userMapper.userRequestToUser(createUserRequest);
         if (userRepository.existsByEmailOrPhone(createUserRequest.getEmail(), createUserRequest.getPhone())) {
-            throw new RuntimeException("User already exists");
+            throw new AppException(ErrorCode.EXISTED_USER);
         }
 
         user.setRole(UserRole.member);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user).getUserId();
+    }
+
+    public User findUserById(Integer id) {
+        User user = userRepository.findByUserId(id);
+        if (user == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_USER);
+        }
+
+        return user;
     }
 }
