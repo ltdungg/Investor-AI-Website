@@ -1,5 +1,8 @@
-@import './../../styles/main';
+@use "./../../styles/main";
 
 .chart {
     margin-top: 5rem;
+    width: 80%;
+    height: 70vh;
+    min-width: 800px;
 }
