@@ -215,11 +215,15 @@ services:
       dockerfile: Dockerfile.frontend
     ports:
       - "3000:3000"
-
+    command: ["npm", "run", "dev"]
+    
   back-end:
     build:
       context: .
       dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    command: ["gradle", "bootRun"]
 
 volumes:
   postgres-db-volume:
