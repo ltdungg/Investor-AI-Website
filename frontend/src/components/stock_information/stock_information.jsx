@@ -27,6 +27,11 @@ ChartJS.register(
   zoomPlugin
 );
 
+const stock = {
+  tradingDate: "tradingDate",
+  close: "close",
+};
+
 function StockInfor() {
   const period = {
     year: "year",
@@ -63,7 +68,7 @@ function StockInfor() {
         const responseData = response.data.map((i) => {
           return {
             ...i,
-            tradingDate: new Date(i.tradingDate),
+            tradingDate: new Date(i[stock.tradingDate]),
           };
         });
         // setStockPrice(responseData);
@@ -90,23 +95,61 @@ function StockInfor() {
     return () => {};
   }, [curr]);
 
+  const zoomHandler = ({ chart }) => {
+    const xScale = chart.scales.x;
+    const visibleRange = xScale.max - xScale.min;
+    switch (curr) {
+      case period.year:
+        if (visibleRange <= 1) {
+          const curYear = dataYearly.labels[xScale.min];
+          const start = dataMonthly.labels.findIndex((label) => {
+            let year = label.split("/");
+            return year[year.length - 1] == curYear;
+          });
+          const end = start + 11;
+          updatePosition(setPositon, start, end);
+          setCurr(period.month);
+        }
+        break;
+      case period.month:
+        if (visibleRange <= 1) {
+          const curMonth = dataMonthly.labels[xScale.min];
+          const start = dataDaily.labels.findIndex((label) => {
+            let date = label.split("/");
+            return `${date[1]}/${date[2]}` == curMonth;
+          });
+          const end = start + 31;
+          updatePosition(setPositon, start, end);
+          setCurr(period.day);
+        } else if (visibleRange >= 24) {
+          setCurr(period.year);
+          break;
+        }
+        break;
+      case period.day:
+        if (visibleRange >= 31) {
+          const curDate = dataDaily.labels[xScale.min];
+          let date = curDate.split("/");
+          const start = dataMonthly.labels.findIndex((label) => {
+            const month = label.split("/");
+            return `${month[0]}/${month[1]}` == `${date[1]}/${date[2]}`;
+          });
+          updatePosition(setPositon, start, start + 11);
+          setCurr(period.month);
+        }
+        break;
+    }
+  };
+
   const options = {
-    transitions: {
-      zoom: {
-        animation: {
-          duration: 0,
-        },
-      },
-    },
+    animation: false,
     scales: {
       x: {
         type: "category",
         min: positon.min,
         max: positon.max,
       },
-      y: {
-        beginAtZero: false,
-      },
+      y: { beginAtZero: false },
     },
     interaction: {
       mode: "nearest", // Tìm điểm gần nhất dựa trên vị trí chuột
@@ -118,54 +161,14 @@ function StockInfor() {
         display: true,
         text: "Biểu đồ Doanh Thu",
       },
-      tooltip: {
-        enabled: true,
-      },
+      tooltip: { enabled: true },
       zoom: {
-        limits: {
-          x: {
-            minRange: 1, // Phạm vi tối thiểu khi zoom (ít nhất 2 điểm)
-          },
-        },
+        limits: { x: { minRange: 1 } },
         zoom: {
-          wheel: {
-            enabled: true, // Bật zoom bằng bánh xe chuột
-          },
-          pinch: {
-            enabled: true, // Bật zoom bằng cử chỉ pinch (điện thoại)
-          },
+          wheel: { enabled: true },
+          pinch: { enabled: true },
           mode: "x", // Chỉ zoom theo trục X
-          onZoomComplete: ({ chart }) => {
-            const xScale = chart.scales.x;
-            const visibleRange = xScale.max - xScale.min;
-            switch (curr) {
-              case period.year:
-                if (visibleRange <= 1) {
-                  const curYear = dataYearly.labels[xScale.min];
-                  const start = dataMonthly.labels.indexOf(`1/${curYear}`);
-                  const end = start + 11;
-                  updatePosition(setPositon, start, end);
-                  setCurr(period.month);
-                }
-                break;
-              case period.month:
-                if (visibleRange <= 1) {
-                  const curMonth = dataMonthly.labels[xScale.min];
-                  const start = dataDaily.labels.indexOf(`1/${curMonth}`);
-                  const end = start + 31;
-                  updatePosition(setPositon, start, end);
-                  setCurr(period.day);
-                } else if (visibleRange >= 12) {
-                  setCurr(period.year);
-                }
-                break;
-              case period.day:
-                if (visibleRange >= 31) {
-                  setCurr(period.month);
-                }
-                break;
-            }
-          },
+          onZoom: zoomHandler,
         },
         pan: {
           enabled: true, // Bật kéo thả để di chuyển
@@ -184,6 +187,10 @@ function StockInfor() {
           label: "Giá",
           data: daily.prices,
           borderColor: "rgb(75, 192, 192)",
+          pointRadius: 0,
+          pointHoverRadius: 5, // Hiển thị điểm khi hover (tùy chọn)
+          pointHoverBackgroundColor: "rgb(75, 192, 192)", // Màu điểm khi hover
+          pointHoverBorderColor: "rgba(75, 192, 192, 0.8)", // Viền điểm khi hover
           // tension: 0.1,
         },
       ],
@@ -209,7 +216,9 @@ function updatePosition(setPositon, min, max) {
 // Hàm tổng hợp dữ liệu theo năm
 const aggregateByYear = (data) => {
   const yearlyData = {};
-  data.forEach(({ tradingDate, close }) => {
+  data.forEach((stockData) => {
+    const tradingDate = stockData[stock.tradingDate];
+    const close = stockData[stock.close];
     const year = tradingDate.getUTCFullYear();
     if (!yearlyData[year]) {
       yearlyData[year] = { total: 0, count: 0 };
@@ -229,7 +238,10 @@ const aggregateByYear = (data) => {
 // Hàm tổng hợp dữ liệu theo tháng
 const aggregateByMonth = (data) => {
   const monthlyData = {};
-  data.forEach(({ tradingDate, close }) => {
+  data.forEach((stockData) => {
+    const tradingDate = stockData[stock.tradingDate];
+    const close = stockData[stock.close];
+
     const month = `${
       tradingDate.getUTCMonth() + 1
     }/${tradingDate.getUTCFullYear()}`;
@@ -251,7 +263,7 @@ const aggregateByMonth = (data) => {
 // Hàm lấy dữ liệu chi tiết theo ngày
 const getDailyData = (data) => {
   return {
-    labels: data.map((d) => DateFormat(d.tradingDate) + ""),
-    prices: data.map((d) => d.close),
+    labels: data.map((d) => DateFormat(d[stock.tradingDate]) + ""),
+    prices: data.map((d) => d[stock.close]),
   };
 };
