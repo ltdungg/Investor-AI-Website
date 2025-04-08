@@ -4,16 +4,9 @@ server:
 
 spring:
   datasource:
-    url: "jdbc:postgresql://postgres:5432/airflow"
     username: "airflow"
     password: "airflow"
 
 jwt:
   signedKey: "09755ffcabb494a975f7fd836e450aae050df291281a703c"
   expiration: 86400000
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui
-  api-docs:
-    path: /api-doc

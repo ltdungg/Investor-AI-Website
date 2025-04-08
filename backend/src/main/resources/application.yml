@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local} # Mặc định là 'local' nếu không có biến môi trường
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import:
+      - application-common.yml
+      - application-local.yml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+    import:
+      - application-common.yml
+      - application-production.yml
