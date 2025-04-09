@@ -17,7 +17,8 @@ default_args = {
     dag_id='get_all_finance_income_statement',
     default_args=default_args,
     description='Get all finance income statement data',
-    catchup=False
+    catchup=False,
+    schedule_interval=None
 )
 def get_all_income_statement_ratio(**kwargs):
 

@@ -1,0 +1,12 @@
+server:
+  port: 8000
+  address: 0.0.0.0
+
+spring:
+  datasource:
+    username: "airflow"
+    password: "airflow"
+
+jwt:
+  signedKey: "09755ffcabb494a975f7fd836e450aae050df291281a703c"
+  expiration: 86400000
