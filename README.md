@@ -57,9 +57,6 @@ The project is packaged using Docker and managed with Docker Compose, making dep
     # MINIO
     MINIO_ROOT_USER=admin
     MINIO_ROOT_PASSWORD=admin123456789
-    MINIO_ACCESS_KEY=your_access_key
-    MINIO_SECRET_KEY=your_secret_key
-    MINIO_BUCKET=your_bucket
     ```
 
 4.  **Run Docker Compose:**
@@ -98,7 +95,7 @@ Below are the default ports for the services in the project.  You can change the
 | Service       | Port (Host)   | Port (Container)   | Description                                |
 |---------------|---------------|--------------------|--------------------------------------------|
 | Frontend      | `localhost`   | `3000`             | User interface                             |
-| Backend (API) | `<host_port>` | `<container_port>` | Application API                            |
+| Backend (API) | `localhost` | `8000` | Application API                            |
 | Airflow       | `localhost`   | `8080`             | Airflow Web UI                             |
 | Spark         | `localhost`   | `8081, 7077`       | Spark Master UI (8081),Spark Master (7077) |
 | MinIO         | `localhost`   | `9001, 9000`       | MinIO Console (9001), MinIO API (9000)     |
