@@ -11,9 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -29,7 +31,10 @@ public class JwtUtils {
     }
 
     public String generateToken(MyUserDetail myUserDetail) {
+        String jwtId = UUID.randomUUID().toString();
+
         return Jwts.builder()
+                .id(jwtId)
                 .subject(myUserDetail.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + expiration))
@@ -38,6 +43,9 @@ public class JwtUtils {
     }
 
     public Claims getPayload(String token) {
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         Claims claims = null;
         try {
             claims = Jwts.parser().verifyWith(key()).build().parseSignedClaims(token).getPayload();

@@ -6,7 +6,11 @@ spring:
   datasource:
     username: "airflow"
     password: "airflow"
-
+  data:
+    redis:
+      host: localhost
+      port: 6379
 jwt:
   signedKey: "09755ffcabb494a975f7fd836e450aae050df291281a703c"
+  blacklist-prefix: "BLACKLIST_PREFIX_"
   expiration: 86400000
