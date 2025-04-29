@@ -1,5 +1,6 @@
 package com.stockai.backend.service.stock;
 
+import com.stockai.backend.dto.response.FindStockResponse;
 import com.stockai.backend.dto.response.StockInformationResponse;
 import com.stockai.backend.entity.stock.StockInformation;
 import com.stockai.backend.exception.AppException;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -39,8 +41,17 @@ public class StockInformationService {
 
     public List<?> getAllStock() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -2);
+        calendar.add(Calendar.DATE, -4);
 
         return stockInformationRepository.findAllStockInformation(calendar.getTime());
+    }
+
+    public List<?> findStocks(String symbol) {
+        List<StockInformation> symbols = stockInformationRepository.findBySymbolIsContainingIgnoreCase(symbol);
+        List<FindStockResponse> response = new ArrayList<>();
+        for (StockInformation stock : symbols) {
+            response.add(new FindStockResponse(stock.getSymbol(), stock.getCompanyName()));
+        }
+        return response;
     }
 }

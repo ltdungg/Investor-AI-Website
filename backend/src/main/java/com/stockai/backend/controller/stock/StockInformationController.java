@@ -40,4 +40,9 @@ public class StockInformationController {
     public ResponseEntity<?> getAllStockInformation() {
         return ResponseEntity.ok(stockInformationService.getAllStock());
     }
+
+    @GetMapping("/find-stock/{symbol}")
+    public ResponseEntity<?> findStockInformationBySymbol(@PathVariable("symbol") String symbol) {
+        return ResponseEntity.ok(stockInformationService.findStocks(symbol));
+    }
 }

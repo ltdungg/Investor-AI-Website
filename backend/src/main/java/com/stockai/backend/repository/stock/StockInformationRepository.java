@@ -2,6 +2,7 @@ package com.stockai.backend.repository.stock;
 
 import com.stockai.backend.dto.response.SimpleStockInformationDTO;
 import com.stockai.backend.entity.stock.StockInformation;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,10 +11,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface StockInformationRepository extends CrudRepository<StockInformation, Integer> {
+public interface StockInformationRepository extends JpaRepository<StockInformation, Integer> {
     //    @EntityGraph(attributePaths = {"icb1", "icb2", "icb3", "icb4"})
     Optional<StockInformation> findBySymbol(String symbol);
     List<StockInformation> findBySymbolIn(List<String> symbols);
+    List<StockInformation> findBySymbolIsContainingIgnoreCase(String symbol);
 
     @Query(value = """
             select new com.stockai.backend.dto.response.SimpleStockInformationDTO
