@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import Home from "./components/home/Home";
@@ -13,18 +13,23 @@ import Stock from "./components/stocksSearch/Stock";
 import StockInfor from "./components/stock_information/stock_information";
 
 function App() {
+    const location = useLocation();
+    const isAuthRoute = ["/login", "/register"].includes(location.pathname);
+
     return (
         <div className="App">
-            {/* navbar ở đây này */}
-            <Navbar />
+            {/* Navbar chỉ hiển thị nếu không phải trang login/register */}
+            {!isAuthRoute && <Navbar />}
 
-            {/* đây là phần header */}
-            <Routes>
-                <Route index element={<Header />} />
-                <Route path="*" element={<div className="header"></div>} />
-            </Routes>
+            {/* Header chỉ hiển thị nếu không phải trang login/register */}
+            {!isAuthRoute && (
+                <Routes>
+                    <Route index element={<Header />} />
+                    <Route path="*" element={<div className="header"></div>} />
+                </Routes>
+            )}
 
-            {/* ghi nội dung chính vào đây */}
+            {/* Nội dung chính */}
             <div className="content">
                 <Routes>
                     <Route index element={<Home />} />
@@ -36,14 +41,14 @@ function App() {
                 </Routes>
             </div>
 
-            {/* đây là footer */}
-            <Footer />
-
-            {/* mấy cái nút ở đây */}
-            <UtilButtonContainer>
-                <ToTopButton />
-                <ContactButton />
-            </UtilButtonContainer>
+            {/* Footer và nút chỉ hiển thị nếu không phải trang login/register */}
+            {!isAuthRoute && <Footer />}
+            {!isAuthRoute && (
+                <UtilButtonContainer>
+                    <ToTopButton />
+                    <ContactButton />
+                </UtilButtonContainer>
+            )}
         </div>
     );
 }
