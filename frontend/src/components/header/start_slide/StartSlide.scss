@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 250px;
+  height: 16.458vw;
 
   button {
     position: absolute;
@@ -28,4 +28,11 @@
     @include main.flex(center, center, 0.5rem);
     color: #03032e;
   }
+}
+
+@media screen and (min-width: 1500px) {
+    .start-slider {
+        background-size: cover;
+        background-position: top;
+    }
 }
