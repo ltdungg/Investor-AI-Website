@@ -1,8 +1,8 @@
 @use "./../../../styles/main";
 
 .introducing-members {
-    padding: 35vh 10vw 4vh 10vw;
-    background-color: main.$dark-grey;
+    @include main.background("./../../../assets/images/my-team-bg.svg");
+    padding: 20vh 10vw 4vh 10vw;
 
     h2 {
         margin: 1rem auto;
