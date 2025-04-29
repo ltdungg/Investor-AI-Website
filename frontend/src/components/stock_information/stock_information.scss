@@ -1,8 +1,10 @@
 @use "./../../styles/main";
 
-.chart {
-    margin-top: 5rem;
+.stock-information {
+  margin-top: 5rem;
+  .chart {
     width: 80%;
-    height: 70vh;
+    // height: 70vh;
     min-width: 800px;
+  }
 }

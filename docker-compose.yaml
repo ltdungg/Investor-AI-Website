@@ -31,6 +31,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${MODEL_DIR:-.}:/opt/airflow/plugins/ml_model
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -213,17 +214,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
-    command: ["npm", "run", "dev"]
     
   back-end:
     build:
       context: .
       dockerfile: Dockerfile.backend
+    volumes:
+      - ./backend:/app
     ports:
       - "8000:8000"
-    command: ["gradle", "bootRun"]
 
 volumes:
   postgres-db-volume:

@@ -30,7 +30,7 @@ api.interceptors.response.use(
       const responseData = error.response.data;
     //   const requiresAuth = error.config?.requiresAuth; // Lấy cờ tùy chỉnh
 
-      if (responseCode === 401 || responseCode == 403) {
+      if (responseCode === 401 || responseCode === 403) {
         console.log("Token hết hạn! Chuyển về trang login...");
         window.localStorage.removeItem(jwtTagStorage); // Xoá token
         window.location.href = loginUrl; // Điều hướng về trang đăng nhập
