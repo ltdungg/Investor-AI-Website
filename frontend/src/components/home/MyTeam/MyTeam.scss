@@ -1,8 +1,8 @@
 @use "./../../../styles/main";
 
 .introducing-members {
-    @include main.background("./../../../assets/images/background.png");
     padding: 35vh 10vw 4vh 10vw;
+    background-color: main.$dark-grey;
 
     h2 {
         margin: 1rem auto;
