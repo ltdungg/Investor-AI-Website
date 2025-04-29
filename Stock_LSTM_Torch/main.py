@@ -1,50 +1,85 @@
 import torch
+import numpy as np
+import os
 from data.build import process
+from src.model import PriceModel
+from src.optimizer import Optimizer
+from src.train import Trainer
+from src.plot import Plotter
 
-class Main:
-    def __init__(self, ticker, start_date, end_date):
-        self.ticker = ticker
-        self.start_date = start_date
-        self.end_date = end_date
-        self.processor = process(ticker)
+def main():
+    tickers = ["VCB", "CTG", "BID", "TCB", "MBB", "ACB"] #TCB
+    start_date = "2023-01-01"
+    end_date = "2025-03-01"
+ 
+    sequence_length = 3
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    def run(self):
-        print(f"Fetching {self.ticker} Stock Data from {self.start_date} to {self.end_date}")
-        df = self.processor.fetch_data(self.start_date, self.end_date)
+    all_dates, all_X, all_y = [], [], []
+
+    for ticker in tickers: 
+
+
+        processor = process(ticker)
+        df = processor.fetch_data(start_date, end_date)
+        df = processor.data_scaling(df, fit=not os.path.exists(processor.scaler_path))
 
         if df.empty:
-            print("No Data")
-            return
-        
-        print("Data fetched!")
-        print(df.head())
-
-        n = 3
-        valid_start = df.index[n]
+            print("No data")
+            continue
+    
+        valid_start = df.index[sequence_length]
         valid_end = df.index[-1]
         window_df = self.processor.df_to_windowed_df(df, valid_start, valid_end,n=n)
         
         if window_df.empty:
             print("Create window failed")
-            return
-        
-        dates, X, y = self.processor.window_df_to_date_X_y(window_df)
-        
-        print(dates.shape, X.shape, y.shape)
+            continue
+    
+        dates, X, y = processor.window_df_to_date_X_y(window_df)
 
-        data_splits = self.processor.split_data(dates, X, y)
-        if data_splits is None:
-            print("Failed to split")
-            return
-        print("Data split completed!")
-        print(f"Train size: {len(data_splits['train'][0])}")
-        print(f"Validation size: {len(data_splits['val'][0])}")
-        print(f"Test size: {len(data_splits['test'][0])}")
+        all_dates.extend(dates)
+        all_X.extend(X)
+        all_y.extend(y)
+    
+    if len(all_X) == 0:
+        print("No data available")
+        return
+
+    all_X = np.array(all_X).reshape(-1, sequence_length, 1)
+    all_y = np.array(all_y)
+
+    indices = np.random.permutation(len(all_X))
+    all_X = all_X[indices]
+    all_y = all_y[indices]
+
+    split_idx = int(len(all_X) * 0.8)
+    X_train, y_train = all_X[:split_idx], all_y[:split_idx]
+    X_test, y_test = all_X[split_idx:], all_y[split_idx:]
+
+    model = PriceModel(input_size=1)
+    optimizer_setup = Optimizer(model, X_train, y_train, batch_size=16, learning_rate=1e-3, device=device)
+
+
+    trainer = Trainer(
+        model=optimizer_setup.model,
+        optimizer=optimizer_setup.optimizer,
+        loss_fn=optimizer_setup.loss_fn,
+        loader=optimizer_setup.loader,
+        X_train_tensor=optimizer_setup.X_train_tensor,
+        y_train_tensor=optimizer_setup.y_train_tensor,
+        X_test=X_test,
+        y_test=y_test,
+        device=device,
+    )
+
+    trainer.train(n_epochs=8000, eval_every=100)
+    
+    os.makedirs('./saved_model', exist_ok=True)
+    torch.save(model.state_dict(), './saved_model/model.pth')
+
+    plotter = Plotter(model,optimizer_setup.X_train_tensor, y_train, trainer.X_test_tensor, y_test, device)
+    plotter.plot()
 
 if __name__ == "__main__":
-    ticker = "VCB"
-    start_date = "2024-01-01"
-    end_date = "2025-01-01"
-
-    main_program = Main(ticker, start_date, end_date)
-    main_program.run()
+    main()
