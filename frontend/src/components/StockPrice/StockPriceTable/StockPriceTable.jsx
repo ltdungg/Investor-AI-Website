@@ -7,7 +7,7 @@ function StockPriceTable({ children = "không có cổ phiếu nào" }) {
             <thead>
                 <tr>
                     <th>Mã cổ phiếu</th>
-                    <th>Vốn hóa</th>
+                    {/* <th>Vốn hóa</th> */}
                     <th>Giá hiện tại</th>
                     <th>Biến động giá</th>
                     <th>Sàn</th>

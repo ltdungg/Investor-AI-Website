@@ -12,8 +12,7 @@ import {
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
 import DateFormat from "../../../utils/DateFormat";
-import api from "../../../utils/api/Api";
-import { urlBackend } from "../../../utils/const/Global";
+import getStockPrice from "../../../utils/api/stock_api_utils/GetStockPrice";
 
 // Đăng ký các thành phần của Chart.js
 ChartJS.register(
@@ -32,7 +31,7 @@ const stock = {
   close: "close",
 };
 
-function StockPriceGraph() {
+function StockPriceGraph({ symbol }) {
   const period = {
     year: "year",
     month: "month",
@@ -62,22 +61,19 @@ function StockPriceGraph() {
   });
 
   useEffect(() => {
-    const url = window.location.pathname.split("/");
-    api
-      .get(urlBackend + "/stock-price/" + url[url.length - 1])
-      .then((response) => {
-        const responseData = response.data.map((i) => {
-          return {
-            ...i,
-            tradingDate: new Date(i[stock.tradingDate]),
-          };
-        });
-        // setStockPrice(responseData);
-        setCurr(period.year);
-        setDataYearly(() => aggregateByYear(responseData));
-        setDataMonthly(() => aggregateByMonth(responseData));
-        setDataDaily(() => getDailyData(responseData));
+    getStockPrice(symbol).then((response) => {
+      const responseData = response.data.map((i) => {
+        return {
+          ...i,
+          tradingDate: new Date(i[stock.tradingDate]),
+        };
       });
+      // setStockPrice(responseData);
+      setCurr(period.year);
+      setDataYearly(() => aggregateByYear(responseData));
+      setDataMonthly(() => aggregateByMonth(responseData));
+      setDataDaily(() => getDailyData(responseData));
+    });
     return () => {};
   }, []);
 
