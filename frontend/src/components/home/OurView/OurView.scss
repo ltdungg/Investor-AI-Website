@@ -8,8 +8,7 @@
     $radius: 1rem;
 
     .our-view__background {
-        @include main.background("./../../../assets/images/background.png");
-        filter: grayscale(80%) brightness(200%);
+        background-color: main.$dark-grey;
         position: absolute;
         top: 0;
         left: 0;

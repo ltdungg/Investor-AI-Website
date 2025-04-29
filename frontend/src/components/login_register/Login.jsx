@@ -57,9 +57,9 @@ function Login() {
                         onChange={(e) => setEmailOrPhone(e.target.value)}
                     />
                     <br />
-                    <label htmlFor="passworkd">Mật khẩu</label> <br />
+                    <label htmlFor="password">Mật khẩu</label> <br />
                     <input
-                        type="text"
+                        type="password"
                         id="password"
                         name="password"
                         value={password}
