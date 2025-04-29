@@ -1,22 +1,24 @@
 @use "./../../../styles/main";
 
 .introducing-members {
-    background-color: main.$gray-white-100;
-    padding: 2rem;
+    @include main.background("./../../../assets/images/background.png");
+    padding: 35vh 10vw 4vh 10vw;
 
     h2 {
         margin: 1rem auto;
         width: fit-content;
+        color: main.$white;
     }
 
     h1 {
         margin: 1rem auto;
         width: fit-content;
         font-size: 3rem;
+        color: main.$white;
     }
 
     .members {
-        @include main.flex(space-evenly, unset, 3rem 6rem);
+        @include main.flex(space-evenly, unset, 3rem 2rem);
         flex-wrap: wrap;
         width: 100%;
     }

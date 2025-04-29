@@ -1,5 +1,9 @@
 FROM gradle:8.11.1-jdk21-alpine
-COPY ./backend /app
+
 WORKDIR /app
 
+COPY ./backend ./
+
 EXPOSE 8000
+
+CMD ["gradle", "bootRun", "--args='--spring.profiles.active=production'"]

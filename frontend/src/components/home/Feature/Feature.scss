@@ -1,21 +1,24 @@
 @use "./../../../styles/main";
 
 .introducing-features {
-    @include main.background("./../../../assets/images/background.png");
+    background-color: main.$gray-white-100;
     position: relative;
     color: main.$white;
     padding: 2rem;
-    min-height: 100vh;
+    min-height: 60vh;
 
     h2 {
         margin: auto;
         width: fit-content;
+        color: main.$dark-blue-100;;
+        font-weight: normal;
     }
 
     h1 {
-        margin: 1rem auto;
+        margin: 2rem auto;
         width: fit-content;
-        font-size: 3rem;
+        font-size: 4rem;
+        color: main.$dark-blue-100;;
     }
 
     .features {
@@ -27,7 +30,7 @@
             @include main.flex(center, center, 1rem);
             width: 12rem;
             border-radius: 0.8rem;
-            background-color: main.$white;
+            background-color: #c7c7c7;
             text-decoration: none;
             font-size: 1.3rem;
             color: main.$black;
@@ -52,11 +55,11 @@
         position: absolute;
         bottom: -2rem;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translate(-50%, 50%);
         padding: 3rem 2rem;
         border-radius: 1.5rem;
         height: 55vh;
-        width: 60vw;
+        width: 55vw;
         min-width: 44rem;
         text-align: center;
         margin: auto;
