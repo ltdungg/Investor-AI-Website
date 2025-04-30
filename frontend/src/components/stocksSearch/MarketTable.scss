@@ -1,0 +1,21 @@
+@use "./../../styles/main";
+
+.market-table {
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 0.3rem 1rem;
+    border: 1px solid main.$black;
+    text-align: left;
+    max-width: 20rem;
+  }
+
+  .price-change {
+    font-weight: bold;
+  }
+
+  .company-name {
+    @extend .text-overflow;
+  }
+}
