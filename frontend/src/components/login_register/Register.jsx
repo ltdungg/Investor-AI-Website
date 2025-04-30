@@ -3,6 +3,7 @@ import LogoItem from "../LogoItem/LogoItem";
 import { useEffect, useRef, useState } from "react";
 import authenticationApi from "../../utils/api/AccountApi";
 import { registerValid } from "../../utils/validate/Validate";
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const nameRef = useRef();
@@ -11,10 +12,15 @@ function Register() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [repassword, setRepassword] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         nameRef.current.focus();
     }, []);
+
+    const loginClick = () => {
+        navigate('/login');
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,22 +42,8 @@ function Register() {
 
     return (
         <div className="register_container">
-            <div className="register_content">
-                <LogoItem className="register_logo" />
-                <h1>Đăng ký</h1>
-                <h1>Tài khoản mới</h1>
-                <p>
-                    Đã có tài khoản?
-                    <b className="register_button"> Đăng nhập ngay</b>
-                </p>
-                <div className="block tablet_change"></div>
-                <p className="">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry.
-                </p>
-                <button>Tìm hiểu ngay</button>
-            </div>
             <div className="register_page">
+                <h1>Đăng ký tài khoản</h1>
                 <form onSubmit={handleSubmit} className="form_container">
                     <label htmlFor="name">Họ và tên</label>
                     <br />
@@ -108,9 +100,14 @@ function Register() {
                             />
                         </div>
                     </div>
-                    <p>Quên mật khẩu?</p>
-                    <button className="register_button">Đăng nhập</button>
+                    <button className="register_button">Đăng ký</button>
                 </form>
+                <p>
+                    Đã có tài khoản?
+                    <b className="login_button" onClick={loginClick}> Đăng nhập ngay</b>
+                </p>
+            </div>
+            <div className="register_content">
             </div>
         </div>
     );
