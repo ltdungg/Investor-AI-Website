@@ -1,134 +1,86 @@
 @use "./../../../styles/main";
 
 .search-container {
-    width: 35rem;
-    color: main.$black;
-    padding: 1rem 1.5rem 0 1.5rem;
-    right: 10rem;
-    
-    
+  width: 35rem;
+  color: main.$black;
+  padding: 1rem 1.5rem;
+  right: 10rem;
 
-    .search-bar {
-        @include main.flex (unset, center, 1rem);
+  .search-bar {
+    @include main.flex(unset, center, 1rem);
 
-        .exit-search {
-            display: none;
-        }
+    .exit-search {
+      display: none;
     }
+  }
 
-    .search-box {
-        @include main.flex(space-evenly, center, 0);
-        margin: 0 auto 0 auto;
-        height: 2rem;
-        width: 95%;
-        font-size: 1.3rem;
-        padding: 0.2rem;
-        border-radius: 10rem;
-        border: 1.5px solid main.$black;
-    }
+  .search-box {
+    @include main.flex(space-evenly, center, 0);
+    margin: 0 auto 0 auto;
+    height: 2rem;
+    width: 95%;
+    font-size: 1.3rem;
+    padding: 0.2rem;
+    border-radius: 10rem;
+    border: 1.5px solid main.$black;
+  }
 
-    #search {
-        background-color: transparent;
+  #search {
+    background-color: transparent;
+    width: 80%;
+    border: none !important;
+    outline: none !important;
+  }
+
+  .search__suggest-stocks-container {
+    max-height: 500px;
+    overflow: auto;
+    margin-top: 1rem;
+
+    .search-item {
+      @include main.flex(space-between, center, 1rem);
+      padding: 0.2rem 1rem;
+      border-radius: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: main.$super-light-blue;
+      }
+
+      .company-name {
+        @extend .text-overflow;
         width: 80%;
-        border: none !important;
-        outline: none !important;
+      }
     }
-
-    .search__category-item {
-        @include main.btn(0.2rem 0.5rem, main.$white, 1px solid main.$black, 1rem);
-        margin: 1rem 0.3rem;
-        width: 5rem;
-        cursor: pointer;
-    }
-
-    .search__suggest-title {
-        @include main.flex(flex-start, center, 0.5rem);
-        margin: 0 0 0 0.5rem;
-        font-size: 1rem;
-
-        .title-icon {
-            color: red;
-        }
-    }
-
-    .search__stocks-trending,
-    .search__searched-stocks {
-        padding: 1rem;
-    }
-
-    .search__trend,
-    .search__searched {
-        padding-left: 0.5rem;
-    }
-
-    .search__trend {
-        border-right: 1px solid main.$black;
-    }
-
-    .search__suggest-stocks-container {
-        display: flex;
-
-        & > div {
-            width: 50%;
-        }
-
-        .search__suggest-stock-item {
-            @include main.flex(flex-start, center, 1rem);
-            @include main.padding-x (0.5rem);
-            font-size: 1rem;
-            color: main.$black;
-            border-radius: 0.5rem;
-
-            h6 {
-                color: main.$blue;
-                font-size: 1em;
-                margin: 0;
-            }
-
-            p {
-                @extend .text-overflow;
-                font-size: 0.6em;
-            }
-
-            &:hover {
-                background-color: main.$sea-blue;
-            }
-        }
-    }
-
-    .search__category-item-current {
-        background-color: main.$blue;
-        color: main.$white;
-        border: none;
-    }
+  }
 }
 
 @media (max-width: main.$md) {
-    .search-container {
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-        transform: none;
+  .search-container-navbar {
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    transform: none;
 
-        .exit-search {
-            display: block !important;
-            cursor: pointer;
-        }
+    .exit-search {
+      display: block !important;
+      cursor: pointer;
     }
+  }
 }
 
 @media (max-width: main.$sm) {
-    .search__suggest-stocks-container {
-        flex-direction: column;
+  .search__suggest-stocks-container {
+    flex-direction: column;
 
-        & > div {
-            width: 100% !important;
-        }
-
-        .search__trend {
-            border-right: none;
-        }
+    & > div {
+      width: 100% !important;
     }
+
+    .search__trend {
+      border-right: none;
+    }
+  }
 }

@@ -28,6 +28,7 @@ function SearchBar() {
           onClick={() => {
             handleClick(symbol);
           }}
+          title={companyName}
         >
           <span className="symbol">{symbol}</span>
           <span className="company-name">{companyName}</span>
@@ -44,7 +45,7 @@ function SearchBar() {
   }, [keyword]);
 
   return (
-    <div className="search-container">
+    <div className="search-container-stock">
       <div className="Search_Bar">
         <IoIosSearch className="search_icon" />
         <input
