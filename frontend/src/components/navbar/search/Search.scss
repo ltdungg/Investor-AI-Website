@@ -47,6 +47,10 @@
         background-color: main.$super-light-blue;
       }
 
+      .symbol {
+        font-weight: bold;
+      }
+
       .company-name {
         @extend .text-overflow;
         width: 80%;
