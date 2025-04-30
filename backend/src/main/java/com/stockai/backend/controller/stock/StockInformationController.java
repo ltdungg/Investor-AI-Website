@@ -9,10 +9,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @AllArgsConstructor
@@ -41,8 +40,11 @@ public class StockInformationController {
         return ResponseEntity.ok(stockInformationService.getAllStock());
     }
 
-    @GetMapping("/find-stock/{symbol}")
-    public ResponseEntity<?> findStockInformationBySymbol(@PathVariable("symbol") String symbol) {
+    @GetMapping("/find-stock")
+    public ResponseEntity<?> findStockInformationBySymbol(@RequestParam(value = "symbol", required = false) String symbol) {
+        if (symbol == null || symbol.trim().isEmpty()) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
         return ResponseEntity.ok(stockInformationService.findStocks(symbol));
     }
 }
