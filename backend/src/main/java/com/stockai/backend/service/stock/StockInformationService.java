@@ -22,6 +22,7 @@ import java.util.List;
 public class StockInformationService {
     StockMapper stockMapper;
     StockInformationRepository stockInformationRepository;
+    final int delay_time = -5;
 
     public StockInformationResponse getStockInformation(String symbol) {
         symbol = symbol.toUpperCase();
@@ -41,7 +42,7 @@ public class StockInformationService {
 
     public List<?> getAllStock() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -4);
+        calendar.add(Calendar.DATE, delay_time);
 
         return stockInformationRepository.findAllStockInformation(calendar.getTime());
     }
