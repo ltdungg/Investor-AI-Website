@@ -2,8 +2,14 @@ import { memo } from "react";
 import "./Introduce.scss";
 import image1 from './images/image1.png'
 import image2 from './images/image2.png'
+import { useNavigate } from 'react-router-dom';
+
 
 function Introduce() {
+    const navigate = useNavigate();
+    const registerClick = () => {
+        navigate('/register');
+    };
     return (
         <div className="contact-introduce">
             <div className="introduce-side">
@@ -13,7 +19,7 @@ function Introduce() {
                     thiểu rủi ro. Với công cụ của chúng tôi, bạn sẽ có cái nhìn
                     tổng quan về thị trường và nắm bắt cơ hội đầu tư hiệu quả.
                 </p>
-                <button>Bắt đầu</button>
+                <button onClick={registerClick}>Bắt đầu</button>
             </div>
             <div className="img-side">
                 <img className="img1" src={image1} alt="ảnh giới thiệu" />

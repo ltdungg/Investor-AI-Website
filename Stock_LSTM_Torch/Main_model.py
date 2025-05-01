@@ -29,9 +29,8 @@ def main(dataframe):
     
         valid_start = df.index[sequence_length]
         valid_end = df.index[-1]
-    
-    
-        window_df = processor.df_to_windowed_df(df, valid_start, valid_end, n=sequence_length)
+        window_df = self.processor.df_to_windowed_df(df, valid_start, valid_end,n=n)
+        
         if window_df.empty:
             print("Create window failed")
             continue

@@ -1,0 +1,99 @@
+@use "./../../styles/main";
+
+$width: 500px;
+
+.search-container-stock {
+  width: $width;
+//   padding: 0;
+}
+
+.Search_Bar {
+  display: flex;
+  border: 2px solid #5e5e5e;
+  border-radius: 20px;
+  width: 100%;
+  height: 40px !important;
+  justify-content: space-between;
+  height: 100px;
+  align-items: center;
+}
+
+.Search_Bar input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #f5f6f8;
+  outline: none;
+}
+.Search_Bar .search_icon {
+  font-size: 25px;
+  margin: 10px;
+}
+
+.Search_Bar .mic_icon {
+  font-size: 25px;
+  margin: 10px;
+}
+
+.search-result-container {
+  width: $width;
+  position: absolute;
+  margin-top: 0.5rem;
+  max-height: 20rem;
+  overflow: auto;
+  background-color: main.$gray-white-100;
+  box-shadow: 0px 0px 3px main.$black;
+  border-radius: 1rem;
+  // border: 1px solid main.$black;
+
+  .search-item {
+    @include main.flex(space-between, center, 2rem);
+    cursor: pointer;
+
+    padding: 0.3rem 1rem;
+    // border: 1px solid main.$black;
+    width: 100%;
+
+    &:hover {
+      background-color: main.$super-light-blue;
+    }
+
+    .symbol {
+        font-weight: bold;
+    }
+
+    .company-name {
+      @extend .text-overflow;
+      width: 80%;
+      text-align: start;
+    }
+  }
+}
+
+@media (min-width: 740px) and (max-width: 1024px) {
+}
+
+@media (max-width: 739px) {
+  .Search_Bar {
+    width: 300px;
+  }
+}
+
+/* Áp dụng cho toàn bộ trang */
+::-webkit-scrollbar {
+  width: 12px; /* Độ rộng thanh cuộn dọc */
+  height: 12px; /* Độ cao thanh cuộn ngang */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền track (phần cuộn) */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Màu thanh cuộn chính */
+  border-radius: 6px; /* Bo tròn */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Màu khi hover */
+}

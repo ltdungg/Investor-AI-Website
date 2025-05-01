@@ -204,3 +204,10 @@ CREATE TABLE stock.finance_income_statement (
 	"operation_income" REAL,
     PRIMARY KEY ("symbol", "quarter", "year")
 );
+
+CREATE TABLE stock.predicted_stock (
+    "symbol" TEXT,
+    "date" DATE NOT NULL,
+    "price" FLOAT NOT NULL,
+    PRIMARY KEY ("symbol")
+)

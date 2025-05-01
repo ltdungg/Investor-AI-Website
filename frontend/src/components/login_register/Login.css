@@ -11,10 +11,11 @@
 }
 
 .login_content{
-    background: linear-gradient(#080821, #2928A1);
+    background-image: url("./test.png");
+    background-size: cover;
     color: #fff;
     padding: 50px;
-    flex: 1;
+    flex: 2;
 }
 
 .login_content .register_button{
@@ -35,31 +36,13 @@
     font-weight: 500;
 }
 
-.login_content h1{
+.login_page h1{
     font-weight: 350;
-    font-size: 75px;
+    font-size: 40px;
     margin: 20px 0px;
 }
 
-.login_content .block{
-    margin-top: 100px;
-    margin-bottom: 70px;
-    width: 70px;
-    height: 10px;
-    border-radius: 10px;
-    background-color: #F7F7F7;
-}
 
-.login_content button{
-    color: #0086FF;
-    font-weight: bold;
-    border-radius: 30px;
-    width: 200px;
-    height: 35px;
-    border: 1px solid black;
-    font-size: 20px;
-    cursor: pointer;
-}
 .login_page{
     flex: 2;
     flex-direction: column;
@@ -112,6 +95,21 @@
 .ContactButton{
     display: flex;
     float: right;
+}
+
+.register {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.register .register-text{
+    color: black;
+    font-weight: normal;
+    font-size: 20px;
+    text-align: right;
+    margin: 10px 0px;
+    cursor: pointer;
 }
 
 @media  (min-width: 740px) {
