@@ -1,3 +1,4 @@
+// stock_information.jsx (Modified Example)
 import { useEffect, useRef, useState } from "react";
 import StockPriceGraph from "./RenderDatas/RenderStockPriceGraph";
 import getStockInformation from "../../utils/api/stock_api_utils/GetStockInformation.js";
@@ -15,16 +16,29 @@ function StockInfor() {
         setStockInformation(response.data)
       );
     }
-  }, []);
-
+  }, [symbol]);
   console.log(symbol, stockInformation);
 
   return (
     <div className="stock-infomation">
       <div className="chart">
         {symbol && <StockPriceGraph symbol={symbol} />}
-        {stockInformation && Object.values(stockInformation).map(i => <div>{i}</div>)}
       </div>
+
+      {}
+      {stockInformation && (
+        <div className="stock-details">
+          <div className="stock-symbol">{stockInformation.symbol || symbol}</div>
+
+          <div className="stock-name">{stockInformation.companyName}</div>
+
+          <div className="stock-exchange">Exchange: {stockInformation.exchange}</div>
+
+          <div className="stock-description">Industry: {stockInformation.description}</div>
+
+          {/* <p className="stock-description">{stockInformation.historyDev}</p> */}
+        </div>
+      )}
     </div>
   );
 }
