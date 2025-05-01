@@ -6,7 +6,6 @@ import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 def predict_future(ticker, n_days_future=7, sequence_length=3, model_path="./saved_model/model.pth"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

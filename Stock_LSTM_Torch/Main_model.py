@@ -1,13 +1,15 @@
 import torch
 import numpy as np
+import os
 import pandas as pd
 from data.process import process
 from src.model import PriceModel
 from src.optimizer import Optimizer
 from src.train import Trainer
-
+from src.plot import Plotter
 
 def main(dataframe):
+ 
     sequence_length = 3
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -24,21 +26,22 @@ def main(dataframe):
         if df.empty:
             print(f"No data for ticker {ticker}")
             continue
-
+    
         valid_start = df.index[sequence_length]
         valid_end = df.index[-1]
-
+    
+    
         window_df = processor.df_to_windowed_df(df, valid_start, valid_end, n=sequence_length)
         if window_df.empty:
             print("Create window failed")
             continue
-
+    
         dates, X, y = processor.window_df_to_date_X_y(window_df)
 
         all_dates.extend(dates)
         all_X.extend(X)
         all_y.extend(y)
-
+    
     if len(all_X) == 0:
         print("No data available")
         return
@@ -57,6 +60,7 @@ def main(dataframe):
     model = PriceModel(input_size=1)
     optimizer_setup = Optimizer(model, X_train, y_train, batch_size=16, learning_rate=1e-3, device=device)
 
+
     trainer = Trainer(
         model=optimizer_setup.model,
         optimizer=optimizer_setup.optimizer,
@@ -70,16 +74,12 @@ def main(dataframe):
     )
 
     trainer.train(n_epochs=8000, eval_every=100)
-
+    
     os.makedirs('./saved_model', exist_ok=True)
     torch.save(model.state_dict(), './saved_model/model.pth')
 
-
 if __name__ == "__main__":
-    data = {
-        'ticker': ['VCB', 'VCB', 'CTG', 'CTG'],
-        'date': ['2023-01-01', '2023-01-02', '2023-01-01', '2023-01-02'],
-        'close': [100.0, 101.0, 50.0, 51.0]
-    }
-    df = pd.DataFrame(data)
+    df = pd.read_csv("CTG_2024_2025.csv")
+    df['ticker'] = 'CTG'
+    df = pd.DataFrame(df)
     main(df)
