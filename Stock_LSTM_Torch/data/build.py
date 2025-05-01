@@ -2,7 +2,7 @@ import datetime
 import pandas as pd
 import os
 import joblib
-from data.dataloader import stock_data_fetcher
+from dataloader import stock_data_fetcher
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 

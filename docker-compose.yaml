@@ -31,7 +31,9 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
-    - ${MODEL_DIR:-.}:/opt/airflow/plugins/ml_model
+    - ${MODEL_DIR:-.}/src:/opt/airflow/plugins/ml_model/src
+    - ${MODEL_DIR:-.}/data:/opt/airflow/plugins/ml_model/data
+    - ${MODEL_DIR:-.}/__init__.py:/opt/airflow/plugins/ml_model/__init__.py
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -210,6 +212,12 @@ services:
       - -c
       - airflow
 
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
   front-end:
     build:
       context: .
@@ -219,6 +227,8 @@ services:
       - /app/node_modules
     ports:
       - "3000:3000"
+    depends_on:
+      - redis
     
   back-end:
     build:
@@ -228,6 +238,10 @@ services:
       - ./backend:/app
     ports:
       - "8000:8000"
+    depends_on:
+      - redis
+
+
 
 volumes:
   postgres-db-volume:
