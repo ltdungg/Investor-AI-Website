@@ -78,7 +78,7 @@ function Navbar() {
             }
             // const response = api.get("/user/1").then(()=>{setIsLoggedIn(true)}).catch(()=>{setIsLoggedIn(false)})
             axios
-                .get(`${urlBackend}/user/1`, {
+                .get(`${urlBackend}/user`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
