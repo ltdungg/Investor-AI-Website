@@ -2,18 +2,24 @@ package com.stockai.backend.repository.stock;
 
 import com.stockai.backend.dto.response.SimpleStockInformationDTO;
 import com.stockai.backend.entity.stock.StockInformation;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface StockInformationRepository extends CrudRepository<StockInformation, Integer> {
+public interface StockInformationRepository extends JpaRepository<StockInformation, Integer> {
     //    @EntityGraph(attributePaths = {"icb1", "icb2", "icb3", "icb4"})
-    Optional<StockInformation> findBySymbol(String symbol);
-    List<StockInformation> findBySymbolIn(List<String> symbols);
+    @Query("SELECT s FROM StockInformation s WHERE s.symbol = :symbol AND s.companyName IS NOT NULL")
+    Optional<StockInformation> findBySymbol(@Param("symbol") String symbol);
+
+    @Query("SELECT s FROM StockInformation s WHERE s.symbol IN :symbols AND s.companyName IS NOT NULL")
+    List<StockInformation> findBySymbolIn(@Param("symbols") List<String> symbols);
+
+    @Query("SELECT s FROM StockInformation s WHERE LOWER(s.symbol) LIKE LOWER(CONCAT('%', :symbol, '%')) AND s.companyName IS NOT NULL")
+    List<StockInformation> findBySymbolIsContainingIgnoreCase(@Param("symbol") String symbol);
 
     @Query(value = """
             select new com.stockai.backend.dto.response.SimpleStockInformationDTO
@@ -32,6 +38,7 @@ public interface StockInformationRepository extends CrudRepository<StockInformat
                 and extract(year from sp2.id.tradingDate) = extract(year from sp1.id.tradingDate)
                 and extract(month from sp2.id.tradingDate) = extract(month from sp1.id.tradingDate)
                 and extract(day from sp2.id.tradingDate) = extract(day from sp1.id.tradingDate) - 1
+                where s.companyName is not null
             """)
     List<SimpleStockInformationDTO> findAllStockInformation(@Param("date") Date date);
 }

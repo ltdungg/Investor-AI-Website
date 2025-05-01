@@ -20,13 +20,16 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private UserService userService;
 
-    @GetMapping("/{id}")
+    @GetMapping("")
     @Operation(summary = "lấy thông tin tài khoản người dùng", description = "lấy thông tin tài khoản người dùng")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "trả về thông tin tài khoản"),
             @ApiResponse(responseCode = "400", description = "không tìm được tài khoản người dùng")
     })
-    public ResponseEntity<?> getUser(@PathVariable Integer id) {
+    public ResponseEntity<?> getUser(@RequestParam(required = false) Integer id) {
+        if (id == null) {
+            return ResponseEntity.ok(userService.getCurrentUser());
+        }
         UserResponse user = userService.getUser(id);
         return ResponseEntity.ok(user);
     }

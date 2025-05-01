@@ -8,9 +8,12 @@ import com.stockai.backend.exception.AppException;
 import com.stockai.backend.exception.ErrorCode;
 import com.stockai.backend.mapper.UserMapper;
 import com.stockai.backend.repository.UserRepository;
+import com.stockai.backend.utils.AuthenticationUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +24,19 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    AuthenticationUtils authenticationUtils;
 
     public UserResponse getUser(Integer id) {
         User user = userRepository.findByUserId(id);
+        if (user == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_USER);
+        }
+        return userMapper.userToUserResponse(user);
+    }
+
+    public UserResponse getCurrentUser() {
+        Integer userId = authenticationUtils.getPrincipal();
+        User user = userRepository.findByUserId(userId);
         if (user == null) {
             throw new AppException(ErrorCode.NOT_FOUND_USER);
         }
