@@ -90,5 +90,29 @@ python3 main_model.py
 ```
 ---
 
-Liên hệ: [YourName or GitHub link here]
+## 📥 Cách sử dụng `predict_future()`
 
+```python
+from predict import predict_future
+
+df_result = predict_future(
+    ticker="CTG",                 # Mã cổ phiếu
+    n_days_future=7,              # Số ngày muốn dự báo
+    sequence_length=3,           # Độ dài chuỗi lịch sử dùng làm đầu vào
+    model_path="./saved_model/model.pth"   # Đường dẫn mô hình đã huấn luyện
+)
+
+print(df_result)
+```
+
+### 📤 Kết quả
+
+Hàm sẽ trả về một `DataFrame` có dạng:
+
+| date       | predicted_price |
+|------------|-----------------|
+| 2025-04-01 | 26.45           |
+| 2025-04-02 | 26.73           |
+| ...        | ...             |
+
+---
