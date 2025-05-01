@@ -4,6 +4,9 @@ import NumberFormat from "../../utils/NumberFormat";
 function MarketStocks({ stocks = [], title = "" }) {
   function renderTableData() {
     return stocks.map((stock) => {
+      if (!stock) {
+        return;
+      }
       const {
         symbol: symbol,
         close: close,

@@ -58,8 +58,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (NullPointerException e) {
             log.error("Null pointer exception");
+            log.error(e.getMessage());
         } catch (Exception e) {
             log.error("failed on set user authentication");
+            log.error(e.getMessage());
         }
 
         filterChain.doFilter(request, response);
