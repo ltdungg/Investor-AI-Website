@@ -79,10 +79,7 @@ def main(dataframe):
     torch.save(model.state_dict(), './saved_model/model.pth')
 
 if __name__ == "__main__":
-    data = {
-        'ticker': ['VCB', 'VCB', 'CTG', 'CTG'],
-        'date': ['2023-01-01', '2023-01-02', '2023-01-01', '2023-01-02'],
-        'close': [100.0, 101.0, 50.0, 51.0]
-    }
-    df = pd.DataFrame(data)
+    df = pd.read_csv("CTG_2024_2025.csv")
+    df['ticker'] = 'CTG'
+    df = pd.DataFrame(df)
     main(df)
