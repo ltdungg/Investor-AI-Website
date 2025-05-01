@@ -2,15 +2,23 @@ from airflow.decorators import dag, task
 from pyspark.sql import SparkSession
 import pandas as pd
 import threading
-from vnstock3 import Vnstock
+from ml_models.train import train_model
 
 BUCKET = 'investor-ai-bucket'
 
 def read_history_price_from_minio(spark, symbol):
     spark_df = spark.read.format("parquet").load(f"s3a://{BUCKET}/RAW_STOCK_DATA/symbol={symbol}")
     df = spark_df.toPandas()
-
+    df['ticker'] = symbol
+    df = df[['ticker', 'trading_date', 'close']]
+    df = df.sort_values(by='trading_date', ascending=True)
+    print(df)
     return df
+
+def train_model_1(spark, symbol):
+    df = read_history_price_from_minio(spark, symbol)
+
+    train_model(df)
 
 
 @dag(
@@ -39,16 +47,8 @@ def train_model_daily():
 
     @task
     def read_history_price():
-        symbol_list = ['FPT', 'HPG', 'ACB']
 
-        for i in range(3):
-            t = threading.Thread(target=read_history_price_from_minio,
-                                 args=(spark, symbol_list[i]))
-            t.start()
-            df = t.join()
-            print(type(df))
-            print(df)
-            print(f'spark task {i} has started')
+        train_model_1(spark, 'FPT')
 
 
     read_history_price()

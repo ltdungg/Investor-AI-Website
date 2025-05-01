@@ -1,3 +1,8 @@
+import os
+import sys
+
+sys.path.append("/opt/airflow/Stock_LSTM_Torch")
+
 import torch
 import numpy as np
 import pandas as pd
@@ -7,7 +12,7 @@ from src.optimizer import Optimizer
 from src.train import Trainer
 
 
-def main(dataframe):
+def train_model(dataframe):
     sequence_length = 3
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
