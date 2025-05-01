@@ -8,11 +8,8 @@ BUCKET = 'investor-ai-bucket'
 
 def read_history_price_from_minio(spark, symbol):
     spark_df = spark.read.format("parquet").load(f"s3a://{BUCKET}/RAW_STOCK_DATA/symbol={symbol}")
-    print(spark_df)
     df = spark_df.toPandas()
-    print(df)
 
-    df.to_csv('/tmp/out.csv', index=False)
     return df
 
 
