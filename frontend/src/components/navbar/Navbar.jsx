@@ -31,6 +31,35 @@ function Navbar() {
         window.localStorage.removeItem(jwtTagStorage);
         window.location.reload();
     };
+    // const handleLogout = async () => {
+    //     const token = window.localStorage.getItem(jwtTagStorage);
+    //     if (!token) {
+    //         console.error("Không tìm thấy token, không thể đăng xuất.");
+    //         return;
+    //     }
+    
+    //     try {
+    //         // Gọi API để đăng xuất
+    //         await axios.post(
+    //             `${urlBackend}/auth/logout`,
+    //             {}, // Body rỗng
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                     "Content-Type": "application/json",
+    //                 },
+    //             }
+    //         );
+    
+    //         // Xóa token khỏi localStorage sau khi đăng xuất thành công
+    //         window.localStorage.removeItem(jwtTagStorage);
+    
+    //         // Reload lại trang hoặc điều hướng về trang đăng nhập
+    //         window.location.reload();
+    //     } catch (error) {
+    //         console.error("Lỗi khi đăng xuất:", error);
+    //     }
+    // };
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
