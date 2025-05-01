@@ -7,7 +7,10 @@ import LogoItem from "../LogoItem/LogoItem";
 import Tool from "./tool/Tool";
 import Search from "./search/Search";
 import "./Navbar.scss";
-
+import api from "../../utils/api/Api";
+import userImage from "../../assets/images/user.jpg";
+import { jwtTagStorage, urlBackend } from "../../utils/const/Global";
+import axios from "axios";
 
 function Navbar() {
     const breakPoint = 768;
@@ -18,10 +21,77 @@ function Navbar() {
     const [isLargeScreen, setIsLargeScreen] = useState(
         window.innerWidth > breakPoint
     );
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+    const handleUserMenuToggle = () => {
+        setIsUserMenuOpen(!isUserMenuOpen);
+    };
+
+    const handleLogout = () => {
+        window.localStorage.removeItem(jwtTagStorage);
+        window.location.reload();
+    };
+    // const handleLogout = async () => {
+    //     const token = window.localStorage.getItem(jwtTagStorage);
+    //     if (!token) {
+    //         console.error("Không tìm thấy token, không thể đăng xuất.");
+    //         return;
+    //     }
+    
+    //     try {
+    //         // Gọi API để đăng xuất
+    //         await axios.post(
+    //             `${urlBackend}/auth/logout`,
+    //             {}, // Body rỗng
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                     "Content-Type": "application/json",
+    //                 },
+    //             }
+    //         );
+    
+    //         // Xóa token khỏi localStorage sau khi đăng xuất thành công
+    //         window.localStorage.removeItem(jwtTagStorage);
+    
+    //         // Reload lại trang hoặc điều hướng về trang đăng nhập
+    //         window.location.reload();
+    //     } catch (error) {
+    //         console.error("Lỗi khi đăng xuất:", error);
+    //     }
+    // };
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const [userName, setUserName] = useState("");
 
     function handleSearch() {
         setSearch(!isSearch);
     }
+
+    useEffect(() => {
+        function checkLoginStatus() {
+            const token = window.localStorage.getItem(jwtTagStorage);
+            if (!token) {
+                setIsLoggedIn(false);
+                return;
+            }
+            // const response = api.get("/user/1").then(()=>{setIsLoggedIn(true)}).catch(()=>{setIsLoggedIn(false)})
+            axios
+                .get(`${urlBackend}/user`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => {
+                    setIsLoggedIn(true);
+                    setUserName(response.data.name);
+                })
+                .catch(() => setIsLoggedIn(false));
+        }
+        checkLoginStatus();
+    }, []);
 
     useEffect(() => {
         function handleResize() {
@@ -61,10 +131,12 @@ function Navbar() {
                     <div
                         className="nav__item nav__tool"
                         onMouseEnter={() => {
-                            if (window.innerWidth >= breakPoint) setToolOpen(true);
+                            if (window.innerWidth >= breakPoint)
+                                setToolOpen(true);
                         }}
                         onMouseLeave={() => {
-                            if (window.innerWidth >= breakPoint) setToolOpen(false);
+                            if (window.innerWidth >= breakPoint)
+                                setToolOpen(false);
                         }}
                         onClick={() => setToolOpen(!isToolOpen)}
                     >
@@ -84,12 +156,41 @@ function Navbar() {
                             className="search-icon"
                         />
                     </div>
-                    <div className="nav__item sign-in nav__sign-btn">
-                        <Link to="/login">Đăng nhập</Link>
-                    </div>
-                    <div className="nav__item register nav__sign-btn">
-                        <Link to="/register">Đăng ký</Link>
-                    </div>
+                    {isLoggedIn ? (
+                        <div className="nav__item nav__user">
+                            <img
+                                src={userImage}
+                                alt="User"
+                                className="nav__user-image"
+                                onClick={handleUserMenuToggle}
+                            />
+                            {isUserMenuOpen && (
+                                <div className="user-menu">
+                                    <div className="user-menu__item">
+                                        {userName || "Tên người dùng"}
+                                    </div>
+                                    <div className="user-menu__item">
+                                        Cổ phiếu yêu thích
+                                    </div>
+                                    <div
+                                        className="user-menu__item user-menu__logout"
+                                        onClick={handleLogout}
+                                    >
+                                        Đăng xuất
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <>
+                            <div className="nav__item sign-in nav__sign-btn">
+                                <Link to="/login">Đăng nhập</Link>
+                            </div>
+                            <div className="nav__item register nav__sign-btn">
+                                <Link to="/register">Đăng ký</Link>
+                            </div>
+                        </>
+                    )}
                 </div>
             )}
             <Search
