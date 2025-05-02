@@ -8,10 +8,38 @@ from src.optimizer import Optimizer
 from src.train import Trainer
 from src.plot import Plotter
 
+BUCKET = 'investor-ai-bucket'
+MINIO_ENDPOINT = "http://minio:9000"
+MINIO_ACCESS_KEY = "TktAgssvy0kF6xoz3zE5"
+MINIO_SECRET_KEY = "yO6dE1PLYtNRvyhEwGYOSxXrfMxTHO3XNdNF7OZl"
+
+def get_data(symbol):
+    storage_options = {
+        "key": MINIO_ACCESS_KEY,
+        'secret': MINIO_SECRET_KEY,
+        "client_kwargs": {
+            "endpoint_url": f"{MINIO_ENDPOINT}"
+        }
+    }
+    df = pd.read_parquet(f"s3a://{BUCKET}/RAW_STOCK_DATA/symbol={symbol}",
+                         engine='fastparquet',
+                         storage_options=storage_options)
+
+    df['ticker'] = symbol
+    df = df[['ticker', 'trading_date', 'close']]
+    df = df.sort_values(by='trading_date', ascending=True)
+    df.rename(columns={'trading_date': 'time'}, inplace=True)
+    df['time'] = pd.to_datetime(df['time'])
+    time_filtered = df[df['time'].dt.year >= df['time'].dt.year.max() - 2]
+    print(time_filtered)
+
+    return time_filtered
+
 def main(dataframe):
  
     sequence_length = 3
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
 
     all_dates, all_X, all_y = [], [], []
 
@@ -79,7 +107,8 @@ def main(dataframe):
     torch.save(model.state_dict(), './saved_model/model.pth')
 
 if __name__ == "__main__":
-    df = pd.read_csv("CTG_2024_2025.csv")
-    df['ticker'] = 'CTG'
-    df = pd.DataFrame(df)
-    main(df)
+    symbol = 'FPT'
+    df = get_data(symbol)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
+    # main(df)
