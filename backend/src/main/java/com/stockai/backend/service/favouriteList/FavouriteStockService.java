@@ -2,30 +2,31 @@ package com.stockai.backend.service.favouriteList;
 
 import com.stockai.backend.dto.request.AddStockToFavouriteListRequest;
 import com.stockai.backend.dto.request.DeleteStocksFromFavouriteListRequest;
+import com.stockai.backend.dto.response.StockInformationInFavorite;
 import com.stockai.backend.entity.stock.FavouriteStockList;
 import com.stockai.backend.entity.stock.StockInformation;
 import com.stockai.backend.repository.favouriteList.FavouriteStockListRepository;
 import com.stockai.backend.repository.stock.StockInformationRepository;
 import com.stockai.backend.utils.FavouriteStockListUtils;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FavouriteStockService {
-    FavouriteStockListRepository favouriteStockListRepository;
-    FavouriteStockListUtils favouriteStockListUtils;
-    StockInformationRepository stockInformationRepository;
+    final FavouriteStockListRepository favouriteStockListRepository;
+    final FavouriteStockListUtils favouriteStockListUtils;
+    final StockInformationRepository stockInformationRepository;
+    @Value("${time.delay}")
+    int delayTime;
 
     public void addStocksToList(AddStockToFavouriteListRequest request) {
         FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(request.getListId());
@@ -51,5 +52,15 @@ public class FavouriteStockService {
 
         favouriteStockList.setSymbols(list);
         favouriteStockListRepository.save(favouriteStockList);
+    }
+
+    public List<StockInformationInFavorite> findStocksInFavorite(Long listId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, delayTime);
+
+        FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(listId);
+        favouriteStockListUtils.accessAbleChecker(favouriteStockList);
+
+        return favouriteStockListRepository.findAllStockInformationIn(calendar.getTime(), favouriteStockList.getSymbols());
     }
 }

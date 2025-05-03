@@ -13,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -40,5 +42,10 @@ public class FavouriteStockController {
     public ResponseEntity<?> deleteStockFromList(@RequestBody DeleteStocksFromFavouriteListRequest request) {
         favouriteStockService.deleteStocksFromList(request);
         return ResponseEntity.ok("delete stocks from list successfully");
+    }
+
+    @GetMapping("/{listId}")
+    public ResponseEntity<?> favoriteStockInfo(@PathVariable Long listId) {
+        return ResponseEntity.ok(favouriteStockService.findStocksInFavorite(listId));
     }
 }

@@ -9,7 +9,9 @@ import com.stockai.backend.mapper.StockMapper;
 import com.stockai.backend.repository.stock.StockInformationRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,12 +19,13 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StockInformationService {
-    StockMapper stockMapper;
-    StockInformationRepository stockInformationRepository;
-    final int delay_time = -5;
+    final StockMapper stockMapper;
+    final StockInformationRepository stockInformationRepository;
+    @Value("${time.delay}")
+    int delay_time;
 
     public StockInformationResponse getStockInformation(String symbol) {
         symbol = symbol.toUpperCase();

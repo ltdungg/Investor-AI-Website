@@ -11,3 +11,5 @@ jwt:
   signedKey: "09755ffcabb494a975f7fd836e450aae050df291281a703c"
   blacklist-prefix: "BLACKLIST_PREFIX_"
   expiration: 86400000
+time:
+  delay: -8
