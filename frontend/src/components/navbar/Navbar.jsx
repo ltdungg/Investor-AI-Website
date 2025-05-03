@@ -27,39 +27,30 @@ function Navbar() {
         setIsUserMenuOpen(!isUserMenuOpen);
     };
 
-    const handleLogout = () => {
-        window.localStorage.removeItem(jwtTagStorage);
-        window.location.reload();
-    };
-    // const handleLogout = async () => {
-    //     const token = window.localStorage.getItem(jwtTagStorage);
-    //     if (!token) {
-    //         console.error("Không tìm thấy token, không thể đăng xuất.");
-    //         return;
-    //     }
-    
-    //     try {
-    //         // Gọi API để đăng xuất
-    //         await axios.post(
-    //             `${urlBackend}/auth/logout`,
-    //             {}, // Body rỗng
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                     "Content-Type": "application/json",
-    //                 },
-    //             }
-    //         );
-    
-    //         // Xóa token khỏi localStorage sau khi đăng xuất thành công
-    //         window.localStorage.removeItem(jwtTagStorage);
-    
-    //         // Reload lại trang hoặc điều hướng về trang đăng nhập
-    //         window.location.reload();
-    //     } catch (error) {
-    //         console.error("Lỗi khi đăng xuất:", error);
-    //     }
+    // const handleLogout = () => {
+    //     window.localStorage.removeItem(jwtTagStorage);
+    //     window.location.reload();
     // };
+    const handleLogout = () => {
+        const token = window.localStorage.getItem(jwtTagStorage);
+        axios
+            .post(
+                `${urlBackend}/auth/logout`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then(() => {
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error("Lỗi khi đăng xuất:", error);
+            });
+    };
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -166,12 +157,17 @@ function Navbar() {
                             />
                             {isUserMenuOpen && (
                                 <div className="user-menu">
+                                <div className="user-menu__item-container user-menu__username">
                                     <div className="user-menu__item">
                                         {userName || "Tên người dùng"}
                                     </div>
+                                </div>
+                                <div className="user-menu__item-container">
                                     <div className="user-menu__item">
                                         Cổ phiếu yêu thích
                                     </div>
+                                </div>
+                                <div className="user-menu__item-container user-menu__item-container--logout">
                                     <div
                                         className="user-menu__item user-menu__logout"
                                         onClick={handleLogout}
@@ -179,6 +175,7 @@ function Navbar() {
                                         Đăng xuất
                                     </div>
                                 </div>
+                            </div>
                             )}
                         </div>
                     ) : (

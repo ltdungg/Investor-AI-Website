@@ -99,33 +99,101 @@
             position: absolute;
             top: calc(100% + 10px);
             right: 0;
-            background-color: main.$white;
-            border: 1px solid #ccc; 
-            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 200px;
+            width: 260px;
+            height: auto;
             z-index: 200;
-    
-            .user-menu__item {
-                padding: 10px 15px;
-                color: main.$black;
-                font-size: 14px;
-                cursor: pointer;
+            .user-menu__item-container {
+                padding: 15px;
+                margin-left: 20px;
+                margin-right: 20px;
+                border-bottom: 1px solid #ccc;
                 transition: background-color 0.3s;
-    
+        
                 &:hover {
-                    background-color: #d3d3d3; 
+                    background-color: #ebf5ff;
+                    border-radius: 10px;
                 }
-    
-                &.user-menu__logout {
-                    color: red; 
-                    font-weight: bold;
+        
+                &:last-child {
+                    border-bottom: none;
+                }
+        
+                .user-menu__item {
+                    color: main.$black;
+                    font-size: 14px;
+                    cursor: pointer;
+        
+                    &.user-menu__logout {
+                        color: red;
+                        font-weight: bold;
+                    }
                 }
             }
-            .user-menu__item:first-child {
-                border-bottom: 3px solid #ccc; 
-                margin: 10px;
+            .user-menu__username {
+                color: main.$white;
+                font-weight: bold; 
+                font-size: 16px;
+                text-align: left; 
+                padding: 15px; 
+                margin-top: 10px; 
             }
+            .user-menu__item-container--logout {
+                margin-bottom: 10px;
+                &:hover {
+                    background-color: #ffcccc;
+                }
+            }
+            @media (max-width: main.$md) {
+    .nav-containter {
+        align-content: flex-start;
+        position: fixed;
+        padding: 0.5rem;
+        width: 100vw;
+        background-color: main.$black;
+        flex-wrap: nowrap; // Ngăn các phần tử xuống dòng
+        display: flex;
+        flex-direction: column; // Đặt các phần tử theo chiều dọc
+
+        .nav__list {
+            height: 100vh;
+            align-items: flex-start;
+            flex-direction: column;
+            width: 100%;
+            overflow-y: auto; // Thêm thanh cuộn nếu danh sách quá dài
+
+            .nav__item {
+                margin: 0.3rem auto;
+                justify-content: flex-start;
+                width: 90%;
+            }
+        }
+
+        .nav__menu-btn {
+            display: flex;
+            gap: 1rem;
+            margin-right: 1rem;
+            user-select: none;
+
+            .nav__item {
+                position: unset;
+                @include main.btn(0, transparent, none, 0);
+                margin: 0;
+                font-size: 1.5rem;
+            }
+        }
+
+        .nav__user {
+            margin-top: auto; // Đẩy `.nav__user` xuống cuối cùng
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
         }
     }
     .nav__menu-btn {
