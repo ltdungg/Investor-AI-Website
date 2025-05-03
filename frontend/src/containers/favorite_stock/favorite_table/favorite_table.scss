@@ -1,0 +1,71 @@
+@use "./../../../styles/main";
+
+.favorite-list-table {
+  border-collapse: collapse;
+  border: 1px solid main.$black;
+  font-size: max(1.3vw, 1rem);
+
+  thead {
+    border: 1px solid main.$black;
+  }
+
+  tbody tr {
+    cursor: pointer;
+    transition: background-color 0.1s;
+
+    &:hover {
+      background-color: main.$super-light-blue;
+    }
+  }
+
+  th,
+  td {
+    // border-bottom: 1px solid main.$black;
+    padding: 0.3rem 1rem;
+  }
+
+  .company-name {
+    @extend .text-overflow;
+    max-width: 30vw;
+  }
+
+  .fa-stock-btn {
+    // @include main.block(2rem, 0.3rem);
+    @include main.flex(center, center, 0);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+
+    &:hover {
+      border-color: main.$light-blue;
+    }
+  }
+
+  .more-area {
+    position: relative;
+  }
+
+  .more-box {
+    @include main.padding-y(0.3rem);
+    position: absolute;
+    background: main.$gray-white-200;
+    border-radius: 0.5rem;
+    z-index: 1;
+    right: 0;
+    width: 10rem;
+
+    div {
+      @extend .text-overflow;
+      padding: 0.5rem 1rem;
+      text-align: center;
+      &:hover {
+        background-color: main.$super-light-blue;
+      }
+    }
+  }
+}
