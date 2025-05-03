@@ -4,19 +4,17 @@ import PopupContainer from "../PopupContainer/PobupContainer";
 import "./Search.scss";
 import { memo, useEffect, useState } from "react";
 import api from "../../../utils/api/Api";
-import { useNavigate } from "react-router-dom";
 
 function Search(props) {
   const [keyword, setKeyword] = useState("");
   const [stocks, setStock] = useState([]);
-  const navigate = useNavigate();
 
   function handleKeywordChange(e) {
     setKeyword(e.target.value);
   }
 
   function handleClick(id) {
-    navigate(`/stocks/${id}`);
+    window.location.href = `/stocks/${id}`;
   }
 
   function renderSearch() {
