@@ -7,7 +7,6 @@ import LogoItem from "../LogoItem/LogoItem";
 import Tool from "./tool/Tool";
 import Search from "./search/Search";
 import "./Navbar.scss";
-import api from "../../utils/api/Api";
 import userImage from "../../assets/images/user.jpg";
 import { jwtTagStorage, urlBackend } from "../../utils/const/Global";
 import axios from "axios";
@@ -163,9 +162,9 @@ function Navbar() {
                                     </div>
                                 </div>
                                 <div className="user-menu__item-container">
-                                    <div className="user-menu__item">
+                                    <Link to="/favorite-list" className="user-menu__item">
                                         Cổ phiếu yêu thích
-                                    </div>
+                                    </Link>
                                 </div>
                                 <div className="user-menu__item-container user-menu__item-container--logout">
                                     <div
