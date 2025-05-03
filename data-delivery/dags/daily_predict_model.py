@@ -1,21 +1,17 @@
 from airflow.decorators import dag, task, task_group
-from airflow.providers.docker.operators.docker import DockerOperator
 import pandas as pd
-import datetime
-import docker
 from airflow.operators.bash import BashOperator
 from modules.vnstock_client import VnStockClient
-import math
 
 vnstock = VnStockClient()
 CUDA_CONTAINER = 'investor-ai-website-cuda-1'
-batch_size = 3
-
+batch_size = 5
 vn30 = vnstock.get_vn30_stock_list()
 vn100 = [item for item in vnstock.get_vn100_stock_list() if item not in set(vn30)]
 hose = [item for item in vnstock.get_hose_stock_list() if item not in set(vn100)]
 hnx = [item for item in vnstock.get_hnx_stock_list() if item not in set(vn100)]
 upcom = vnstock.get_upcom_stock_list()
+
 
 
 def create_batch_task_group(stock_list, batch_size, parent_group_id):
@@ -28,8 +24,8 @@ def create_batch_task_group(stock_list, batch_size, parent_group_id):
                 batch_stocks = stock_list[i:i + batch_size]
 
                 exec_task = BashOperator(
-                    task_id=f'train_{'_'.join(stock for stock in batch_stocks)}',
-                    bash_command=f'docker exec {CUDA_CONTAINER} python3 /Stock_LSTM_Torch/Main_model.py {' '.join(stock for stock in batch_stocks)}'
+                    task_id=f'predict_{'_'.join(stock for stock in batch_stocks)}',
+                    bash_command=f'docker exec {CUDA_CONTAINER} python3 /Stock_LSTM_Torch/predict.py {' '.join(stock for stock in batch_stocks)}'
                 )
 
             groups.append(tg())
@@ -40,7 +36,7 @@ def create_batch_task_group(stock_list, batch_size, parent_group_id):
     return group
 
 @dag(
-    dag_id="train_model_daily",
+    dag_id="daily_predict_model",
     schedule=None,
     catchup=False,
     default_args={
@@ -48,7 +44,7 @@ def create_batch_task_group(stock_list, batch_size, parent_group_id):
         'retries': 0,
     },
 )
-def train_model_daily():
+def daily_predict_model():
 
     vn30_group = create_batch_task_group(stock_list=vn30, batch_size=batch_size, parent_group_id='vn30_group')
     vn100_group = create_batch_task_group(stock_list=vn100, batch_size=batch_size, parent_group_id='vn100_group')
@@ -56,7 +52,6 @@ def train_model_daily():
     hnx_group = create_batch_task_group(stock_list=hnx, batch_size=batch_size, parent_group_id='hnx_group')
     upcom_group = create_batch_task_group(stock_list=upcom, batch_size=batch_size, parent_group_id='upcom_group')
 
-
     vn30_group() >> vn100_group() >> hose_group() >> hnx_group() >> upcom_group()
 
-train_model_daily()
+daily_predict_model()

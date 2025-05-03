@@ -1,23 +1,34 @@
 from src.model import PriceModel
-from data.build import process
+from data.process import process
 import torch
 import pandas as pd
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
+from data.minio_data import get_data
+import sys
 
+def predict_future(df, n_days_future=7, sequence_length=3):
 
-def predict_future(ticker, n_days_future=7, sequence_length=3, model_path="./saved_model/model.pth"):
+    ticker = df.at[0, 'ticker']
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    model_path = f"./saved_model/{ticker}_model.pth"
 
     model = PriceModel(input_size=1)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)
     model.eval()
 
-    processor = process(ticker)
+    processor = process(scaler_path=f"./scalers/{ticker}_scaler.save")
+
     try:
-        df = processor.fetch_data("2023-01-01", "2025-04-28")  # lấy toàn bộ dữ liệu có sẵn
+        if 'time' in df.columns:
+            df['time'] = pd.to_datetime(df['time'])
+            df.set_index('time', inplace=True)
+        else:
+            df.index = pd.to_datetime(df.index)
     except ValueError as e:
         print(f"Error fetching data: {e}")
         return None
@@ -33,7 +44,7 @@ def predict_future(ticker, n_days_future=7, sequence_length=3, model_path="./sav
     last_sequence = torch.tensor(last_sequence, dtype=torch.float32).to(device)
 
     predictions = []
-    
+
     model.eval()
     for _ in range(n_days_future):
         with torch.no_grad():
@@ -53,7 +64,8 @@ def predict_future(ticker, n_days_future=7, sequence_length=3, model_path="./sav
 
     # Tạo ngày cho dữ liệu dự báo
     last_date = df.index[-1]
-    future_dates = pd.date_range(start=last_date + pd.Timedelta(days=1), periods=n_days_future, freq='B')  # 'B' = business days
+    future_dates = pd.date_range(start=last_date + pd.Timedelta(days=1), periods=n_days_future,
+                                 freq='B')  # 'B' = business days
 
     result_df = pd.DataFrame({
         "date": future_dates,
@@ -64,10 +76,23 @@ def predict_future(ticker, n_days_future=7, sequence_length=3, model_path="./sav
 
 
 if __name__ == "__main__":
-    df_future = predict_future(
-        ticker="TCB",
-        n_days_future=7,
-        sequence_length=3,
-        model_path="./saved_model/model.pth"
-    )
-    print(df_future)
+
+    symbol_list = sys.argv[1:]
+    print(symbol_list)
+
+    for symbol in symbol_list:
+        df = get_data(symbol)
+        if type(df) != int:
+            print(df.info())
+
+            df_future = predict_future(
+                df=df,
+                n_days_future=7,
+                sequence_length=3
+            )
+
+            print(df_future)
+        else:
+            continue
+
+

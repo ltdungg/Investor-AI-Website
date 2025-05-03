@@ -2,15 +2,33 @@ import datetime
 import pandas as pd
 import os
 import joblib
-from dataloader import stock_data_fetcher
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-class process(stock_data_fetcher):
-    def __init__(self, ticker, scaler_path=None):
-        stock_data_fetcher.__init__(self, ticker)
+class process:
+    def __init__(self, scaler_path):
+        # stock_data_fetcher.__init__(self, ticker)
         self.scaler = None
-        self.scaler_path = scaler_path or f"./scalers/{ticker}_scaler.save"
+        self.scaler_path = scaler_path
+
+    def fetch_data(self, dataframe):
+        if not isinstance(dataframe, pd.DataFrame):
+            raise ValueError("Input must be a pandas DataFrame")
+        
+        df = dataframe.copy()
+        
+        # Kiểm tra xem cột 'time' có tồn tại không, nếu không thì giả sử index là thời gian
+        if 'time' in df.columns:
+            df['time'] = pd.to_datetime(df['time'])
+            df.set_index('time', inplace=True)
+        else:
+            df.index = pd.to_datetime(df.index)
+        
+        # Chỉ giữ lại các cột cần thiết (giả sử ít nhất có cột 'close')
+        if 'close' not in df.columns:
+            raise ValueError("DataFrame must contain 'close' column")
+        
+        return df
 
     def data_scaling(self, dataframe, fit=True):
         os.makedirs('./scalers', exist_ok=True)
