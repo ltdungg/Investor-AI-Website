@@ -1,0 +1,83 @@
+@use "./../../styles/main";
+
+.favorite-list {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+
+  .favorite-stock__sidebar {
+    width: 24%;
+    min-width: 200px;
+    min-height: 100vh;
+    background-color: #edf1f4;
+    padding-top: 6rem;
+
+    .title {
+      margin: 2rem auto;
+      width: fit-content;
+    }
+
+    .sidebar-item {
+      // @extend .text-overflow;
+      @include main.flex(space-between, center, 0.5rem);
+      padding: 0.5rem 1rem;
+      border: 1px solid main.$black;
+      margin: 0.5rem 1rem;
+      border-radius: 0.8rem;
+      cursor: pointer;
+
+      &:not(.add-new-list):hover {
+        background-color: main.$gray-white-200;
+      }
+
+      .list-more-area {
+        @include main.flex(center, center, 0);
+        position: relative;
+      }
+
+      .list-more-box {
+        @include main.padding-y(0.3rem);
+        position: absolute;
+        background: main.$gray-white-100;
+        left: 0;
+        top: 100%;
+        border-radius: 0.5rem;
+        z-index: 1;
+        border: 1px solid main.$black;
+
+        div {
+          @extend .text-overflow;
+          padding: 0.5rem 1rem;
+          text-align: left;
+
+          &:hover {
+            background-color: main.$super-light-blue;
+          }
+        }
+      }
+
+      .burger {
+        box-sizing: content-box;
+        border: 1px solid black;
+        padding: 0.3rem;
+        border-radius: 0.3rem;
+      }
+    }
+  }
+
+  .add-new-list {
+    @include main.flex(center !important, center, 0.5rem);
+    text-align: center;
+    color: main.$blue;
+    border-color: main.$blue !important;
+  }
+
+  .favorite-list__stocks {
+    padding: 2rem;
+    padding-top: 6rem;
+
+    .favorite-list-name {
+      font-size: 3vw;
+    }
+  }
+}

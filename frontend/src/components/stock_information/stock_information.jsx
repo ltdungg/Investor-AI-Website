@@ -1,13 +1,12 @@
 // stock_information.jsx (Modified Example)
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import StockPriceGraph from "./RenderDatas/RenderStockPriceGraph";
 import getStockInformation from "../../utils/api/stock_api_utils/GetStockInformation.js";
 import "./stock_information.scss";
+import { useParams } from "react-router-dom";
 
 function StockInfor() {
-  const url = window.location.pathname.split("/");
-  const symbolRef = useRef(url[url.length - 1]);
-  const symbol = symbolRef.current;
+  const { symbol } = useParams();
   const [stockInformation, setStockInformation] = useState(null);
 
   useEffect(() => {
@@ -28,13 +27,19 @@ function StockInfor() {
       {}
       {stockInformation && (
         <div className="stock-details">
-          <div className="stock-symbol">{stockInformation.symbol || symbol}</div>
+          <div className="stock-symbol">
+            {stockInformation.symbol || symbol}
+          </div>
 
           <div className="stock-name">{stockInformation.companyName}</div>
 
-          <div className="stock-exchange">Exchange: {stockInformation.exchange}</div>
+          <div className="stock-exchange">
+            Exchange: {stockInformation.exchange}
+          </div>
 
-          <div className="stock-description">Industry: {stockInformation.description}</div>
+          <div className="stock-description">
+            Industry: {stockInformation.description}
+          </div>
 
           {/* <p className="stock-description">{stockInformation.historyDev}</p> */}
         </div>
