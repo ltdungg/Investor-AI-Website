@@ -5,23 +5,25 @@ import pandas as pd
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
+from data.minio_data import get_data
+import sys
 
-def predict_future(ticker, n_days_future=7, sequence_length=3, model_path="./saved_model/model.pth"):
+def predict_future(df, n_days_future=7, sequence_length=3):
+
+    ticker = df.at[0, 'ticker']
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    model_path = f"./saved_model/{ticker}_model.pth"
 
     model = PriceModel(input_size=1)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)
     model.eval()
 
-    processor = process(ticker)
+    processor = process(scaler_path=f"./scalers/{ticker}_scaler.save")
 
-    # truyen dataframe tu process, khong co fetch_data nua
     try:
-        df = pd.read_csv("./misc/CTG_2024_2025.csv")
-        df = pd.DataFrame(df)
-
-        # Thêm đoạn xử lý thời gian
         if 'time' in df.columns:
             df['time'] = pd.to_datetime(df['time'])
             df.set_index('time', inplace=True)
@@ -74,10 +76,23 @@ def predict_future(ticker, n_days_future=7, sequence_length=3, model_path="./sav
 
 
 if __name__ == "__main__":
-    df_future = predict_future(
-        ticker="CTG",
-        n_days_future=7,
-        sequence_length=3,
-        model_path="./saved_model/model.pth"
-    )
-    print(df_future)
+
+    symbol_list = sys.argv[1:]
+    print(symbol_list)
+
+    for symbol in symbol_list:
+        df = get_data(symbol)
+        if type(df) != int:
+            print(df.info())
+
+            df_future = predict_future(
+                df=df,
+                n_days_future=7,
+                sequence_length=3
+            )
+
+            print(df_future)
+        else:
+            continue
+
+

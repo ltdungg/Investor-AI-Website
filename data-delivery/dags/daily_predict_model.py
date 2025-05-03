@@ -1,30 +1,39 @@
-from airflow.decorators import dag, task
-from pyspark.sql import SparkSession
+from airflow.decorators import dag, task, task_group
 import pandas as pd
-import threading
-from ml_models.predict import predict_future
+from airflow.operators.bash import BashOperator
+from modules.vnstock_client import VnStockClient
 
-BUCKET = 'investor-ai-bucket'
+vnstock = VnStockClient()
+CUDA_CONTAINER = 'investor-ai-website-cuda-1'
+batch_size = 5
+vn30 = vnstock.get_vn30_stock_list()
+vn100 = [item for item in vnstock.get_vn100_stock_list() if item not in set(vn30)]
+hose = [item for item in vnstock.get_hose_stock_list() if item not in set(vn100)]
+hnx = [item for item in vnstock.get_hnx_stock_list() if item not in set(vn100)]
+upcom = vnstock.get_upcom_stock_list()
 
-def read_history_price_from_minio(spark, symbol):
-    spark_df = spark.read.format("parquet").load(f"s3a://{BUCKET}/RAW_STOCK_DATA/symbol={symbol}")
-    df = spark_df.toPandas()
-    df['ticker'] = symbol
-    df = df[['ticker', 'trading_date', 'close']]
-    df = df.sort_values(by='trading_date', ascending=True)
-    df.rename(columns={'trading_date': 'time'}, inplace=True)
 
-    return df
 
-def predict_model(spark, symbol):
-    df = read_history_price_from_minio(spark, symbol)
+def create_batch_task_group(stock_list, batch_size, parent_group_id):
+    @task_group(group_id=parent_group_id)
+    def group():
+        groups = []
+        for i in range(0, len(stock_list), batch_size):
+            @task_group(group_id=f"{parent_group_id}_batch_{i}")
+            def tg():
+                batch_stocks = stock_list[i:i + batch_size]
 
-    predicted_df = predict_future(ticker=symbol, df=df, n_days_future=7, sequence_length=3, model_path="./saved_model/model.pth")
+                exec_task = BashOperator(
+                    task_id=f'predict_{'_'.join(stock for stock in batch_stocks)}',
+                    bash_command=f'docker exec {CUDA_CONTAINER} python3 /Stock_LSTM_Torch/predict.py {' '.join(stock for stock in batch_stocks)}'
+                )
 
-    print(predicted_df)
+            groups.append(tg())
 
-    return predicted_df
+        for i in range(len(groups) - 1):
+            groups[i] >> groups[i + 1]
 
+    return group
 
 @dag(
     dag_id="daily_predict_model",
@@ -36,26 +45,13 @@ def predict_model(spark, symbol):
     },
 )
 def daily_predict_model():
-    spark = SparkSession.builder \
-        .appName("test") \
-        .master("spark://spark-master:7077") \
-        .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4,"
-                + "com.amazonaws:aws-java-sdk-bundle:1.12.262,"
-                + "org.postgresql:postgresql:42.7.5") \
-        .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
-        .config("spark.hadoop.fs.s3a.access.key", "TktAgssvy0kF6xoz3zE5") \
-        .config("spark.hadoop.fs.s3a.secret.key", "yO6dE1PLYtNRvyhEwGYOSxXrfMxTHO3XNdNF7OZl") \
-        .config("spark.hadoop.fs.s3a.path.style.access", "true") \
-        .config("fs.s3a.connection.ssl.enabled", "false") \
-        .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
-        .getOrCreate()
 
-    @task
-    def read_history_price():
+    vn30_group = create_batch_task_group(stock_list=vn30, batch_size=batch_size, parent_group_id='vn30_group')
+    vn100_group = create_batch_task_group(stock_list=vn100, batch_size=batch_size, parent_group_id='vn100_group')
+    hose_group = create_batch_task_group(stock_list=hose, batch_size=batch_size, parent_group_id='hose_group')
+    hnx_group = create_batch_task_group(stock_list=hnx, batch_size=batch_size, parent_group_id='hnx_group')
+    upcom_group = create_batch_task_group(stock_list=upcom, batch_size=batch_size, parent_group_id='upcom_group')
 
-        predict_model(spark, 'FPT')
-
-
-    read_history_price()
+    vn30_group() >> vn100_group() >> hose_group() >> hnx_group() >> upcom_group()
 
 daily_predict_model()

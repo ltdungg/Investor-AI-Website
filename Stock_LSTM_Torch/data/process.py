@@ -6,12 +6,10 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
 class process:
-    # Train theo dataframe cua tung ma
-    # Khong lay du lieu tu dataloader nay nua ma process se xu ly tu ticker luon (chi lay symbol, trading_date,close)
-    def __init__(self, scaler_path=None):
+    def __init__(self, scaler_path):
         # stock_data_fetcher.__init__(self, ticker)
         self.scaler = None
-        self.scaler_path = scaler_path or f"./scalers/scaler.save"
+        self.scaler_path = scaler_path
 
     def fetch_data(self, dataframe):
         if not isinstance(dataframe, pd.DataFrame):

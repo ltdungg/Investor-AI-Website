@@ -27,6 +27,21 @@ class VnStockClient:
     def get_stock_list(self):
         return self._stocks_by_exchange['symbol'].tolist()
 
+    def get_vn30_stock_list(self):
+        return self._vci_source.listing.symbols_by_group('VN30').tolist()
+
+    def get_hose_stock_list(self):
+        return self._vci_source.listing.symbols_by_group('HOSE').tolist()
+
+    def get_upcom_stock_list(self):
+        return self._vci_source.listing.symbols_by_group('UPCOM').tolist()
+
+    def get_hnx_stock_list(self):
+        return self._vci_source.listing.symbols_by_group('HNX').tolist()
+
+    def get_vn100_stock_list(self):
+        return self._vci_source.listing.symbols_by_group('VN100').tolist()
+
     def _get_stock_by_industries(self):
         """
             Lấy dữ liệu các mã chứng khoán theo mã ngành icb
