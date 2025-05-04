@@ -5,7 +5,7 @@ import FavoriteTable from "../favorite_table/favorite_table";
 
 function FavoriteStocks({
   setDisplayConfirm = () => {},
-  callbackOnOKRef,
+callbackOnOKRef,
   setTitle = () => {},
 }) {
   const { listID } = useParams();
