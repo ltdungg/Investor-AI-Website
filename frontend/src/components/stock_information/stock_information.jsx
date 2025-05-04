@@ -4,10 +4,14 @@ import StockPriceGraph from "./RenderDatas/RenderStockPriceGraph";
 import getStockInformation from "../../utils/api/stock_api_utils/GetStockInformation.js";
 import "./stock_information.scss";
 import { useParams } from "react-router-dom";
+import StockPriceGraphByPeriod from "./RenderDatas/RenderStockPriceGraphByPeriod.jsx";
 
 function StockInfor() {
+  const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year"];
+  const KEY_ENUM = ["1M", "3M", "1Y", "3Y"];
   const { symbol } = useParams();
   const [stockInformation, setStockInformation] = useState(null);
+  const [currPeriod, setCurrPeriod] = useState(1);
 
   useEffect(() => {
     if (symbol) {
@@ -18,13 +22,36 @@ function StockInfor() {
   }, [symbol]);
   console.log(symbol, stockInformation);
 
+  function handleChangePeriod(index) {
+    setCurrPeriod(index);
+  }
+
+  function styleCurrent(index) {
+    return currPeriod === index ? { background: "#80d6e4" } : undefined;
+  }
+
   return (
     <div className="stock-infomation">
       <div className="chart">
-        {symbol && <StockPriceGraph symbol={symbol} />}
+        {/* {symbol && <StockPriceGraph symbol={symbol} />} */}
+        {symbol && (
+          <StockPriceGraphByPeriod
+            symbol={symbol}
+            endpoint={PERIOD_ENUM[currPeriod]}
+          />
+        )}
+      </div>
+      <div className="btns-change-period">
+        {PERIOD_ENUM.map((_, index) => (
+          <button
+            key={index}
+            style={styleCurrent(index)}
+            onClick={() => handleChangePeriod(index)}
+            children={KEY_ENUM[index]}
+          />
+        ))}
       </div>
 
-      {}
       {stockInformation && (
         <div className="stock-details">
           <div className="stock-symbol">
