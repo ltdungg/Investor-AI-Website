@@ -1,6 +1,7 @@
 @use "./../../../styles/main";
 
 .favorite-list-table {
+  
   border-collapse: collapse;
   border: 1px solid main.$black;
   font-size: max(1.3vw, 1rem);
@@ -67,5 +68,27 @@
         background-color: main.$super-light-blue;
       }
     }
+  }
+  
+}
+.add-stock-btn {
+  width: 10rem;
+  height: 2rem;
+  background-color: blue;
+  margin-bottom: 10px;
+  color: main.$white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: lightblue;
+  }
+
+  &:active {
+    background-color: darkblue;
   }
 }

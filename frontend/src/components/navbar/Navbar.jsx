@@ -7,7 +7,7 @@ import LogoItem from "../LogoItem/LogoItem";
 import Tool from "./tool/Tool";
 import Search from "./search/Search";
 import "./Navbar.scss";
-import userImage from "../../assets/images/user.jpg";
+import userImage from "../../assets/images/user.png";
 import { jwtTagStorage, urlBackend } from "../../utils/const/Global";
 import axios from "axios";
 

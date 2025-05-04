@@ -26,6 +26,18 @@
       border-radius: 0.8rem;
       cursor: pointer;
 
+      input {
+          width: 100%;
+          padding: 0.4rem;
+          border: none;
+          border-radius: 0.3rem;
+          outline: none;
+          background-color: #edf1f4;
+          &:focus {
+              background-color: #edf1f4;
+              box-shadow: 0 0 3px black;
+          }
+      }
       &:not(.add-new-list):hover {
         background-color: main.$gray-white-200;
       }
