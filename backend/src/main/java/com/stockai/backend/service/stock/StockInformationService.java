@@ -8,7 +8,6 @@ import com.stockai.backend.exception.ErrorCode;
 import com.stockai.backend.mapper.StockMapper;
 import com.stockai.backend.repository.stock.StockInformationRepository;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
