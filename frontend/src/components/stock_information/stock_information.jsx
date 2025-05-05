@@ -1,10 +1,11 @@
 // stock_information.jsx (Modified Example)
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StockPriceGraph from "./RenderDatas/RenderStockPriceGraph";
 import getStockInformation from "../../utils/api/stock_api_utils/GetStockInformation.js";
 import "./stock_information.scss";
 import { useParams } from "react-router-dom";
 import StockPriceGraphByPeriod from "./RenderDatas/RenderStockPriceGraphByPeriod.jsx";
+import RenderStockPredict from "./RenderDatas/RenderStockPredict.jsx";
 
 function StockInfor() {
   const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year"];
@@ -12,6 +13,7 @@ function StockInfor() {
   const { symbol } = useParams();
   const [stockInformation, setStockInformation] = useState(null);
   const [currPeriod, setCurrPeriod] = useState(1);
+  const lastData = useRef(0);
 
   useEffect(() => {
     if (symbol) {
@@ -38,8 +40,12 @@ function StockInfor() {
           <StockPriceGraphByPeriod
             symbol={symbol}
             endpoint={PERIOD_ENUM[currPeriod]}
+            lastData={lastData}
           />
         )}
+      </div>
+      <div className="stock-predict">
+        <RenderStockPredict symbol={symbol} lastData={lastData.current}/>
       </div>
       <div className="btns-change-period">
         {PERIOD_ENUM.map((_, index) => (

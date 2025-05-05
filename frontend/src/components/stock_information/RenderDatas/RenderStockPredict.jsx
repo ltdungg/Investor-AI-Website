@@ -14,10 +14,10 @@ import zoomPlugin from "chartjs-plugin-zoom";
 import backgroundPlugin from "./BackgroundChartPLugin.js";
 import { useEffect, useRef, useState } from "react";
 import api from "../../../utils/api/Api.js";
-import STOCK_ENUM from "../../../enum/STOCK_ENUM";
 import LINE_COLOR_ENUM from "../../../enum/LINE_COLOR_ENUM";
 import { Line } from "react-chartjs-2";
 import DateFormat from "../../../utils/DateFormat.js";
+import PREDICT_ENUM from "../../../enum/PREDICT_ENUM.js";
 import NumberFormat from "../../../utils/NumberFormat.js";
 
 // Đăng ký các thành phần của Chart.js
@@ -34,41 +34,32 @@ ChartJS.register(
   backgroundPlugin
 );
 
-function StockPriceGraphByPeriod({
-  endpoint = "/1-month",
-  symbol = "",
-  lastData = {},
-}) {
+function RenderStockPredict({ symbol = "", lastData = 0 }) {
   const [stockData, setStockData] = useState([]);
   const avg = useRef(0);
 
   useEffect(() => {
-    api.get(`/stock-price${endpoint}/${symbol}`).then((response) => {
+    api.get(`/stock-predict/${symbol}`).then((response) => {
       const responseData = response.data.map((i) => {
         return {
           ...i,
-          tradingDate: new Date(i[STOCK_ENUM.TRADING_DATE]),
+          [PREDICT_ENUM.DATE]: new Date(i[PREDICT_ENUM.DATE]),
         };
       });
 
       console.log(responseData);
       setStockData(responseData);
-      avg.current = responseData[0][STOCK_ENUM.CLOSE];
-      lastData.current =
-        responseData[responseData.length - 1][STOCK_ENUM.CLOSE];
-      console.log(lastData.current);
+      avg.current = responseData[0][PREDICT_ENUM.PRICE];
     });
-  }, [endpoint, symbol]);
+  }, [symbol, lastData]);
 
   const data = {
     // ...data,
-    labels: stockData.map((stock) =>
-      DateFormat(stock[STOCK_ENUM.TRADING_DATE])
-    ),
+    labels: stockData.map((stock) => DateFormat(stock[PREDICT_ENUM.DATE])),
     datasets: [
       {
         label: "Giá",
-        data: stockData.map((stock) => stock[STOCK_ENUM.CLOSE]),
+        data: stockData.map((stock) => stock[PREDICT_ENUM.PRICE]),
         borderColor: LINE_COLOR_ENUM.GREEN,
         pointRadius: 0,
         pointHoverRadius: 5, // Hiển thị điểm khi hover (tùy chọn)
@@ -113,15 +104,15 @@ function StockPriceGraphByPeriod({
         annotations: {
           line1: {
             type: "line",
-            yMin: avg.current,
-            yMax: avg.current,
+            yMin: lastData,
+            yMax: lastData,
             borderColor: "rgba(0, 0, 0, 0.5)",
             borderWidth: 1,
             borderDash: [3, 3],
             label: {
               display: true,
               content: `${NumberFormat(avg.current)}`,
-              position: "end",
+              position: "start",
               backgroundColor: "rgba(0, 0, 0, 0.5)",
               color: "#fff",
               padding: 4,
@@ -138,14 +129,11 @@ function StockPriceGraphByPeriod({
 
   if (stockData.length <= 0) {
     return (
-      <div
-        className="chart-no-data"
-        children="Khoảng thời gian này cổ phiểu đang không có dữ liệu :("
-      />
+      <div className="chart-no-data" children="Cổ phiếu chưa có dự đoán :(" />
     );
   }
 
   return <Line data={data} options={options} />;
 }
 
-export default StockPriceGraphByPeriod;
+export default RenderStockPredict;
