@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,8 +24,6 @@ public class FavouriteStockService {
     final FavouriteStockListRepository favouriteStockListRepository;
     final FavouriteStockListUtils favouriteStockListUtils;
     final StockInformationRepository stockInformationRepository;
-    @Value("${time.delay}")
-    int delayTime;
 
     public void addStocksToList(AddStockToFavouriteListRequest request) {
         FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(request.getListId());
@@ -55,12 +52,9 @@ public class FavouriteStockService {
     }
 
     public List<StockInformationInFavorite> findStocksInFavorite(Long listId) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, delayTime);
-
         FavouriteStockList favouriteStockList = favouriteStockListRepository.findByListId(listId);
         favouriteStockListUtils.accessAbleChecker(favouriteStockList);
 
-        return favouriteStockListRepository.findAllStockInformationIn(calendar.getTime(), favouriteStockList.getSymbols());
+        return favouriteStockListRepository.findAllStockInformationIn(favouriteStockList.getSymbols());
     }
 }

@@ -1,6 +1,5 @@
 package com.stockai.backend.service.stock;
 
-import com.stockai.backend.dto.response.StockPriceResponse;
 import com.stockai.backend.entity.stock.StockPrice;
 import com.stockai.backend.exception.AppException;
 import com.stockai.backend.exception.ErrorCode;

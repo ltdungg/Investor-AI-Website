@@ -14,6 +14,6 @@ import java.util.List;
 public interface StockPriceRepository extends JpaRepository<StockPrice, StockPriceId> {
     List<StockPrice> findAllById_Symbol(String symbol);
 
-    @Query("SELECT s from StockPrice s WHERE s.id.symbol = :symbol AND s.id.tradingDate > :date")
+    @Query("SELECT s from StockPrice s WHERE s.id.symbol = :symbol AND s.id.tradingDate > :date ORDER BY s.id.tradingDate")
     List<StockPrice> findByIdInDate(@Param("symbol") String symbol,@Param("date") Date date);
 }
