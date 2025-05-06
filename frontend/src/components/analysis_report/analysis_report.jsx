@@ -4,12 +4,14 @@ import { useState } from "react";
 import StockBox from "./StockBox/StockBox";
 import api from "./../../utils/api/Api";
 import DateFormat from "../../utils/DateFormat";
+import { useNavigate } from "react-router-dom";
 
 function AnalysisReport() {
   const [currentPage, setCurrentPage] = useState(0);
   const [stocks, setStocks] = useState([]);
   const totalPages = stocks.length;
   const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.get(`/analysis-report/find?keyword=${keyword}`).then((response) => {
@@ -82,7 +84,7 @@ function AnalysisReport() {
                   source={stock.source}
                   date={DateFormat(stock.publishedAt)}
                   onClick={() => {
-                    window.location.href = stock.bodyUrl;
+                    navigate(`/analysis/${stock.id}`);
                   }}
                 />
               ))}

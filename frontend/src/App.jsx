@@ -15,6 +15,7 @@ import Favorite from "./containers/favorite_stock/favorite";
 import NotFound404 from "./components/not_found/not_found";
 import AnalysisReport from "./components/analysis_report/analysis_report";
 import ScrollToTop from "./components/ScrollToTop";
+import AnalysisTemplate from "./components/analysis_report/analysis/AnalysisTemplate";
 
 function App() {
     const location = useLocation();
@@ -45,6 +46,7 @@ function App() {
                     <Route path="/stocks/:symbol" element={<StockInfor />} />
                     <Route path="/favorite-list/*" element={<Favorite />} />
                     <Route path="/analysis-report" element={<AnalysisReport />} />
+                    <Route path="/analysis/:symbol" element={<AnalysisTemplate />} />
                     <Route path="/*" element={<NotFound404 />} />
                 </Routes>
             </div>

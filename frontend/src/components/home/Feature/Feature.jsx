@@ -12,27 +12,27 @@ import TypingEffect from "../../../utils/TypingEffect";
 function Feature() {
     const features = [
         {
-            link: "./1",
+            link: "/stocks",
             icon: FaArrowTrendUp,
             feature: "Cổ phiếu",
         },
         {
-            link: "./2",
+            link: "/analysis-report",
             icon: FaMagnifyingGlassChart,
             feature: "Cổ phiếu",
         },
         {
-            link: "./3",
+            link: "/3",
             icon: TiGroup,
             feature: "Nhóm ngành",
         },
         {
-            link: "./5",
+            link: "/5",
             icon: FaRegNewspaper,
             feature: "Tin tức",
         },
         {
-            link: "./6",
+            link: "/6",
             icon: TbReportAnalytics,
             feature: "Báo cáo",
         },
