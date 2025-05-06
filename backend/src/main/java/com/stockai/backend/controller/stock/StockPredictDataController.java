@@ -1,6 +1,5 @@
 package com.stockai.backend.controller.stock;
 
-import com.stockai.backend.entity.stock.StockPredictData;
 import com.stockai.backend.service.stock.StockPredictDataService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -31,6 +31,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/api-doc/**",
             "/stock-predict/**",
+            "/analysis-report/**",
     };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

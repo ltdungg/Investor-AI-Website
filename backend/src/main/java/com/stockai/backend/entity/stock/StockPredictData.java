@@ -4,8 +4,6 @@ import com.stockai.backend.entity.stock.customId.PredictStockId;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-
 @Entity
 @Getter
 @Setter
