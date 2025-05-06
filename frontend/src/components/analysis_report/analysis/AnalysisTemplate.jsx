@@ -20,7 +20,7 @@ function AnalysisTemplate() {
     }
   }, [symbol]);
 
-  return <HtmlParser htmlContent={html} />;
+  return <HtmlParser htmlContent={html} className="analysis-template"/>;
 }
 
 export default AnalysisTemplate;
