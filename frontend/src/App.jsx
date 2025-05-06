@@ -14,6 +14,7 @@ import StockInfor from "./components/stock_information/stock_information";
 import Favorite from "./containers/favorite_stock/favorite";
 import NotFound404 from "./components/not_found/not_found";
 import AnalysisReport from "./components/analysis_report/analysis_report";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
     const location = useLocation();
@@ -21,6 +22,7 @@ function App() {
 
     return (
         <div className="App">
+            <ScrollToTop />
             {/* Navbar chỉ hiển thị nếu không phải trang login/register */}
             {!isAuthRoute && <Navbar />}
 
