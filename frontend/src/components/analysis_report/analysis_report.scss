@@ -1,26 +1,38 @@
 .stock-slider {
   position: relative;
   overflow: hidden;
-  width: 100%;
+  margin: 0 auto;
+  max-width: 1600px;
   padding-top: 20px;
-  margin-top: 6rem;
+  margin-top: 4rem;
 
   .phan-tich-co-phieu-title {
-    margin-left: 3rem;
+      margin-top: 3rem;
+      font-size: 50px;
+      font-weight: bold;
+      color: transparent;
+      background: linear-gradient(to right, #2563eb, #14b8a6);
+      background-clip: text;
+      text-align: center;
   }
 
   .phan-tich-filter {
-    display: flex;
-    align-items: center;
-    margin-left: 6rem;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+      margin-bottom: 20px;
 
     .keyword-input {
-      padding: 8px 12px;
-      font-size: 16px;
+      justify-content: center;
+      width: 100%;
+      padding: 10px 40px 10px 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       outline: none;
-      width: 20rem;
+      color: #374151;
+      font-size: 16px;
     }
   }
 
