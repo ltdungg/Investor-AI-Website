@@ -1,6 +1,21 @@
 @forward "./variable";
 @forward "./mixin";
 
+:root {
+      --primary: #007bff;
+      --secondary: #66b0ff;
+      --positive: #28a745;
+      --negative: #dc3545;
+      --background: #f0f4f8;
+      --text: #2c3e50;
+      --card-background: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+.content {
+    background-color: var(--background);
+}
+
 .text-overflow {
     white-space: nowrap; /* Không cho phép dòng văn bản xuống dòng */
     overflow: hidden; /* Ẩn phần văn bản vượt quá */
