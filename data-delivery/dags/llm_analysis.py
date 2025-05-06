@@ -1,7 +1,6 @@
 from datetime import timedelta, datetime
 import pandas as pd
 from airflow.decorators import dag, task
-from pyspark.sql.types import *
 from sqlalchemy import create_engine
 from parser import VCBSParser
 from analysisAI import generate_analysis_content

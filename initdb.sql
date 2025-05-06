@@ -222,3 +222,14 @@ CREATE TABLE stock.analysis_report (
     "body_url" TEXT,
     PRIMARY KEY ("id")
 );
+
+CREATE TABLE stock.news (
+    "id" INT,
+    "title" TEXT,
+    "date" TIMESTAMP,
+    "redirect_url" TEXT,
+    "thumb" TEXT,
+    "publisher" TEXT,
+    "description" TEXT,
+    PRIMARY KEY ("id")
+);
