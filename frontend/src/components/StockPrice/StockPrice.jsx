@@ -95,7 +95,7 @@ function StockPrice() {
   return (
     <div className="stock-price-container">
       <header className="stock-price__header">
-        <h2>Bảng giá cổ phiếu</h2>
+        <h1>Bảng giá cổ phiếu</h1>
         <div className="stock-price__filters">
           {filters.map((filter) => (
             <Filter
