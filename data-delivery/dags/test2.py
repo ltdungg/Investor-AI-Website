@@ -1,6 +1,34 @@
-from vnstock import Vnstock
-import pandas as pd
+# from vnstock import Vnstock
+# from vnstock.explorer.vci import Company
+# import pandas as pd
+#
+# pd.set_option('display.max_columns', None)
+#
+# vnstock = Vnstock().stock(symbol='SSI', source='VCI')
+# company = Company('ACB')
+#
+# print(company.events()['source_url'].tolist())
+#
+# with open("test.pdf", "a") as f:
 
-vnstock = Vnstock().stock(symbol='SSI', source='VCI')
+import html
+import pdfkit
 
-print(vnstock.listing.symbols_by_group('VN30').tolist())
+a = "\u003Cp\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cb\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003E\u003Cspan style=\"color:black\"\u003ETriển vọng 2025:\u003C/span\u003E\u003C/span\u003E\u003C/b\u003E&nbsp;&nbsp;\u003C/span\u003E\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003Cul\u003E\r\n\t\u003Cli\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"color:black\"\u003E\u003Cspan style=\"tab-stops:list .5in\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cb\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003EThu nhập l&atilde;i duy tr&igrave; t&iacute;ch cực: \u003C/span\u003E\u003C/b\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003ETăng trưởng&nbsp;t&iacute;n dụng kỳ vọng đạt 14% với động lực tăng trưởng đến từ&nbsp;2 ph&acirc;n kh&uacute;c cho vay ch&iacute;nh (b&aacute;n lẻ phục vụ sản xuất kinh doanh v&agrave; doanh nghiệp SME)&nbsp;đang&nbsp;tr&ecirc;n đ&agrave; hồi phục tốt. NIM dự kiến duy tr&igrave; mức 3,7% trong năm 2025.\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/li\u003E\r\n\t\u003Cli\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"color:black\"\u003E\u003Cspan style=\"tab-stops:list .5in\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cb\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003EThu nhập ngo&agrave;i l&atilde;i khả quan hơn: \u003C/span\u003E\u003C/b\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003EThu nhập từ ph&iacute; của STB đ&atilde; c&oacute; sự hồi phục t&iacute;ch cực trong 2024 v&agrave; dự b&aacute;o sẽ nối tiếp đ&agrave; tăng trong thời gian tới với động lực từ hoạt động thanh to&aacute;n, thẻ, bảo hiểm. Thu nhập từ thu hồi nợ cũng kỳ vọng sẽ tăng trưởng tốt khi thị trường bất động sản khởi sắc v&agrave; được tăng cường hỗ trợ về mặt ph&aacute;p l&yacute;.\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/li\u003E\r\n\t\u003Cli\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"color:black\"\u003E\u003Cspan style=\"tab-stops:list .5in\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cb\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003E&Aacute;p lực tr&iacute;ch lập dự ph&ograve;ng ở mức thấp trong 2025 \u003C/span\u003E\u003C/b\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003Enhờ: (1) STB đ&atilde; tr&iacute;ch lập hầu hết cho tr&aacute;i phiếu VAMC v&agrave; kỳ vọng STB c&oacute; thể ho&agrave;n nhập tr&iacute;ch lập từ c&aacute;c khoản nợ lớn với triển vọng r&otilde; r&agrave;ng nhất từ khoản nợ li&ecirc;n quan đến KCN Phong Ph&uacute; với dư nợ gốc được ho&agrave;n nhập l&agrave; 5.134 tỷ đồng; (2) Chất lượng danh mục cho vay ổn định với c&aacute;c khoản nợ qu&aacute; hạn v&agrave; nợ t&aacute;i cơ cấu giảm dần, rủi ro tập trung v&agrave; nợ li&ecirc;n đới qua CIC ở mức thấp.\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/li\u003E\r\n\t\u003Cli\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"color:black\"\u003E\u003Cspan style=\"tab-stops:list .5in\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cb\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003EKỳ vọng tiến độ xử l&yacute; t&agrave;i sản tồn đọng của STB sẽ ho&agrave;n th&agrave;nh trong 2025-2026: \u003C/span\u003E\u003C/b\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003EThu nhập từ việc đấu gi&aacute; th&agrave;nh c&ocirc;ng khoản nợ li&ecirc;n quan KCN Phong Ph&uacute; đang được thực hiện theo tiến độ tại hợp đồng v&agrave; thời điểm hạch to&aacute;n phụ thuộc v&agrave;o quyết định của Ban l&atilde;nh đạo Ng&acirc;n h&agrave;ng. Đồng thời, STB vẫn đang t&iacute;ch cực l&agrave;m việc với c&aacute;c b&ecirc;n li&ecirc;n quan để xử l&yacute; 32,5% cổ phần của STB do VAMC quản l&yacute;. Do đ&oacute;, ch&uacute;ng t&ocirc;i chưa đưa khoản thu nhập kh&aacute;c c&oacute; thể ghi nhận từ việc b&aacute;n c&aacute;c t&agrave;i sản n&agrave;y v&agrave;o dự b&aacute;o của STB trong năm 2025\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\r\n\u003Cp\u003E&nbsp;\u003C/p\u003E\r\n\r\n\u003Cp style=\"text-align:justify\"\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"line-height:13.8pt\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cb\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003E\u003Cspan style=\"color:black\"\u003EĐ&aacute;nh gi&aacute;:\u003C/span\u003E\u003C/span\u003E\u003C/b\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003Cp style=\"text-align:justify\"\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"line-height:13.8pt\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003E\u003Cspan style=\"color:black\"\u003EP.PTNC ước t&iacute;nh STB đạt \u003Cb\u003E15.874 tỷ đồng LNTT năm 2025 (+24,8% yoy)\u003C/b\u003E, tương đương EPS đạt 6.736 đồng/cổ phiếu v&agrave; BVPS đạt 35.969 đồng/cổ phiếu.&nbsp;\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003Cp\u003E\u003Cspan style=\"font-size:12pt\"\u003E\u003Cspan style=\"font-family:Aptos,sans-serif\"\u003E\u003Cspan style=\"font-family:&quot;Times New Roman&quot;,serif\"\u003E\u003Cspan style=\"color:black\"\u003ECh&uacute;ng t&ocirc;i ước t&iacute;nh mức gi&aacute; hợp l&yacute; cho cổ phiếu STB l&agrave; \u003Cb\u003E46.136 đồng/cổ phiếu\u003C/b\u003E&nbsp;dựa tr&ecirc;n 2 phương ph&aacute;p định gi&aacute; So s&aacute;nh P/B v&agrave; Residual Income với mức định gi&aacute; 1,3x. Ch&uacute;ng t&ocirc;i duy tr&igrave; khuyến nghị \u003Cb\u003EMUA\u003C/b\u003E&nbsp;đối với cổ phiếu STB.&nbsp;\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/span\u003E\u003C/p\u003E"
+
+# unescaped_html = html.unescape(a)
+#
+# if unescaped_html.startswith('"') and unescaped_html.endswith('"'):
+#     unescaped_html = unescaped_html[1:-1]
+
+options = {
+    'encoding': 'utf-8'
+}
+
+try:
+    pdfkit.from_string(a, 'output.pdf', options=options)
+    print("Đã chuyển đổi thành công sang PDF!")
+except FileNotFoundError:
+    print("Lỗi: Không tìm thấy wkhtmltopdf. Hãy đảm bảo bạn đã cài đặt nó và đường dẫn được cấu hình đúng.")
+except Exception as e:
+    print(f"Đã xảy ra lỗi: {e}")
