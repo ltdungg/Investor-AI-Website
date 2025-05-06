@@ -147,34 +147,41 @@ function Navbar() {
                         />
                     </div>
                     {isLoggedIn ? (
-                        <div className="nav__item nav__user">
+                        <div
+                            className="nav__item nav__user"
+                            onMouseEnter={() => setIsUserMenuOpen(true)}
+                            onMouseLeave={() => setIsUserMenuOpen(false)}
+                        >
                             <img
                                 src={userImage}
                                 alt="User"
                                 className="nav__user-image"
-                                onClick={handleUserMenuToggle}
                             />
                             {isUserMenuOpen && (
                                 <div className="user-menu">
-                                <div className="user-menu__item-container user-menu__username">
-                                    <div className="user-menu__item">
-                                        {userName || "Tên người dùng"}
+                                    <div className="user-menu__item-container user-menu__username">
+                                        <div className="user-menu__item">
+                                            {userName || "Tên người dùng"}
+                                        </div>
+                                    </div>
+                                    <div className="user-menu__item-container">
+                                        <Link
+                                            to="/favorite-list"
+                                            className="user-menu__item"
+                                            onClick={() => setIsUserMenuOpen(false)}
+                                        >
+                                            Cổ phiếu yêu thích
+                                        </Link>
+                                    </div>
+                                    <div className="user-menu__item-container user-menu__item-container--logout">
+                                        <div
+                                            className="user-menu__item user-menu__logout"
+                                            onClick={handleLogout}
+                                        >
+                                            Đăng xuất
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="user-menu__item-container">
-                                    <Link to="/favorite-list" className="user-menu__item">
-                                        Cổ phiếu yêu thích
-                                    </Link>
-                                </div>
-                                <div className="user-menu__item-container user-menu__item-container--logout">
-                                    <div
-                                        className="user-menu__item user-menu__logout"
-                                        onClick={handleLogout}
-                                    >
-                                        Đăng xuất
-                                    </div>
-                                </div>
-                            </div>
                             )}
                         </div>
                     ) : (
