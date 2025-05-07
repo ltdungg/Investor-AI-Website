@@ -45,7 +45,7 @@ function StockInfor() {
         )}
       </div>
       <div className="stock-predict">
-        {/* <RenderStockPredict symbol={symbol} lastData={lastData.current}/> */}
+        <RenderStockPredict symbol={symbol} lastData={lastData.current}/>
       </div>
       <div className="btns-change-period">
         {PERIOD_ENUM.map((_, index) => (
