@@ -17,7 +17,10 @@ import AnalysisReport from "./components/analysis_report/analysis_report";
 import IndustrySectors from "./components/industrySectors/industrySectors";
 import News from "./components/news/news";
 import ScrollToTop from "./components/ScrollToTop";
-
+import AnalysisTemplate from "./components/analysis_report/analysis/AnalysisTemplate";
+import StockOverview from "./components/stock_information/StockOverview";
+import StockFinancial from "./components/stock_information/StockFinancial";
+import StockPriceHistory from "./components/stock_information/StockPriceHistory";
 
 function App() {
     const location = useLocation();
@@ -48,9 +51,13 @@ function App() {
                     <Route path="/stocks/:symbol" element={<StockInfor />} />
                     <Route path="/favorite-list/*" element={<Favorite />} />
                     <Route path="/analysis-report" element={<AnalysisReport />} />
+                    <Route path="/analysis/:symbol" element={<AnalysisTemplate />} />
                     <Route path="/industrySectors" element={<IndustrySectors />} />
                     <Route path="/news" element={<News />} />
                     <Route path="/*" element={<NotFound404 />} />
+                    <Route path="/stocks/:symbol" element={<StockOverview />} />
+                    <Route path="/stocks/:symbol/financial" element={<StockFinancial />} />
+                    <Route path="/stocks/:symbol/priceHistory" element={<StockPriceHistory />} />
                 </Routes>
             </div>
 

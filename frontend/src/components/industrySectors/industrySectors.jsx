@@ -74,34 +74,6 @@ function IndustrySectors() {
     }, 500); // Giả lập độ trễ mạng
 
     return () => clearTimeout(timer);
-    // --- Kết thúc phần thay thế ---
-
-    /*
-    // --- Code API call thực tế (ví dụ) ---
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        // const responseSummary = await fetch('/api/market-summary'); // URL API tổng hợp
-        // const summary = await responseSummary.json();
-        // const responseSectors = await fetch('/api/industry-sectors'); // URL API ngành
-        // const sectors = await responseSectors.json();
-
-        // Giả sử API trả về đúng cấu trúc
-        const summary = mockSummaryData; // Thay bằng dữ liệu API thật
-        const sectors = mockSectorsData; // Thay bằng dữ liệu API thật
-
-        setSummaryData(summary);
-        setSectorsData(sectors);
-      } catch (err) {
-        console.error("API Error:", err);
-        setError('Lỗi kết nối đến máy chủ.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-    */
 
   }, []); // Fetch data một lần khi component mount
 

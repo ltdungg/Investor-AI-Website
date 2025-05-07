@@ -4,92 +4,232 @@
   display: flex;
   width: 100%;
   min-height: 100vh;
+  background: var(--background);
+  animation: fadeIn 1s ease-out;
 
   .favorite-stock__sidebar {
     width: 24%;
     min-width: 200px;
     min-height: 100vh;
-    background-color: #edf1f4;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     padding-top: 6rem;
+    box-shadow: var(--shadow);
+    transform: translateX(-20px);
+    animation: slideIn 0.6s ease-out forwards;
 
     .title {
       margin: 2rem auto;
       width: fit-content;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 2s infinite;
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+      }
     }
 
     .sidebar-item {
-      // @extend .text-overflow;
       @include main.flex(space-between, center, 0.5rem);
-      padding: 0.5rem 1rem;
-      border: 1px solid main.$black;
+      padding: 0.75rem 1rem;
       margin: 0.5rem 1rem;
-      border-radius: 0.8rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       cursor: pointer;
+      transition: var(--transition);
+      animation: slideInRight 0.5s ease-out;
+      animation-fill-mode: backwards;
+      animation-delay: calc(0.1s * var(--index));
 
       input {
-          width: 100%;
-          padding: 0.4rem;
-          border: none;
-          border-radius: 0.3rem;
-          outline: none;
-          background-color: #edf1f4;
-          &:focus {
-              background-color: #edf1f4;
-              box-shadow: 0 0 3px black;
-          }
+        width: 100%;
+        padding: 0.5rem;
+        border: none;
+        border-radius: 8px;
+        outline: none;
+        background: #f9f9f9;
+        font-size: 0.95rem;
+        transition: var(--transition);
+
+        &:focus {
+          background: #ffffff;
+          box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
       }
+
       &:not(.add-new-list):hover {
-        background-color: main.$gray-white-200;
+        background: linear-gradient(90deg, rgba(233, 244, 255, 0.9), rgba(255, 255, 255, 0.9));
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
       }
 
       .list-more-area {
         @include main.flex(center, center, 0);
-        position: relative;
+        POSITION: RELATIVE;
       }
 
       .list-more-box {
-        @include main.padding-y(0.3rem);
+        @include main.padding-y(0.5rem);
         position: absolute;
-        background: main.$gray-white-100;
-        left: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        left: -150px;
         top: 100%;
-        border-radius: 0.5rem;
-        z-index: 1;
-        border: 1px solid main.$black;
+        border-radius: 10px;
+        z-index: 10;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateY(-10px);
+        animation: dropDown 0.4s ease-out forwards;
 
         div {
-          @extend .text-overflow;
           padding: 0.5rem 1rem;
           text-align: left;
+          font-size: 0.9rem;
+          transition: var(--transition);
 
           &:hover {
-            background-color: main.$super-light-blue;
+            background: rgba(233, 244, 255, 0.9);
+            color: var(--primary);
           }
         }
       }
 
       .burger {
         box-sizing: content-box;
-        border: 1px solid black;
+        border: 1px solid var(--text);
         padding: 0.3rem;
-        border-radius: 0.3rem;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        transition: var(--transition);
+
+        &:hover {
+          transform: scale(1.15);
+          border-color: var(--primary);
+          color: var(--primary);
+        }
       }
     }
-  }
 
-  .add-new-list {
-    @include main.flex(center !important, center, 0.5rem);
-    text-align: center;
-    color: main.$blue;
-    border-color: main.$blue !important;
+    .add-new-list {
+      @include main.flex(center !important, center, 0.5rem);
+      text-align: center;
+      color: var(--primary);
+      border: 2px dashed var(--primary);
+      background: rgba(0, 123, 255, 0.05);
+      transition: var(--transition);
+      animation: scaleIn 0.6s ease-out;
+
+      &:hover {
+        background: rgba(0, 123, 255, 0.15);
+        transform: scale(1.03);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      svg {
+        transition: var(--transition);
+
+        &:hover {
+          transform: rotate(90deg);
+        }
+      }
+    }
   }
 
   .favorite-list__stocks {
     padding: 2rem;
     padding-top: 6rem;
+    flex-grow: 1;
 
     .favorite-list-name {
-      font-size: 3vw;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: slideInLeft 0.8s ease-out;
+
+      @keyframes slideInLeft {
+        from { transform: translateX(-50px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes dropDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 739px) {
+  .favorite-list {
+    flex-direction: column;
+
+    .favorite-stock__sidebar {
+      width: 100%;
+      min-height: auto;
+      padding-top: 4rem;
+
+      .title {
+        font-size: 1.5rem;
+      }
+
+      .sidebar-item {
+        margin: 0.5rem;
+        padding: 0.5rem;
+
+        input {
+          font-size: 0.875rem;
+        }
+
+        .list-more-box {
+          left: auto;
+          right: 0;
+          width: 120px;
+        }
+      }
+    }
+
+    .favorite-list__stocks {
+      padding: 1rem;
+      padding-top: 2rem;
+
+      .favorite-list-name {
+        font-size: 1.75rem;
+      }
     }
   }
 }

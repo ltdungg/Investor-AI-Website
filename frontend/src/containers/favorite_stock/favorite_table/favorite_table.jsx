@@ -30,7 +30,7 @@ function FavoriteTable({
     };
     const handleAddStock = (newStocks) => {
       setStocks((prevStocks) => [...prevStocks, ...newStocks]);
-  };
+    };
 
     function handleDeleteStock(symbol, index) {
         setTitle("Bạn xác nhận muốn xóa cổ phiếu khỏi danh sách?");
@@ -58,6 +58,7 @@ function FavoriteTable({
                     <td className="company-name" children={companyName} />
                     <td children={close} />
                     <td children={FluctuationFormat(priceChange, "%")} />
+                    <td></td>
                     <td
                         className="more-area"
                         onClick={(e) => handleClick(e, symbol)}
@@ -95,13 +96,15 @@ function FavoriteTable({
                       <th>Công ty</th>
                       <th>Giá hiện tại</th>
                       <th>Biến động</th>
+                      <th></th>
+                      <th></th>
                   </tr>
               </thead>
               <tbody>{renderLists()}</tbody>
           </table>
           {isModalOpen && <Modal onClose={handleCloseModal} onAddStock={handleAddStock} />}
       </>
-  );
+    );
 }
 
 export default FavoriteTable;

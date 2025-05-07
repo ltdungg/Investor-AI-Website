@@ -8,14 +8,20 @@ function Modal({ onClose, onAddStock }) {
     const [searchTerm, setSearchTerm] = useState("");
     const [stocks, setStocks] = useState([]);
     const [selectedStocks, setSelectedStocks] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (searchTerm) {
+            setIsLoading(true);
             api.get(`/stock/find-stock?symbol=${searchTerm}`).then(
                 (response) => {
                     setStocks(response.data);
+                    setIsLoading(false);
                 }
             );
+        } else {
+            setStocks([]);
+            setIsLoading(false);
         }
     }, [searchTerm]);
 
@@ -59,14 +65,15 @@ function Modal({ onClose, onAddStock }) {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <div className="stock-list">
-                    {stocks.map((stock) => (
+                <div className={`stock-list ${isLoading ? "loading" : ""}`}>
+                    {stocks.map((stock, index) => (
                         <div
                             key={stock.symbol}
                             className={`stock-item ${
                                 selectedStocks.includes(stock) ? "selected" : ""
                             }`}
                             onClick={() => handleSelectStock(stock)}
+                            style={{ "--index": index }}
                         >
                             <span>{stock.symbol}</span> -{" "}
                             <span>{stock.companyName}</span>

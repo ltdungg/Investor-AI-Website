@@ -16,6 +16,7 @@ function FavoriteLists({
     const [newListName, setNewListName] = useState("");
     const [editingRenameListId, setEditingRenameListId] = useState(null);
     const [renameListName, setRenameListName] = useState("");
+
     const handleClick = (e, listID) => {
         e.stopPropagation();
         setOpen(listID === open ? undefined : listID);
@@ -31,7 +32,6 @@ function FavoriteLists({
 
     function handleClickList(listID) {
         setOpen(undefined);
-
         const reg = /^\d+$/;
         const currentPath = location.pathname;
         const path = currentPath.split("/");
@@ -48,7 +48,6 @@ function FavoriteLists({
 
         callbackOnOKRef.current = () => {
             console.log(listID);
-
             api.delete(`/favourite/delete/${listID}`).then((response) => {
                 console.log(response.data);
                 setLists(lists.filter((_, ind) => ind !== index));
@@ -79,6 +78,7 @@ function FavoriteLists({
             window.location.href = "/favorite-list";
         });
     }
+
     function handleRenameList(listId) {
         if (!renameListName.trim()) return;
 
@@ -90,11 +90,12 @@ function FavoriteLists({
                         : list
                 );
                 setLists(updatedList);
-                setEditingRenameListId(null); // Reset renaming state
+                setEditingRenameListId(null);
                 setRenameListName("");
             }
         );
     }
+
     function displayFavoriteList() {
         return lists.map((item, index) => {
             if (!item) return;
@@ -103,7 +104,7 @@ function FavoriteLists({
             return (
                 <div
                     key={listId}
-                    className="sidebar-item"
+                    className="sidebar-item animate-item"
                     onClick={() => handleClickList(listId)}
                 >
                     {editingListId === listId ? (
@@ -124,9 +125,9 @@ function FavoriteLists({
                             type="text"
                             value={renameListName}
                             onChange={(e) => setRenameListName(e.target.value)}
-                            onBlur={() => handleRenameList(listId)} 
+                            onBlur={() => handleRenameList(listId)}
                             onKeyDown={(e) => {
-                                if (e.key === "Enter") handleRenameList(listId); 
+                                if (e.key === "Enter") handleRenameList(listId);
                             }}
                             onClick={(e) => e.stopPropagation()}
                             autoFocus
@@ -144,8 +145,8 @@ function FavoriteLists({
                                 <div
                                     className="rename-list"
                                     onClick={() => {
-                                        setEditingRenameListId(listId); 
-                                        setRenameListName(name); 
+                                        setEditingRenameListId(listId);
+                                        setRenameListName(name);
                                     }}
                                     children="Đổi tên"
                                 />
@@ -169,7 +170,7 @@ function FavoriteLists({
             <h2 className="title">Danh sách quan sát</h2>
             {displayFavoriteList()}
             <div
-                className="sidebar-item add-new-list"
+                className="sidebar-item add-new-list animate-item"
                 onClick={handleAddNewList}
             >
                 <FaPlus /> Thêm danh sách mới
