@@ -2,6 +2,7 @@
 @use "./../../../styles/main";
 
 .our-view {
+    background-color: main.$dark-grey;
     position: relative;
     min-height: 100vh;
     $gap: 1rem;

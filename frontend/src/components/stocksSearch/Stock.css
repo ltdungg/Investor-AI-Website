@@ -40,9 +40,7 @@
   box-shadow: var(--shadow);
   padding: 1.5rem;
   flex: 1;
-  transition: var(--transition);
-  transform: translateY(0);
-  animation: slideUp 0.5s ease-out;
+  transition: transform 0.2s ease;
 
   &:hover {
     transform: translateY(-5px);

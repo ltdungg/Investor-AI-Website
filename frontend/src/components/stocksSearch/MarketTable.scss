@@ -1,20 +1,11 @@
 @use "./../../styles/main";
 
 h2 {
-  color: var(--primary);
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  font-weight: 700;
-  text-align: center;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: pulse 2s infinite;
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-  }
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: 700;
+    text-align: center;
 }
 
 .market-table {

@@ -1,6 +1,6 @@
 .stock-box {
   width: 280px;
-  background: linear-gradient(45deg, #1e90ff, #00b7eb);
+  background: linear-gradient(145deg, #1e40af, #3b82f6);
   color: white;
   border-radius: 15px;
   padding: 20px;
@@ -34,6 +34,7 @@
   }
 
   .stock-code {
+    color: #ffbf00;
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 15px;
@@ -48,6 +49,7 @@
 
   .stock-source {
     font-size: 15px;
+    color: #ffbf00;
     margin-bottom: 12px;
     animation: slideInText 0.8s ease;
   }
