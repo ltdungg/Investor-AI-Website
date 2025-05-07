@@ -1,0 +1,211 @@
+// --- BIẾN MÀU CHO LIGHT THEME ---
+$light-bg: #ffffff;              // Nền trắng chính
+$light-bg-secondary: #f8f9fa;     // Nền phụ (header tóm tắt, header bảng) - xám rất nhạt
+$light-bg-hover: #eef3f5;        // Nền khi hover row - xanh nhạt hơn chút
+$text-primary: #212529;         // Chữ chính - gần đen
+$text-secondary: #6c757d;         // Chữ phụ (label) - xám
+$text-header: #495057;           // Chữ header bảng - xám đậm hơn
+$border-color: #dee2e6;         // Màu viền - xám nhạt
+$border-color-strong: #ced4da;    // Màu viền đậm hơn (ví dụ: viền phải cột sticky)
+$positive-color: #28a745;         // Màu xanh lá cây
+$negative-color: #dc3545;         // Màu đỏ
+$neutral-color: $text-primary;   // Màu cho giá trị 0%
+$highlight-color: #007bff;        // Màu highlight (tên ngành) - xanh dương
+
+.loading-indicator,
+.error-message {
+  color: $text-secondary; // Dùng màu chữ phụ cho loading/error
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 1.2rem;
+}
+
+.industry-sectors-page {
+  padding: 5rem 3rem;
+  background-color: $light-bg; // Đổi nền chính thành trắng
+  color: $text-primary;       // Đổi màu chữ chính
+  min-height: calc(100vh - 60px);
+  box-sizing: border-box;
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: $text-primary; // Đổi màu tiêu đề chính
+    border-bottom: 1px solid $border-color; // Thêm gạch chân nhẹ
+    padding-bottom: 0.5rem;
+  }
+
+  .summary-header {
+    display: flex;
+    justify-content: space-around;
+    background-color: $light-bg-secondary; // Nền phụ xám nhạt
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid $border-color; // Viền xám nhạt
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .label {
+        font-size: 0.85rem;
+        color: $text-secondary; // Màu chữ phụ
+        margin-bottom: 0.3rem;
+      }
+
+      .value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $text-primary; // Màu chữ chính
+      }
+    }
+  }
+
+  .sectors-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid $border-color; // Viền container bảng
+    border-radius: 8px;
+    background-color: $light-bg; // Đảm bảo nền container là trắng (quan trọng cho sticky)
+  }
+
+  .sectors-table {
+    width: 100%;
+    min-width: 1200px;
+    border-collapse: collapse;
+    background-color: $light-bg; // Nền bảng trắng
+    font-size: 0.9rem;
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid $border-color; // Viền dưới mỗi cell
+      white-space: nowrap;
+    }
+
+    thead th {
+      background-color: $light-bg-secondary;
+      color: $text-header;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10; // Giữ z-index cho header thường
+      text-align: right;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid $border-color;
+      white-space: nowrap;
+
+      &.text-left {
+        text-align: left;
+      }
+
+      &::after {
+         content: ' ↕';
+         opacity: 0.6;
+         margin-left: 4px;
+         color: $text-secondary; // Màu mũi tên xám nhạt hơn
+      }
+    }
+
+    tbody tr {
+      // Thêm position relative để tạo stacking context cho từng hàng
+      position: relative;
+      z-index: 1; // Đặt z-index cơ bản cho hàng
+
+      transition: background-color 0.15s ease-in-out;
+      &:hover {
+        background-color: $light-bg-hover;
+        z-index: 2;
+      }
+    }
+
+    tbody td {
+      color: $text-primary;
+      text-align: right;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid $border-color;
+      white-space: nowrap;
+
+      &.text-left {
+        text-align: left;
+      }
+
+       &.sector-name {
+         font-weight: 500;
+         color: $highlight-color; // Màu highlight tên ngành
+      }
+
+      // Giữ nguyên định dạng màu %
+      .positive {
+        color: $positive-color;
+      }
+      .negative {
+        color: $negative-color;
+      }
+      .neutral {
+          color: $text-primary;
+      }
+    }
+
+    // Cột đầu tiên cố định
+    .sticky-col {
+      position: sticky;
+      left: 0;
+      // Đặt màu nền rõ ràng giống màu nền bảng
+      background-color: $light-bg;
+      // Tăng z-index cho ô sticky trong tbody, nhưng thấp hơn header
+      z-index: 6; // Phải thấp hơn z-index của thead th (10)
+      border-right: 1px solid $border-color-strong;
+    }
+
+    tbody tr:hover td.sticky-col {
+      background-color: $light-bg-hover; // Lấy màu nền hover
+    }
+
+    // Header của cột cố định
+    thead th.sticky-col {
+      position: sticky; // Đảm bảo có sticky
+      left: 0;
+      background-color: $light-bg-secondary; // Nền giống header thường
+      z-index: 11; // Cao nhất để đè lên mọi thứ khác
+      border-right: 1px solid $border-color-strong;
+    }
+  }
+}
+
+// Responsive giữ nguyên
+@media (max-width: 768px) {
+  .industry-sectors-page {
+    padding: 1rem;
+
+    h2 {
+       font-size: 1.5rem;
+    }
+
+    .summary-header {
+       flex-wrap: wrap;
+       justify-content: space-between;
+       padding: 0.8rem;
+       .summary-item {
+          width: 48%;
+          margin-bottom: 0.8rem;
+          .label {
+             font-size: 0.8rem;
+          }
+          .value {
+             font-size: 1rem;
+          }
+       }
+    }
+
+    .sectors-table {
+        font-size: 0.85rem;
+        th, td {
+           padding: 0.6rem 0.7rem;
+        }
+    }
+  }
+}

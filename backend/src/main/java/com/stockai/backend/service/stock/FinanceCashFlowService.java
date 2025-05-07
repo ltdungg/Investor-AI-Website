@@ -23,8 +23,8 @@ public class FinanceCashFlowService implements QuarterlyFinancialData {
     public List<?> getFinancialData(String symbol) {
         List<FinanceCashFlow> list = financeCashFlowRepository.findAllByFinanceId_Symbol(symbol);
 
-        return List.of(list.stream().map(
+        return list.stream().map(
                 item -> financeCashFlowMapper.toFinanceCashFlowResponse(item)
-        ));
+        ).toList();
     }
 }

@@ -1,38 +1,11 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-import Annotation from "chartjs-plugin-annotation";
-import zoomPlugin from "chartjs-plugin-zoom";
-import backgroundPlugin from "./BackgroundChartPLugin.js";
 import { useEffect, useRef, useState } from "react";
 import api from "../../../utils/api/Api.js";
 import STOCK_ENUM from "../../../enum/STOCK_ENUM";
-import LINE_COLOR_ENUM from "../../../enum/LINE_COLOR_ENUM";
 import { Line } from "react-chartjs-2";
-import DateFormat from "../../../utils/DateFormat.js";
-import NumberFormat from "../../../utils/NumberFormat.js";
+import { getChartData, getChartOptions } from "./ChartOption.js";
+import ChartJS from "./ChartConfig.js";
 
-// Đăng ký các thành phần của Chart.js
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  zoomPlugin,
-  Annotation,
-  backgroundPlugin
-);
+ChartJS;
 
 function StockPriceGraphByPeriod({
   endpoint = "/1-month",
@@ -40,7 +13,10 @@ function StockPriceGraphByPeriod({
   lastData = {},
 }) {
   const [stockData, setStockData] = useState([]);
+  const [stockDate, setStockDate] = useState([]);
   const avg = useRef(0);
+  const chartRef = useRef(null);
+  const mousePos = useRef({ x: null, y: null });
 
   useEffect(() => {
     api.get(`/stock-price${endpoint}/${symbol}`).then((response) => {
@@ -51,8 +27,8 @@ function StockPriceGraphByPeriod({
         };
       });
 
-      console.log(responseData);
-      setStockData(responseData);
+      setStockData(responseData.map((stock) => stock[STOCK_ENUM.CLOSE]));
+      setStockDate(responseData.map((stock) => stock[STOCK_ENUM.TRADING_DATE]));
       avg.current = responseData[0][STOCK_ENUM.CLOSE];
       lastData.current =
         responseData[responseData.length - 1][STOCK_ENUM.CLOSE];
@@ -60,81 +36,44 @@ function StockPriceGraphByPeriod({
     });
   }, [endpoint, symbol]);
 
-  const data = {
-    // ...data,
-    labels: stockData.map((stock) =>
-      DateFormat(stock[STOCK_ENUM.TRADING_DATE])
-    ),
-    datasets: [
-      {
-        label: "Giá",
-        data: stockData.map((stock) => stock[STOCK_ENUM.CLOSE]),
-        borderColor: LINE_COLOR_ENUM.GREEN,
-        pointRadius: 0,
-        pointHoverRadius: 5, // Hiển thị điểm khi hover (tùy chọn)
-        pointHoverBackgroundColor: LINE_COLOR_ENUM.GREEN, // Màu điểm khi hover
-        pointHoverBorderColor: LINE_COLOR_ENUM.GREEN, // Viền điểm khi hover
-        // tension: 0.1,
-      },
-    ],
-  };
+  // Xử lý sự kiện di chuyển chuột
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const chart = chartRef.current;
+      if (!chart) return;
+      const canvas = chart.canvas;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      mousePos.current = {
+        x: xScale.getValueForPixel(x),
+        y: yScale.getValueForPixel(y),
+        clientX: x,
+        clientY: y,
+      };
+      chart.update("none");
+    };
 
-  const options = {
-    responsive: true,
-    // maintainAspectRatio: false,
-    animation: false,
-    scales: {
-      y: { beginAtZero: false },
-      x: { display: false }, // Ẩn nhãn ngày tháng trên trục x
-    },
-    interaction: {
-      mode: "nearest", // Tìm điểm gần nhất dựa trên vị trí chuột
-      intersect: false, // Không yêu cầu chuột phải giao với điểm, chỉ cần gần là được
-      axis: "x", // Chỉ xét khoảng cách theo trục X
-    },
-    plugins: {
-      legend: {
-        display: false, // Ẩn nhãn "Giá" và hộp chữ nhật
-      },
-      tooltip: { enabled: true },
-      zoom: {
-        limits: { x: { minRange: 1 } },
-        zoom: {
-          wheel: { enabled: true },
-          pinch: { enabled: true },
-          mode: "x", // Chỉ zoom theo trục X
-        },
-        pan: {
-          enabled: true, // Bật kéo thả để di chuyển
-          mode: "x",
-        },
-      },
-      annotation: {
-        annotations: {
-          line1: {
-            type: "line",
-            yMin: avg.current,
-            yMax: avg.current,
-            borderColor: "rgba(0, 0, 0, 0.5)",
-            borderWidth: 1,
-            borderDash: [3, 3],
-            label: {
-              display: true,
-              content: `${NumberFormat(avg.current)}`,
-              position: "end",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              color: "#fff",
-              padding: 4,
-              font: {
-                size: 12,
-                weight: "bold",
-              },
-            },
-          },
-        },
-      },
-    },
-  };
+    const handleMouseLeave = () => {
+      mousePos.current = { x: null, y: null };
+      chartRef.current?.update("none");
+    };
+
+    const chart = chartRef.current;
+    if (chart) {
+      chart.canvas.addEventListener("mousemove", handleMouseMove);
+      chart.canvas.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (chart) {
+        chart.canvas.removeEventListener("mousemove", handleMouseMove);
+        chart.canvas.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
 
   if (stockData.length <= 0) {
     return (
@@ -145,7 +84,13 @@ function StockPriceGraphByPeriod({
     );
   }
 
-  return <Line data={data} options={options} />;
+  return (
+    <Line
+      data={getChartData(stockDate, stockData)}
+      options={getChartOptions(avg.current, mousePos.current)}
+      ref={chartRef}
+    />
+  );
 }
 
 export default StockPriceGraphByPeriod;
