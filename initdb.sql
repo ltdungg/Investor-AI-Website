@@ -209,5 +209,27 @@ CREATE TABLE stock.predicted_stock (
     "symbol" TEXT,
     "date" DATE NOT NULL,
     "price" FLOAT NOT NULL,
-    PRIMARY KEY ("symbol")
-)
+    PRIMARY KEY ("symbol", "date")
+);
+
+CREATE TABLE stock.analysis_report (
+    "id" INT,
+    "symbol" TEXT,
+    "source" TEXT,
+    "report_year" INT,
+    "name" TEXT,
+    "published_at" DATE,
+    "body_url" TEXT,
+    PRIMARY KEY ("id")
+);
+
+CREATE TABLE stock.news (
+    "id" INT,
+    "title" TEXT,
+    "date" TIMESTAMP,
+    "redirect_url" TEXT,
+    "thumb" TEXT,
+    "publisher" TEXT,
+    "description" TEXT,
+    PRIMARY KEY ("id")
+);

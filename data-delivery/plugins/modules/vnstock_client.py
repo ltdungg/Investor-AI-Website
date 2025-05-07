@@ -1,6 +1,5 @@
 from vnstock3 import Vnstock
 import pandas as pd
-import asyncio
 import datetime
 import time
 

@@ -17,7 +17,7 @@ public interface StockInformationRepository extends JpaRepository<StockInformati
     @Query("SELECT s FROM StockInformation s WHERE s.symbol IN :symbols AND s.companyName IS NOT NULL")
     List<StockInformation> findBySymbolIn(@Param("symbols") List<String> symbols);
 
-    @Query("SELECT s FROM StockInformation s WHERE LOWER(s.symbol) LIKE LOWER(CONCAT('%', :symbol, '%')) AND s.companyName IS NOT NULL")
+    @Query("SELECT s FROM StockInformation s WHERE LOWER(s.symbol) LIKE LOWER(CONCAT('%', :symbol, '%')) AND s.companyName IS NOT NULL ORDER BY s.symbol")
     List<StockInformation> findBySymbolIsContainingIgnoreCase(@Param("symbol") String symbol);
 
     @Query(value = """

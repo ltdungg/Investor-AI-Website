@@ -18,8 +18,8 @@ def get_data(symbol):
         df = pd.read_parquet(f"s3a://{BUCKET}/RAW_STOCK_DATA/symbol={symbol}",
                              engine='fastparquet',
                              storage_options=storage_options)
-    except:
-        return -1
+    except Exception as e:
+        raise Exception(f"Error: {e}")
     else:
         df['ticker'] = symbol
         df = df[['ticker', 'trading_date', 'close']]
@@ -33,6 +33,11 @@ def get_data(symbol):
         one_month_ago = datetime.datetime.now() - datetime.timedelta(days=30)
 
         if max_time < one_month_ago:
+            print("Cổ phiếu này không được giao dịch gần đây!")
             return -1
 
         return time_filtered
+
+if __name__ == '__main__':
+    df = get_data('FPT')
+    print(df)

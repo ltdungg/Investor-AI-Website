@@ -9,7 +9,7 @@ import math
 
 vnstock = VnStockClient()
 CUDA_CONTAINER = 'investor-ai-website-cuda-1'
-batch_size = 3
+batch_size = 1
 
 vn30 = vnstock.get_vn30_stock_list()
 vn100 = [item for item in vnstock.get_vn100_stock_list() if item not in set(vn30)]

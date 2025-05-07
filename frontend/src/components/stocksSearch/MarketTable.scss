@@ -1,20 +1,41 @@
 @use "./../../styles/main";
 
+h2 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: 700;
+    text-align: center;
+}
+
 .market-table {
+  width: 100%;
   border-collapse: collapse;
+  font-size: 0.95em;
 
-  th,
-  td {
-    padding: 0.3rem 1rem;
-    border: 1px solid main.$black;
+  th {
+    background-color: var(--primary);
+    color: white;
+    padding: 12px;
     text-align: left;
-    max-width: 20rem;
+    font-weight: 500;
+    @extend .text-overflow;
+  }
+  .table-row {
+      &:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+
+    &:hover {
+      background-color: #e9f4ff;
+      transition: background-color 0.2s ease;
+    }
   }
 
-  .price-change {
-    font-weight: bold;
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #e9ecef;
   }
-
   .company-name {
     @extend .text-overflow;
   }

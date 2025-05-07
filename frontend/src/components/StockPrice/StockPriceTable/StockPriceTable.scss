@@ -1,11 +1,14 @@
 @use "./../../../styles/main";
 
 .stock-price__table {
-    width: 95%;
-    padding: 0 1rem;
+    width: 100%;
     min-width: 65rem;
-    margin: auto;
     border-spacing: 0px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 15px;
+    margin-bottom: 30px;
 
     thead {
         background: linear-gradient(to right, #81e6ea, #014bae);
@@ -22,6 +25,13 @@
             &:last-child {
                 border-top-right-radius: $radius;
             }
+            background-color: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
         }
     }
+
+
 }

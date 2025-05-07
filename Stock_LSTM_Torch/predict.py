@@ -7,10 +7,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from data.minio_data import get_data
 import sys
+from pathlib import Path
 
-def predict_future(df, n_days_future=7, sequence_length=3):
-
-    ticker = df.at[0, 'ticker']
+def predict_future(ticker, df, n_days_future=7, sequence_length=3):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -77,15 +76,20 @@ def predict_future(df, n_days_future=7, sequence_length=3):
 
 if __name__ == "__main__":
 
-    symbol_list = sys.argv[1:]
+    folder_path = Path('/Stock_LSTM_Torch/saved_model')
+    file_list = [f.name for f in folder_path.iterdir() if f.is_file()]
+    symbol_list = [name.split('_')[0] for name in file_list]
+
     print(symbol_list)
 
     for symbol in symbol_list:
         df = get_data(symbol)
+        print(f"Processing symbol: {symbol}")
         if type(df) != int:
             print(df.info())
 
             df_future = predict_future(
+                ticker=symbol,
                 df=df,
                 n_days_future=7,
                 sequence_length=3

@@ -24,6 +24,7 @@ function App() {
 
     return (
         <div className="App">
+            <ScrollToTop />
             {/* Navbar chỉ hiển thị nếu không phải trang login/register */}
             {!isAuthRoute && <Navbar />}
 

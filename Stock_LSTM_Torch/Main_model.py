@@ -6,11 +6,9 @@ from data.process import process
 from src.model import PriceModel
 from src.optimizer import Optimizer
 from src.train import Trainer
-from src.plot import Plotter
 from data.minio_data import get_data
 from multiprocessing import Process
 import sys
-
 
 def train(dataframe):
     sequence_length = 3

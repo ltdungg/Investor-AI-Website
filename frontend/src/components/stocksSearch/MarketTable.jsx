@@ -14,15 +14,15 @@ function MarketStocks({ stocks = [], title = "" }) {
         companyName: companyName,
       } = stock;
       return (
-        <tr key={symbol}>
-          <td className="symbol">{symbol}</td>
+        <tr className="table-row" key={symbol}>
+          <td className="tabel-cell">{symbol}</td>
           <td
-            className="company-name"
+            className="tabel-cell company-name"
             title={companyName}
             children={companyName}
           />
-          <td className="price">{NumberFormat(close)}</td>
-          <td className="price-change">
+          <td className="tabel-cell">{NumberFormat(close)}</td>
+          <td className="tabel-cell">
             {ColorForData(priceChange, undefined, "%")}
           </td>
         </tr>
@@ -35,7 +35,7 @@ function MarketStocks({ stocks = [], title = "" }) {
       <thead>
         <tr>
           <th children="Mã" />
-          <th children="Công ty" />
+          <th children="Tên Công ty" />
           <th children="Giá" />
           <th children="Biến động" />
         </tr>

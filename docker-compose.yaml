@@ -32,6 +32,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - /var/run/docker.sock:/var/run/docker.sock
+    - ${LLM_DIR:-.}:/LLM_analysis
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -47,13 +48,15 @@ services:
     volumes:
       - ./Stock_LSTM_Torch:/Stock_LSTM_Torch
     command: tail -f /dev/null
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
     deploy:
       resources:
         reservations:
           devices:
-              - driver: nvidia
-                count: 1
-                capabilities: [ gpu ]
+             - capabilities: [gpu]
 
   spark-master:
     build:

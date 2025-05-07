@@ -95,25 +95,26 @@
                 transform: scale(1.1);
             }
         }
-    
+        &:hover .user-menu {
+            display: block;
+        }
         .user-menu {
             position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
+            top: calc(100% + 5px);
+            right: -5px;
             background-color: #ffffff;
             border: 1px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 260px;
-            height: auto;
-            z-index: 200;
+            display: none; 
+            
             .user-menu__item-container {
                 padding: 15px;
                 margin-left: 20px;
                 margin-right: 20px;
                 border-bottom: 1px solid #ccc;
                 transition: background-color 0.3s;
-        
                 &:hover {
                     background-color: #ebf5ff;
                     border-radius: 10px;
