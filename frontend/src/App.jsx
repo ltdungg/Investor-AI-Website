@@ -16,6 +16,7 @@ import NotFound404 from "./components/not_found/not_found";
 import AnalysisReport from "./components/analysis_report/analysis_report";
 import IndustrySectors from "./components/industrySectors/industrySectors";
 import News from "./components/news/news";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 function App() {
