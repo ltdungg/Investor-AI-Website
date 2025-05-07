@@ -16,6 +16,10 @@
     background-color: var(--background);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .text-overflow {
     white-space: nowrap; /* Không cho phép dòng văn bản xuống dòng */
     overflow: hidden; /* Ẩn phần văn bản vượt quá */
