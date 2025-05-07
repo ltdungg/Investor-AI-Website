@@ -7,7 +7,8 @@ function ScrollToTop() {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // Thêm hiệu ứng cuộn mượt
+      left: 0,
+      behavior: "smooth", // Hiệu ứng cuộn mượt
     });
   }, [pathname]); // Chạy lại khi pathname thay đổi
 

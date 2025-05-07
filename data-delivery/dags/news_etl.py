@@ -103,7 +103,7 @@ def news_etl():
     @task
     def load_news_data(news_df):
         engine = create_engine(postgres_connection_url)
-        news_df.to_sql(news_table, con=engine, if_exists='append', index=False, schema='stock', chunksize=10000)
+        news_df.to_sql(news_table, con=engine, if_exists='replace', index=False, schema='stock', chunksize=10000)
 
     url_list = get_api_url()
     news_data_list = extract_news(url_list)

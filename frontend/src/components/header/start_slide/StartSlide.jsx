@@ -1,5 +1,5 @@
 import { FaCirclePlay } from "react-icons/fa6";
-import ScrollTo from "../../../utils/ScrollTo";
+import { scroller } from "react-scroll";
 import "./StartSlide.scss";
 
 function StartSlide() {
@@ -8,7 +8,12 @@ function StartSlide() {
       <button
         className="start-btn"
         onClick={() => {
-          ScrollTo(".content");
+          scroller.scrollTo("content", {
+            duration: 800, // thời gian hiệu ứng (ms)
+            delay: 0,
+            smooth: "easeInOutQuart", // kiểu hiệu ứng
+            offset: -20, // nếu muốn căn chỉnh vị trí scroll
+          });
         }}
       >
         <div className="start-btn__arrow">
