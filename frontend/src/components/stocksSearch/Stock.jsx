@@ -4,11 +4,13 @@ import MarketStocks from "./MarketTable";
 import StockPrice from "../StockPrice/StockPrice";
 import { useEffect, useState } from "react";
 import api from "../../utils/api/Api";
+import Loading from "../loading/loading";
 
 function Stock() {
   const limit = 5;
   const [highestStocks, setHighestStocks] = useState([]);
   const [lowestStocks, setLowestStocks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     api.get("/stock/").then((response) => {
@@ -28,6 +30,13 @@ function Stock() {
     });
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+    if (lowestStocks.length && highestStocks.length) {
+      setIsLoading(false);
+    }
+  }, [lowestStocks, highestStocks]);
+
   return (
     <div className="stocks_page">
       <div className="flex_container">
@@ -46,6 +55,7 @@ function Stock() {
         <MarketStocks title="Top Giảm Giá" stocks={lowestStocks} />
       </div>
       <StockPrice />
+      {isLoading && <Loading />}
     </div>
   );
 }
