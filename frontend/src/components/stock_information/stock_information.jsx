@@ -14,7 +14,7 @@ function StockInfor() {
     const [currPeriod, setCurrPeriod] = useState(0);
     const [activeTab, setActiveTab] = useState("overview");
     const lastData = useRef(0);
-    const [financeRadio, setFinanceRadio] = useState(null);
+    const [financeRatio, setFinanceRatio] = useState(null);
     function getFinanceRatio(symbol) {
       return api.get(`/finance-ratio/${symbol}`);
     }
@@ -24,7 +24,7 @@ function StockInfor() {
                 setStockInformation(response.data)
             );
             getFinanceRatio(symbol).then((response) => 
-            setFinanceRadio(response.data)
+            setFinanceRatio(response.data)
             );
         }
     }, [symbol]);
@@ -126,7 +126,7 @@ function StockInfor() {
                                         <tr>
                                             <td>P/E</td>
                                             <td>
-                                                {financeRadio?.priceToEarning||
+                                                {financeRatio?.priceToEarning||
                                                     "N/A"}
                                             </td>
                                         </tr>
