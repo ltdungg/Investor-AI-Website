@@ -55,7 +55,6 @@ function App() {
                     <Route path="/industrySectors" element={<IndustrySectors />} />
                     <Route path="/news" element={<News />} />
                     <Route path="/*" element={<NotFound404 />} />
-                    <Route path="/stocks/:symbol" element={<StockOverview />} />
                     <Route path="/stocks/:symbol/financial" element={<StockFinancial />} />
                     <Route path="/stocks/:symbol/priceHistory" element={<StockPriceHistory />} />
                 </Routes>

@@ -1,8 +1,8 @@
-import { Link, useParams, useLocation } from "react-router-dom";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 
-function StockHeader({ stockInformation, formatPrice }) {
+function StockHeader({ stockInformation, financeRatio, formatPrice, tabs }) {
   const { symbol } = useParams();
-  const location = useLocation();
 
   return (
     <>
@@ -43,7 +43,7 @@ function StockHeader({ stockInformation, formatPrice }) {
         <div className="stock-header-right">
           <div className="price-container">
             <div className="price-group">
-              <span className="stock ​​​​​​stock-price">
+              <span className="stock-price">
                 {formatPrice(stockInformation.price)}
               </span>
               <span
@@ -64,56 +64,73 @@ function StockHeader({ stockInformation, formatPrice }) {
             </div>
           </div>
           <div className="financial-metrics-grid">
-            {[
-              "pe",
-              "pb",
-              "roe",
-              "eps",
-              "EV/EBITDA",
-              "ROA",
-              "D/E",
-              "Current Ratio",
-            ].map((metric, index) => (
-              <div className="metric-card" key={index}>
-                <div className="metric-label">{metric.toUpperCase()}</div>
-                <div className="metric-value">
-                  {stockInformation.financialMetrics?.[metric] || "N/A"}
+              {/* <div className="financial-metrics-grid">
+                              {[
+                                  "pe",
+                                  "pb",
+                                  "roe",
+                                  "eps",
+                                  "EV/EBITDA",
+                                  "ROA",
+                                  "D/E",
+                                  "Current Ratio",
+                              ].map((metric, index) => (
+                                  <div className="metric-card" key={index}>
+                                      <div className="metric-label">
+                                          {metric.toUpperCase()}
+                                      </div>
+                                      <div className="metric-value">
+                                          {stockInformation.financialMetrics?.[
+                                              metric
+                                          ] || "N/A"}
+                                      </div>
+                                  </div>
+                              ))}
+                          </div> */}
+            {financeRatio && (
+              <>
+                <div className="metric-card">
+                  <div className="metric-label">P/E</div>
+                  <div className="metric-value">
+                    {financeRatio.priceToEarning || "N/A"}
+                  </div>
                 </div>
-              </div>
-            ))}
+                <div className="metric-card">
+                  <div className="metric-label">P/B</div>
+                  <div className="metric-value">
+                    {financeRatio.priceToBook || "N/A"}
+                  </div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">ROE</div>
+                  <div className="metric-value">{financeRatio.roe || "N/A"}</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">EPS</div>
+                  <div className="metric-value">{"N/A"}</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">EV/EBITDA</div>
+                  <div className="metric-value">{"N/A"}</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">ROA</div>
+                  <div className="metric-value">{financeRatio.roa || "N/A"}</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">D/E</div>
+                  <div className="metric-value">{"N/A"}</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">Current Ratio</div>
+                  <div className="metric-value">{"N/A"}</div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
-      <div className="tabs-container">
-        <div className="tabs-header">
-          <Link
-            to={`/stocks/${symbol}`}
-            className={`tab-link ${
-              location.pathname === `/stocks/${symbol}` ? "active" : ""
-            }`}
-          >
-            Tổng quan
-          </Link>
-          <Link
-            to={`/stocks/${symbol}/financial`}
-            className={`tab-link ${
-              location.pathname === `/stocks/${symbol}/financial` ? "active" : ""
-            }`}
-          >
-            Số liệu tài chính
-          </Link>
-          <Link
-            to={`/stocks/${symbol}/priceHistory`}
-            className={`tab-link ${
-              location.pathname === `/stocks/${symbol}/priceHistory`
-                ? "active"
-                : ""
-            }`}
-          >
-            Lịch sử giá
-          </Link>
-        </div>
-      </div>
+      {tabs && <div className="tabs-container">{tabs}</div>}
     </>
   );
 }
