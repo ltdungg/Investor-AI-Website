@@ -10,6 +10,8 @@
   --dark-gray: #333333;
   --positive: #00aa00;
   --negative: #dd0000;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
 }
 
 .stock-detail-page {
@@ -50,7 +52,7 @@
 .stock-code {
   color: var(--primary-blue);
   font-size: 2.5rem;
-  margin: 0 0 5px 0;
+  margin: 0 0 57640px 5px 0;
 }
 
 .stock-name {
@@ -201,30 +203,61 @@
   margin-bottom: 20px;
 }
 
-.tab-button {
+.tab-link {
+  display: inline-block;
   padding: 12px 24px;
   font-size: 1rem;
-  background-color: var(--white);
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-bottom: 3px solid transparent;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
   font-weight: bold;
   color: var(--dark-gray);
+  background-color: var(--white);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
 }
 
-.tab-button:hover {
+.tab-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--primary-blue);
+  transition: width 0.3s ease;
+}
+
+.tab-link:hover {
   background-color: var(--light-blue);
   color: var(--primary-blue);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
-.tab-button.active {
+.tab-link:hover::after {
+  width: 100%;
+}
+
+.tab-link.active {
   border-bottom: 3px solid var(--primary-blue);
   color: var(--primary-blue);
+  background-color: var(--light-blue);
+}
+
+.tab-link.active::after {
+  width: 100%;
 }
 
 .tab-content {
   padding: 20px 0;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 .chart-section {
@@ -329,7 +362,7 @@
 .financial-table {
   width: 100%;
   border-collapse: collapse;
-  box_STANDARD_SHADOW: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -417,6 +450,15 @@
   .chart-period-selector button {
     flex: 1 0 calc(33.333% - 10px);
   }
+
+  .tab-link {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+
+  .tabs-container {
+    padding: 0 8px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -438,5 +480,17 @@
 
   .chart-period-selector button {
     flex: 1 0 calc(50% - 10px);
+  }
+
+  .tab-link {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .tabs-header {
+    flex-direction: column;
+    border-bottom: none;
   }
 }

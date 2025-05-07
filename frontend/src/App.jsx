@@ -16,7 +16,9 @@ import NotFound404 from "./components/not_found/not_found";
 import AnalysisReport from "./components/analysis_report/analysis_report";
 import ScrollToTop from "./components/ScrollToTop";
 import AnalysisTemplate from "./components/analysis_report/analysis/AnalysisTemplate";
-
+import StockFinancial from "./components/stock_information/StockFinancial";
+import StockOverview from "./components/stock_information/StockOverview";
+import StockPriceHistory from "./components/stock_information/StockPriceHistory";
 function App() {
     const location = useLocation();
     const isAuthRoute = ["/login", "/register"].includes(location.pathname);
@@ -48,6 +50,9 @@ function App() {
                     <Route path="/analysis-report" element={<AnalysisReport />} />
                     <Route path="/analysis/:symbol" element={<AnalysisTemplate />} />
                     <Route path="/*" element={<NotFound404 />} />
+                    <Route path="/stocks/:symbol" element={<StockOverview />} />
+                    <Route path="/stocks/:symbol/financial" element={<StockFinancial />} />
+                    <Route path="/stocks/:symbol/priceHistory" element={<StockPriceHistory />} />
                 </Routes>
             </div>
 
