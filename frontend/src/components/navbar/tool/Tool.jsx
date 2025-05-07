@@ -25,7 +25,7 @@ function Tool(props) {
             tool: "Phân tích cổ phiếu",
         },
         {
-            link: "/3",
+            link: "/industrySectors",
             icon: TiGroup,
             tool: "Nhóm ngành",
         },
@@ -35,7 +35,7 @@ function Tool(props) {
             tool: "Bộ lọc cổ phiếu",
         },
         {
-            link: "/5",
+            link: "/news",
             icon: FaRegNewspaper,
             tool: "Tin tức",
         },

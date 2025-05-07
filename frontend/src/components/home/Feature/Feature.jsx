@@ -22,12 +22,12 @@ function Feature() {
             feature: "Cổ phiếu",
         },
         {
-            link: "./3",
+            link: "/industrySectors",
             icon: TiGroup,
             feature: "Nhóm ngành",
         },
         {
-            link: "./5",
+            link: "/news",
             icon: FaRegNewspaper,
             feature: "Tin tức",
         },
