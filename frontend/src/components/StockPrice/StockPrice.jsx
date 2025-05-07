@@ -9,7 +9,6 @@ import getAllStock from "../../utils/api/stock_api_utils/GetAllStock";
 import getAllIndustries from "../../utils/api/stock_api_utils/GetAllIndustries";
 import "./StockPrice.scss";
 import { useRef } from "react";
-import Loading from "../loading/loading";
 
 function StockPrice() {
   const platformConditionTemplate = ["UPCOM", "HNX", "HOSE"];
@@ -50,7 +49,15 @@ function StockPrice() {
         data[element.icbId] = element;
       });
       condition.current = Array.from(
-        new Set(Object.values(data).map((val) => val.icbName))
+        new Set(
+          Object.values(data).map((val) => {
+            if (val.level == 1) {
+              console.log(val);
+              return val.icbName;
+            }
+            return undefined;
+          })
+        )
       );
       setIndustries(data);
     });

@@ -13,7 +13,7 @@ export const getChartData = (stockDate, stockData) => ({
       pointHoverRadius: 5,
       pointHoverBackgroundColor: LINE_COLOR_ENUM.GREEN,
       pointHoverBorderColor: LINE_COLOR_ENUM.GREEN,
-      tension: 0.5,
+      // tension: 0.5,
     },
   ],
 });
@@ -51,9 +51,9 @@ export const getChartOptions = (avg, mousePos) => ({
           type: "line",
           yMin: avg,
           yMax: avg,
-          borderColor: "rgba(0, 0, 0, 0.5)",
-          borderWidth: 1,
-          borderDash: [3, 3],
+          borderColor: "#f59e0b",
+          borderWidth: 1.5,
+          borderDash: [5, 5],
           label: {
             display: true,
             content: `${NumberFormat(avg)}`,

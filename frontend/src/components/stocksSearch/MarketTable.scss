@@ -1,11 +1,11 @@
 @use "./../../styles/main";
 
-h2 {
-    color: var(--primary);
-    margin-bottom: 20px;
-    font-size: 1.8em;
-    font-weight: 700;
-    text-align: center;
+.market_container h2 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: 700;
+  text-align: center;
 }
 
 .market-table {
@@ -43,8 +43,14 @@ h2 {
     }
 
     @keyframes slideIn {
-      from { transform: translateX(-20px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
   }
 

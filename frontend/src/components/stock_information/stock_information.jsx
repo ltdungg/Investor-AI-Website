@@ -63,6 +63,7 @@ function StockInfor() {
                             </div>
                             {symbol && (
                                 <StockPriceGraphByPeriod
+                                    className="the-chart"
                                     symbol={symbol}
                                     endpoint={PERIOD_ENUM[currPeriod]}
                                     lastData={lastData}

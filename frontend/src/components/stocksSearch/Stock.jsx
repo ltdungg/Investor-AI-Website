@@ -41,7 +41,7 @@ function Stock() {
     <div className="stocks_page">
       <div className="flex_container">
         <div className="search_container">
-          <h1>Tìm kiếm một cổ phiếu để bắt đầu phân tích của bạn</h1>
+          <h1 className="search_container__title">Tìm kiếm một cổ phiếu để bắt đầu phân tích của bạn</h1>
           <p>
             Thông tin chính xác về gần 2000 cổ phiếu. Xem giá cổ phiếu, tin tức,
             tài chính, dự báo, biểu đồ và nhiều thông tin khác.

@@ -10,6 +10,7 @@ ChartJS;
 function StockPriceGraphByPeriod({
   endpoint = "/1-month",
   symbol = "",
+  className,
   lastData = {},
 }) {
   const [stockData, setStockData] = useState([]);
@@ -86,6 +87,7 @@ function StockPriceGraphByPeriod({
 
   return (
     <Line
+    className={className}
       data={getChartData(stockDate, stockData)}
       options={getChartOptions(avg.current, mousePos.current)}
       ref={chartRef}

@@ -6,10 +6,6 @@
   --white: #ffffff;
 }
 
-body {
-  background-color: var(--light-gray);
-  font-family: 'Roboto', sans-serif;
-}
 
 .news-container {
   max-width: 1200px;
