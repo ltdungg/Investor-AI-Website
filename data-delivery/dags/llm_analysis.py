@@ -95,7 +95,7 @@ def llm_analysis():
     df = get_reports_data()
 
     df >> load_data_to_postgres(df)
-    # df >> analysis_and_push_to_minio(df)
+    df >> analysis_and_push_to_minio(df)
 
 llm_analysis()
 

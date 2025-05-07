@@ -9,12 +9,15 @@ import getAllStock from "../../utils/api/stock_api_utils/GetAllStock";
 import getAllIndustries from "../../utils/api/stock_api_utils/GetAllIndustries";
 import "./StockPrice.scss";
 import { useRef } from "react";
+import Loading from "../loading/loading";
 
 function StockPrice() {
   const platformConditionTemplate = ["UPCOM", "HNX", "HOSE"];
   const [stocks, setStocks] = useState([]);
   const [industries, setIndustries] = useState([]);
-  const [platformCondition, setPlatformCondition] = useState(platformConditionTemplate);
+  const [platformCondition, setPlatformCondition] = useState(
+    platformConditionTemplate
+  );
   const [industryCondition, setIndustryCondition] = useState([]);
   const [curFilter, setCurFilter] = useState(null);
   const condition = useRef([]);
