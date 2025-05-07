@@ -1,3 +1,5 @@
+from pathlib import Path
+from data.minio_data import get_data
 from src.model import PriceModel
 from data.process import process
 import torch
@@ -5,15 +7,13 @@ import pandas as pd
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
-from data.minio_data import get_data
-import sys
-from pathlib import Path
 
-def predict_future(ticker, df, n_days_future=7, sequence_length=3):
 
+def predict_future(ticker, df, n_days_future=7, sequence_length=3, model_path=None):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model_path = f"./saved_model/{ticker}_model.pth"
+    if model_path is None:
+        model_path = f"./saved_model/{ticker}_model.pth"
 
     model = PriceModel(input_size=1)
     model.load_state_dict(torch.load(model_path, map_location=device))
@@ -22,6 +22,7 @@ def predict_future(ticker, df, n_days_future=7, sequence_length=3):
 
     processor = process(scaler_path=f"./scalers/{ticker}_scaler.save")
 
+    # Read DataFrame
     try:
         if 'time' in df.columns:
             df['time'] = pd.to_datetime(df['time'])
@@ -36,30 +37,41 @@ def predict_future(ticker, df, n_days_future=7, sequence_length=3):
         print("Not enough data to predict.")
         return None
 
-    df = processor.data_scaling(df, fit=False)
+    df = processor.compute_technical_indicators(df)
+    scaled_data = processor.data_scaling(df, fit=False)
+    if scaled_data is None or len(scaled_data) == 0:
+        print("No valid scaled data for prediction.")
+        return None
 
-    last_sequence = df['close'].values[-sequence_length:]  # giả sử cột giá cần dự đoán là 'Close'
-    last_sequence = last_sequence.reshape(1, sequence_length, 1)  # (batch, seq_len, feature)
+    # Tạo DataFrame từ scaled_data
+    features = ['close', 'volume', 'SMA', 'EMA', 'RSI', 'MACD',
+                'MACD_Signal', 'MACD_Hist', 'BB_High', 'BB_Low',
+                'Stoch_K', 'Stoch_D']
+    scaled_df = pd.DataFrame(scaled_data, columns=features, index=df.index)
+
+    last_sequence = scaled_df[features].values[-sequence_length:]  #
+    last_sequence = last_sequence.reshape(1, sequence_length, 12)  # (batch, seq_len, feature)
     last_sequence = torch.tensor(last_sequence, dtype=torch.float32).to(device)
 
     predictions = []
 
-    model.eval()
+    # model.eval()
     for _ in range(n_days_future):
         with torch.no_grad():
-            pred = model(last_sequence)  # đầu ra (batch, 1)
+            pred = model(last_sequence)  # (batch, 1)
             pred_value = pred.item()
             predictions.append(pred_value)
 
         # cập nhật input cho lần dự đoán tiếp theo
         last_sequence = last_sequence.squeeze(0).cpu().numpy()  # (seq_len, feature)
-        last_sequence = np.append(last_sequence, pred_value)
-        last_sequence = last_sequence[-sequence_length:]
-        last_sequence = torch.tensor(last_sequence.reshape(1, sequence_length, 1), dtype=torch.float32).to(device)
+        new_row = last_sequence[-1].copy()  # Lấy hàng cuối
+        new_row[0] = pred_value  # update 'close'
+        last_sequence = np.append(last_sequence[1:], [new_row], axis=0)  # (seq_len, 12)
+        last_sequence = torch.tensor(last_sequence.reshape(1, sequence_length, 12), dtype=torch.float32).to(device)
 
     # Inverse scaling predictions
     predictions = np.array(predictions).reshape(-1, 1)
-    y_pred = processor.inverse_scale(predictions)
+    y_pred = processor.inverse_scale(predictions, features_idx=0)
 
     # Tạo ngày cho dữ liệu dự báo
     last_date = df.index[-1]
@@ -75,7 +87,6 @@ def predict_future(ticker, df, n_days_future=7, sequence_length=3):
 
 
 if __name__ == "__main__":
-
     folder_path = Path('/Stock_LSTM_Torch/saved_model')
     file_list = [f.name for f in folder_path.iterdir() if f.is_file()]
     symbol_list = [name.split('_')[0] for name in file_list]
@@ -98,5 +109,3 @@ if __name__ == "__main__":
             print(df_future)
         else:
             continue
-
-

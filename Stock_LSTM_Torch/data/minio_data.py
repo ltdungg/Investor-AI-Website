@@ -21,13 +21,11 @@ def get_data(symbol):
     except Exception as e:
         raise Exception(f"Error: {e}")
     else:
-        df['ticker'] = symbol
-        df = df[['ticker', 'trading_date', 'close']]
         df = df.sort_values(by='trading_date', ascending=True)
         df.rename(columns={'trading_date': 'time'}, inplace=True)
         df['time'] = pd.to_datetime(df['time'])
 
-        time_filtered = df[df['time'].dt.year >= df['time'].dt.year.max() - 2]
+        time_filtered = df[df['time'].dt.year >= df['time'].dt.year.max() - 7]
 
         max_time = df['time'].max()
         one_month_ago = datetime.datetime.now() - datetime.timedelta(days=30)
@@ -35,6 +33,8 @@ def get_data(symbol):
         if max_time < one_month_ago:
             print("Cổ phiếu này không được giao dịch gần đây!")
             return -1
+
+        time_filtered = time_filtered[['time', 'close', 'volume', 'high', 'low']]
 
         return time_filtered
 

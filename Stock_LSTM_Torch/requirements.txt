@@ -5,3 +5,4 @@ scikit-learn
 pandas==2.1.4
 fastparquet
 s3fs
+ta

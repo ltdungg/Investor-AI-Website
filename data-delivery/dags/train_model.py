@@ -11,12 +11,13 @@ vnstock = VnStockClient()
 CUDA_CONTAINER = 'investor-ai-website-cuda-1'
 batch_size = 1
 
-vn30 = vnstock.get_vn30_stock_list()
-vn100 = [item for item in vnstock.get_vn100_stock_list() if item not in set(vn30)]
-hose = [item for item in vnstock.get_hose_stock_list() if item not in set(vn100)]
-hnx = [item for item in vnstock.get_hnx_stock_list() if item not in set(vn100)]
-upcom = vnstock.get_upcom_stock_list()
+# vn30 = vnstock.get_vn30_stock_list()
+# vn100 = [item for item in vnstock.get_vn100_stock_list() if item not in set(vn30)]
+# hose = [item for item in vnstock.get_hose_stock_list() if item not in set(vn100)]
+# hnx = [item for item in vnstock.get_hnx_stock_list() if item not in set(vn100)]
+# upcom = vnstock.get_upcom_stock_list()
 
+vn30 = ['ACB', 'BCM', 'BID', 'BVH', 'CTG', 'FPT', 'GAS', 'GVR', 'HDB', 'HPG', 'LPB', 'MBB', 'MSN', 'MWG', 'PLX', 'SAB', 'SHB', 'SSB', 'SSI', 'STB', 'TCB', 'TPB', 'VCB', 'VHM', 'VIB', 'VIC', 'VJC', 'VNM', 'VPB', 'VRE']
 
 def create_batch_task_group(stock_list, batch_size, parent_group_id):
     @task_group(group_id=parent_group_id)
@@ -51,12 +52,13 @@ def create_batch_task_group(stock_list, batch_size, parent_group_id):
 def train_model_daily():
 
     vn30_group = create_batch_task_group(stock_list=vn30, batch_size=batch_size, parent_group_id='vn30_group')
-    vn100_group = create_batch_task_group(stock_list=vn100, batch_size=batch_size, parent_group_id='vn100_group')
-    hose_group = create_batch_task_group(stock_list=hose, batch_size=batch_size, parent_group_id='hose_group')
-    hnx_group = create_batch_task_group(stock_list=hnx, batch_size=batch_size, parent_group_id='hnx_group')
-    upcom_group = create_batch_task_group(stock_list=upcom, batch_size=batch_size, parent_group_id='upcom_group')
+    # vn100_group = create_batch_task_group(stock_list=vn100, batch_size=batch_size, parent_group_id='vn100_group')
+    # hose_group = create_batch_task_group(stock_list=hose, batch_size=batch_size, parent_group_id='hose_group')
+    # hnx_group = create_batch_task_group(stock_list=hnx, batch_size=batch_size, parent_group_id='hnx_group')
+    # upcom_group = create_batch_task_group(stock_list=upcom, batch_size=batch_size, parent_group_id='upcom_group')
 
 
-    vn30_group() >> vn100_group() >> hose_group() >> hnx_group() >> upcom_group()
+    vn30_group()
+     # >> vn100_group() >> hose_group() >> hnx_group() >> upcom_group()
 
 train_model_daily()
