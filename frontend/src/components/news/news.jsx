@@ -1,85 +1,149 @@
-import React, { useState } from 'react';
-import './NewsPage.css';
+import React, { useEffect, useState } from "react";
+import "./NewsPage.css";
+import api from "../../utils/api/Api";
+import News from "../../enum/news";
+import DateFormat from "../../utils/DateFormat";
+import { Link } from "react-router-dom";
+import ScrollTo from "../../utils/ScrollTo";
 
 const NewsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const newsPerPage = 6;
-
-  // Dữ liệu tin tức mẫu
-  const newsData = [
-    {
-      id: 1,
-      image: 'https://picsum.photos/400/300?random=1',
-      title: 'Thị trường chứng khoán phục hồi mạnh đầu phiên sáng',
-      date: '06/05/2025 09:15',
-      description: 'Chỉ số VN-Index tăng điểm ngay sau khi mở cửa nhờ sự hồi phục của nhóm cổ phiếu ngân hàng và bất động sản...',
-      source: 'Vietstock'
-    },
-    {
-      id: 2,
-      image: 'https://picsum.photos/400/300?random=2',
-      title: 'Ngân hàng Nhà nước công bố chính sách tiền tệ mới',
-      date: '05/05/2025 16:30',
-      description: 'Lãi suất điều hành được giữ nguyên trong khi các biện pháp hỗ trợ thanh khoản tiếp tục được triển khai...',
-      source: 'Cafef'
-    },
-    // Thêm 10 item mẫu khác
-  ];
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    api.get("/news").then((response) => {
+      const data = response.data
+        .filter((item) => item) // Lọc bỏ item null
+        .map((item) => new News(item));
+      setData(data);
+    });
+  }, []);
 
   // Tính toán phân trang
   const indexOfLastNews = currentPage * newsPerPage;
   const indexOfFirstNews = indexOfLastNews - newsPerPage;
-  const currentNews = newsData.slice(indexOfFirstNews, indexOfLastNews);
-
-  const totalPages = Math.ceil(newsData.length / newsPerPage);
+  const currentNews = data.slice(indexOfFirstNews, indexOfLastNews);
+  const totalPages = Math.ceil(data.length / newsPerPage);
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    ScrollTo(".header");
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  // Tạo danh sách các nút phân trang
+  const getPaginationButtons = () => {
+    const buttons = [];
+    const maxButtons = 5; // Tối đa 5 nút hiển thị
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+    // Điều chỉnh startPage nếu endPage không đủ số nút
+    if (endPage - startPage + 1 < maxButtons) {
+      startPage = Math.max(1, endPage - maxButtons + 1);
+    }
+
+    // Thêm nút "..." ở đầu nếu cần
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          className={`pagination-button ${currentPage === 1 ? "active" : ""}`}
+          onClick={() => handlePageChange(1)}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(
+          <span key="start-ellipsis" className="pagination-ellipsis">
+            ...
+          </span>
+        );
+      }
+    }
+
+    // Thêm các nút trang
+    for (let page = startPage; page <= endPage; page++) {
+      buttons.push(
+        <button
+          key={page}
+          className={`pagination-button ${
+            currentPage === page ? "active" : ""
+          }`}
+          onClick={() => handlePageChange(page)}
+        >
+          {page}
+        </button>
+      );
+    }
+
+    // Thêm nút "..." ở cuối nếu cần
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        buttons.push(
+          <span key="end-ellipsis" className="pagination-ellipsis">
+            ...
+          </span>
+        );
+      }
+      buttons.push(
+        <button
+          key={totalPages}
+          className={`pagination-button ${
+            currentPage === totalPages ? "active" : ""
+          }`}
+          onClick={() => handlePageChange(totalPages)}
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    return buttons;
   };
 
   return (
     <div className="news-container">
       <h1 className="page-title">Tin tức thị trường</h1>
-      
       <div className="news-grid">
         {currentNews.map((news) => (
-          <div key={news.id} className="news-card">
+          <Link
+            to={news.redirectUrl}
+            key={news.id + news.title}
+            className="news-card"
+          >
             <div className="news-image-container">
-              <img src={news.image} alt={news.title} className="news-image" />
+              <img src={news.thumb} alt={news.title} className="news-image" />
             </div>
             <div className="news-content">
               <div className="news-meta">
-                <span className="news-date">{news.date}</span>
-                <span className="news-source">{news.source}</span>
+                <span className="news-date">{DateFormat(news.date)}</span>
+                <span className="news-source">{news.publisher}</span>
               </div>
               <h3 className="news-title">{news.title}</h3>
               <p className="news-description">{news.description}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
       <div className="pagination-container">
-        <button 
-          className={`pagination-button ${currentPage === 1 ? 'disabled' : ''}`}
+        <button
+          className={`pagination-button ${currentPage === 1 ? "disabled" : ""}`}
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
           ←
         </button>
-        
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            className={`pagination-button ${currentPage === page ? 'active' : ''}`}
-            onClick={() => handlePageChange(page)}
-          >
-            {page}
-          </button>
-        ))}
-        
-        <button 
-          className={`pagination-button ${currentPage === totalPages ? 'disabled' : ''}`}
+
+        {getPaginationButtons()}
+
+        <button
+          className={`pagination-button ${
+            currentPage === totalPages ? "disabled" : ""
+          }`}
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >

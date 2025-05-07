@@ -26,7 +26,7 @@ function StockPrice() {
       conditions: platformConditionTemplate,
       onClick: (condition) => setCondition(condition),
       initialArray: platformCondition,
-      tickAll: true,
+      // tickAll: true,
     },
     {
       filterName: "Nhóm ngành",
