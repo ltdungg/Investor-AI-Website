@@ -22,17 +22,6 @@ default_args = {
 )
 def get_all_income_statement_ratio(**kwargs):
 
-    @task(task_id='reset_finance_income_statement__table')
-    def reset_finance_income_statement_table():
-        pg_hook = PostgresHook(postgres_conn_id)
-        connection = pg_hook.get_conn()
-        cursor = connection.cursor()
-
-        query = "DELETE FROM stock.finance_income_statement;"
-        cursor.execute(query)
-        connection.commit()
-
-        connection.close()
 
     @task(task_id='get_all_finance_income_statement')
     def get_all_finance_income_statement():
@@ -40,11 +29,10 @@ def get_all_income_statement_ratio(**kwargs):
         data = vnstock.get_list_finance_income_statement()
 
         engine = create_engine(postgres_connection_url)
-        data.to_sql('finance_income_statement', con=engine, if_exists='append', index=False, schema='stock', chunksize=10000)
+        data.to_sql('finance_income_statement', con=engine, if_exists='replace', index=False, schema='stock', chunksize=10000)
 
         print("Get all finance cash flow table success")
 
-    reset_finance_income_statement_table()
     get_all_finance_income_statement()
 
 get_all_income_statement_ratio()
