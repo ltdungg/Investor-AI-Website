@@ -1,5 +1,6 @@
 package com.stockai.backend.service.stock;
 
+import com.stockai.backend.dto.response.FinanceRatioResponse;
 import com.stockai.backend.entity.stock.FinanceRatio;
 import com.stockai.backend.mapper.FinanceRatioMapper;
 import com.stockai.backend.repository.stock.FinanceRatioRepository;
@@ -23,7 +24,8 @@ public class FinanceRatioService implements QuarterlyFinancialData {
     public List<?> getFinancialData(String symbol) {
         List<FinanceRatio> list = financeRatioRepository.findAllByFinanceId_Symbol(symbol);
 
-        return List.of(list.stream()
-                .map(financeRatio -> financeRatioMapper.toFinanceRatioResponse(financeRatio)));
+        return list.stream()
+                .map(financeRatio -> financeRatioMapper.toFinanceRatioResponse(financeRatio)).toList();
+
     }
 }

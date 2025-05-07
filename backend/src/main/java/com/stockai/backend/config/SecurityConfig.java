@@ -32,6 +32,7 @@ public class SecurityConfig {
             "/api-doc/**",
             "/stock-predict/**",
             "/analysis-report/**",
+            "/news/**",
     };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

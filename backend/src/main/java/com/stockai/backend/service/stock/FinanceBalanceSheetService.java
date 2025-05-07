@@ -24,7 +24,7 @@ public class FinanceBalanceSheetService implements QuarterlyFinancialData {
         List<FinanceBalanceSheet> list =
                 financeBalanceSheetRepository.findAllByFinanceId_Symbol(symbol);
 
-        return List.of(list.stream()
-                .map(item -> financeBalanceSheetMapper.toFinanceBalanceSheetResponse(item)));
+        return list.stream()
+                .map(item -> financeBalanceSheetMapper.toFinanceBalanceSheetResponse(item)).toList();
     }
 }

@@ -23,7 +23,8 @@ public class FinanceIncomeStatementService implements QuarterlyFinancialData {
     @Override
     public List<?> getFinancialData(String symbol) {
         List<FinanceIncomeStatement> list = financeIncomeStatementRepository.findAllByFinanceId_Symbol(symbol);
-        return List.of(list.stream()
-                .map(item -> financeIncomeStatementMapper.toFinanceIncomeStatementResponse(item)));
+        return list.stream().map(
+                item -> financeIncomeStatementMapper.toFinanceIncomeStatementResponse(item)
+        ).toList();
     }
 }

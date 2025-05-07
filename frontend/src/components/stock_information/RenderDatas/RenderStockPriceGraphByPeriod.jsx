@@ -34,13 +34,75 @@ ChartJS.register(
   backgroundPlugin
 );
 
+// Crosshair plugin để hiển thị đường theo vị trí chuột
+const crosshairPlugin = {
+  id: "crosshair",
+  afterEvent: (chart, args) => {
+    const event = args.event;
+    if (!chart.$mouse) chart.$mouse = { x: null, y: null, active: false };
+    if (event && event.type === "mousemove") {
+      chart.$mouse = {
+        x: event.x,
+        y: event.y,
+        active: true,
+      };
+      chart.draw();
+    } else if (
+      event &&
+      (event.type === "mouseout" || event.type === "mouseleave")
+    ) {
+      chart.$mouse.active = false;
+      chart.draw();
+    }
+  },
+  afterDraw: (chart) => {
+    const { ctx, chartArea } = chart;
+    if (!chart.$mouse || !chart.$mouse.active) return;
+    const { x, y } = chart.$mouse;
+
+    // Kiểm tra chuột nằm trong chartArea
+    if (
+      x < chartArea.left ||
+      x > chartArea.right ||
+      y < chartArea.top ||
+      y > chartArea.bottom
+    )
+      return;
+
+    ctx.save();
+    ctx.setLineDash([6, 6]);
+    ctx.strokeStyle = "#1a237e";
+    ctx.lineWidth = 1;
+
+    // Vẽ đường dọc
+    ctx.beginPath();
+    ctx.moveTo(x, chartArea.top);
+    ctx.lineTo(x, chartArea.bottom);
+    ctx.stroke();
+
+    // Vẽ đường ngang
+    ctx.beginPath();
+    ctx.moveTo(chartArea.left, y);
+    ctx.lineTo(chartArea.right, y);
+    ctx.stroke();
+
+    ctx.restore();
+  },
+};
+
+// Đăng ký plugin crosshair
+ChartJS.register(crosshairPlugin);
+
 function StockPriceGraphByPeriod({
   endpoint = "/1-month",
   symbol = "",
   lastData = {},
 }) {
   const [stockData, setStockData] = useState([]);
+  const [stockDate, setStockDate] = useState([]);
   const avg = useRef(0);
+  const chartRef = useRef(null);
+  const mousePos = useRef({ x: null, y: null });
 
   useEffect(() => {
     api.get(`/stock-price${endpoint}/${symbol}`).then((response) => {
@@ -51,8 +113,8 @@ function StockPriceGraphByPeriod({
         };
       });
 
-      console.log(responseData);
-      setStockData(responseData);
+      setStockData(responseData.map((stock) => stock[STOCK_ENUM.CLOSE]));
+      setStockDate(responseData.map((stock) => stock[STOCK_ENUM.TRADING_DATE]));
       avg.current = responseData[0][STOCK_ENUM.CLOSE];
       lastData.current =
         responseData[responseData.length - 1][STOCK_ENUM.CLOSE];
@@ -60,15 +122,52 @@ function StockPriceGraphByPeriod({
     });
   }, [endpoint, symbol]);
 
+  // Xử lý sự kiện di chuyển chuột
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const chart = chartRef.current;
+      if (!chart) return;
+      const canvas = chart.canvas;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      mousePos.current = {
+        x: xScale.getValueForPixel(x),
+        y: yScale.getValueForPixel(y),
+        clientX: x,
+        clientY: y,
+      };
+      chart.update("none");
+    };
+
+    const handleMouseLeave = () => {
+      mousePos.current = { x: null, y: null };
+      chartRef.current?.update("none");
+    };
+
+    const chart = chartRef.current;
+    if (chart) {
+      chart.canvas.addEventListener("mousemove", handleMouseMove);
+      chart.canvas.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (chart) {
+        chart.canvas.removeEventListener("mousemove", handleMouseMove);
+        chart.canvas.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
+
   const data = {
     // ...data,
-    labels: stockData.map((stock) =>
-      DateFormat(stock[STOCK_ENUM.TRADING_DATE])
-    ),
+    labels: stockDate.map((stock) => DateFormat(stock)),
     datasets: [
       {
         label: "Giá",
-        data: stockData.map((stock) => stock[STOCK_ENUM.CLOSE]),
+        data: stockData,
         borderColor: LINE_COLOR_ENUM.GREEN,
         pointRadius: 0,
         pointHoverRadius: 5, // Hiển thị điểm khi hover (tùy chọn)
@@ -145,7 +244,7 @@ function StockPriceGraphByPeriod({
     );
   }
 
-  return <Line data={data} options={options} />;
+  return <Line data={data} options={options} ref={chartRef} />;
 }
 
 export default StockPriceGraphByPeriod;
