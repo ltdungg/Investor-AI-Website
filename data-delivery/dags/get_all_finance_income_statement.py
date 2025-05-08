@@ -18,7 +18,7 @@ default_args = {
     default_args=default_args,
     description='Get all finance income statement data',
     catchup=False,
-    schedule_interval=None
+    schedule_interval='0 3 1 4,7,10,1 *'
 )
 def get_all_income_statement_ratio(**kwargs):
 

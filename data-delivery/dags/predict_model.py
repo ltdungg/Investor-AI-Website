@@ -36,7 +36,7 @@ def create_batch_task_group(stock_list, batch_size, parent_group_id):
     return group
 
 @dag(
-    dag_id="daily_predict_model",
+    dag_id="predict_model_weekly",
     schedule_interval='0 17 * * 0',
     start_date=datetime(2025, 5, 7),
     catchup=False,

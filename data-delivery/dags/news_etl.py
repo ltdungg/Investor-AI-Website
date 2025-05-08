@@ -10,15 +10,17 @@ import json
 
 postgres_connection_url = 'postgresql+psycopg2://airflow:airflow@postgres/airflow'
 NEWS_API = "https://w-api.baomoi.com/api/v1/content/get/list-by-type"
-STOCK_NEWS_URL = "https://baomoi.com/t8687517"
+STOCK_NEWS_URL = "https://baomoi.com/thi-truong-chung-khoan-t8687517.epi"
+STOCK_NEWS_URL_v2 = "https://baomoi.com/t8687517"
 news_table = 'news'
 
-NUMBERS_OF_PAGES = 10
+NUMBERS_OF_PAGES = 1
 
 @dag(
     dag_id="news_etl",
-    schedule=None,
+    schedule_interval='0 * * * *',
     catchup=False,
+    start_date=datetime(2025, 5, 7),
     default_args={
         'depends_on_past': False,
         'retries': 0,
@@ -28,7 +30,8 @@ def news_etl():
     @task
     def get_api_url():
         options = {
-            'disable_encoding': True  # để dễ đọc response body
+            'disable_encoding': True,
+            # để dễ đọc response body
         }
 
         chrome_options = Options()
@@ -45,14 +48,17 @@ def news_etl():
         url_list = []
 
         for i in range(1, NUMBERS_OF_PAGES):
-
-            driver.get(STOCK_NEWS_URL + f"/trang{i}.epi")
+            if NUMBERS_OF_PAGES == 1:
+                driver.get(STOCK_NEWS_URL)
+            else:
+                driver.get(STOCK_NEWS_URL_v2 + f"/trang{i}.epi")
 
             time.sleep(3)
 
             for request in driver.requests:
                 if request.response:
                     url = request.url
+                    print(request.method, request.url, request.response.status_code)
                     if "api" in url or "ajax" in url:
                         if NEWS_API in url and request.response.status_code == 200 and request.method == 'GET':
                             url_list.append(url)
@@ -65,6 +71,10 @@ def news_etl():
 
     @task
     def extract_news(url_list):
+
+        if not url_list:
+            return None
+
         news_data_list = []
 
         for url in url_list:
@@ -78,6 +88,9 @@ def news_etl():
 
     @task
     def transform_news_data(news_data_list):
+
+        if news_data_list is None:
+            return None
 
         news_dfs = []
 
@@ -102,6 +115,11 @@ def news_etl():
 
     @task
     def load_news_data(news_df):
+
+        if news_df is None:
+            print("No new news data available.")
+            return None
+
         engine = create_engine(postgres_connection_url)
         news_df.to_sql(news_table, con=engine, if_exists='replace', index=False, schema='stock', chunksize=10000)
 

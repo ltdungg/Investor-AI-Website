@@ -6,10 +6,11 @@ import docker
 from airflow.operators.bash import BashOperator
 from modules.vnstock_client import VnStockClient
 import math
+from datetime import datetime
 
 vnstock = VnStockClient()
 CUDA_CONTAINER = 'investor-ai-website-cuda-1'
-batch_size = 1
+batch_size = 2
 
 # vn30 = vnstock.get_vn30_stock_list()
 # vn100 = [item for item in vnstock.get_vn100_stock_list() if item not in set(vn30)]
@@ -41,8 +42,9 @@ def create_batch_task_group(stock_list, batch_size, parent_group_id):
     return group
 
 @dag(
-    dag_id="train_model_daily",
-    schedule=None,
+    dag_id="train_model_weekly",
+    schedule_interval='0 17 * * 5',
+    start_date=datetime(2025, 5, 7),
     catchup=False,
     default_args={
         'depends_on_past': False,

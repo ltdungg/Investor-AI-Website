@@ -19,7 +19,7 @@ TEMPLATE_PATH = "/LLM_analysis/template.html"
 
 @dag(
     dag_id="LLM_Analysis_Stock",
-    schedule=None,
+    schedule_interval=None,
     catchup=False,
     default_args={
         'depends_on_past': False,

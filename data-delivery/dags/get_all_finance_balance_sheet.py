@@ -18,7 +18,7 @@ default_args = {
     default_args=default_args,
     description='Get all finance balance sheet data',
     catchup=False,
-    schedule_interval=None
+    schedule_interval='0 1 1 4,7,10,1 *'
 )
 def get_all_finance_balance_sheet(**kwargs):
 

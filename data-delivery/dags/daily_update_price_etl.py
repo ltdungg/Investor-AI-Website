@@ -31,7 +31,8 @@ default_args = {
 @dag(
     dag_id='update_daily_stock_price',
     default_args=default_args,
-    schedule='30 8 * * *',
+    schedule_interval='30 8 * * *',
+    start_date=datetime(2025, 5, 7),
     catchup=True,
     max_active_runs=1
 )

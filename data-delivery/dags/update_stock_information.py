@@ -36,7 +36,7 @@ default_args = {
 @dag(
     dag_id='update_stock_information',
     default_args=default_args,
-    schedule='0 18 * * 6',
+    schedule_interval='0 17 * * 5',
     catchup=False
 )
 def update_stock_information():

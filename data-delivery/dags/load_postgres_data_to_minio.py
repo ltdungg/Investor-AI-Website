@@ -1,5 +1,4 @@
-from datetime import timedelta
-
+from datetime import timedelta,datetime
 import pandas as pd
 from pyspark.sql import SparkSession
 from airflow.decorators import dag, task
@@ -10,7 +9,8 @@ BUCKET = "investor-ai-bucket"
 
 @dag(
     dag_id="load_postgres_data_to_minio",
-    schedule=None,
+    schedule_interval='0 17 * * *',
+    start_date=datetime(2025, 5, 7),
     catchup=False,
     default_args={
         'depends_on_past': False,
