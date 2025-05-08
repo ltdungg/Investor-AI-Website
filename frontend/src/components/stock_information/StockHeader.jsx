@@ -1,8 +1,34 @@
-import { Link, useParams, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
-function StockHeader({ stockInformation, formatPrice }) {
+function StockHeader({ stockInformation, stockPrice, financeRatio, tabs }) {
   const { symbol } = useParams();
-  const location = useLocation();
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
+  const formatDecimal = (value) => {
+    return value !== null && value !== undefined
+        ? parseFloat(value).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        : "N/A";
+  };
+  const formatInteger = (value) => {
+    return value !== null && value !== undefined
+        ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        : "N/A";
+  };
+  const formatPercentage = (value) => {
+    return value !== null && value !== undefined
+        ? `${(value * 100).toFixed(2)}%`
+        : "N/A";
+  };
+  const formatCurrency = (value) => {
+    return value !== null && value !== undefined
+        ? `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+        : "N/A";
+  };
+
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded);
+  };
 
   return (
     <>
@@ -36,15 +62,18 @@ function StockHeader({ stockInformation, formatPrice }) {
               </div>
             </div>
           </div>
-          <div className="stock-description">
+          <div className={`stock-description ${isDescriptionExpanded ? 'expanded' : ''}`}>
             <p>{stockInformation.description || "Chưa có mô tả."}</p>
           </div>
+          <button className="read-more-btn" onClick={toggleDescription}>
+            {isDescriptionExpanded ? "Thu gọn" : "Xem thêm..."}
+          </button>
         </div>
         <div className="stock-header-right">
           <div className="price-container">
             <div className="price-group">
-              <span className="stock ​​​​​​stock-price">
-                {formatPrice(stockInformation.price)}
+              <span className="stock-price">
+                {stockPrice.close || "N/A"}
               </span>
               <span
                 className={`stock-price-change ${
@@ -52,68 +81,54 @@ function StockHeader({ stockInformation, formatPrice }) {
                 }`}
               >
                 {stockInformation.priceChange >= 0 ? "+" : ""}
-                {formatPrice(stockInformation.priceChange)} (
+                {stockInformation.priceChange || "N/A"} (
                 {stockInformation.percentChange}%)
               </span>
             </div>
-            <div className="market-cap">
-              <span>Vốn hóa thị trường</span>
-              <strong>
-                {stockInformation.financialMetrics?.marketCap || "N/A"}
-              </strong>
-            </div>
           </div>
           <div className="financial-metrics-grid">
-            {[
-              "pe",
-              "pb",
-              "roe",
-              "eps",
-              "EV/EBITDA",
-              "ROA",
-              "D/E",
-              "Current Ratio",
-            ].map((metric, index) => (
-              <div className="metric-card" key={index}>
-                <div className="metric-label">{metric.toUpperCase()}</div>
+            <>
+              <div className="metric-card">
+                <div className="metric-label">P/E</div>
                 <div className="metric-value">
-                  {stockInformation.financialMetrics?.[metric] || "N/A"}
+                  {formatDecimal(financeRatio?.priceToEarning) || "N/A"}
                 </div>
               </div>
-            ))}
+              <div className="metric-card">
+                <div className="metric-label">P/B</div>
+                <div className="metric-value">
+                  {formatDecimal(financeRatio?.priceToBook) || "N/A"}
+                </div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-label">ROE</div>
+                <div className="metric-value">{formatPercentage(financeRatio?.roe)|| "N/A"}</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-label">EPS</div>
+                <div className="metric-value">{formatInteger(financeRatio?.earningPerShare)||"N/A"}</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-label">EV/EBITDA</div>
+                <div className="metric-value">{formatDecimal(financeRatio?.valueBeforeEbitda)||"N/A"}</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-label">ROA</div>
+                <div className="metric-value">{formatDecimal(financeRatio?.roa) || "N/A"}</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-label">D/E</div>
+                <div className="metric-value">{formatDecimal(financeRatio?.debtOnEquity)||"N/A"}</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-label">Current Ratio</div>
+                <div className="metric-value">{formatDecimal(financeRatio?.currentPayment)||"N/A"}</div>
+              </div>
+            </>
           </div>
         </div>
       </div>
-      <div className="tabs-container">
-        <div className="tabs-header">
-          <Link
-            to={`/stocks/${symbol}`}
-            className={`tab-link ${
-              location.pathname === `/stocks/${symbol}` ? "active" : ""
-            }`}
-          >
-            Tổng quan
-          </Link>
-          <Link
-            to={`/stocks/${symbol}/financial`}
-            className={`tab-link ${
-              location.pathname === `/stocks/${symbol}/financial` ? "active" : ""
-            }`}
-          >
-            Số liệu tài chính
-          </Link>
-          <Link
-            to={`/stocks/${symbol}/priceHistory`}
-            className={`tab-link ${
-              location.pathname === `/stocks/${symbol}/priceHistory`
-                ? "active"
-                : ""
-            }`}
-          >
-            Lịch sử giá
-          </Link>
-        </div>
-      </div>
+      {tabs && <div className="tabs-container">{tabs}</div>}
     </>
   );
 }
