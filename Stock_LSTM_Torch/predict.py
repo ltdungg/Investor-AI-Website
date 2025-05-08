@@ -127,7 +127,7 @@ if __name__ == "__main__":
             df_future.rename(columns={'predicted_price': 'price'}, inplace=True)
 
             df_future['date'] = pd.to_datetime(df_future['date'])
-            df_weekdays = df[~df['date'].dt.weekday.isin([5, 6])]
+            df_weekdays = df_future[~df_future['date'].dt.weekday.isin([5, 6])]
 
             load_df_to_postgres(table='predicted_stock', schema='stock', df=df_weekdays)
 
