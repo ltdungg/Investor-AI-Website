@@ -7,7 +7,7 @@ import "./stock_information.scss";
 import api from "../../utils/api/Api.js";
 
 function StockInfor() {
-    const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year", "/all"];
+    const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year", ""];
     const KEY_ENUM = ["1M", "3M", "1Y", "3Y", "ALL"];
     const { symbol } = useParams();
     const [stockInformation, setStockInformation] = useState(null);
