@@ -1,0 +1,140 @@
+/* NewsPage.css */
+:root {
+  --primary-blue: #1a237e;
+  --accent-yellow: #ffc107;
+  --light-gray: #f5f5f5;
+  --white: #ffffff;
+}
+
+
+.news-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem;
+}
+
+.page-title {
+  color: var(--primary-blue);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  border-bottom: 3px solid var(--accent-yellow);
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.news-card {
+  text-decoration: none;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.news-image-container {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.news-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.news-image:hover {
+  transform: scale(1.05);
+}
+
+.news-content {
+  padding: 1.5rem;
+}
+
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.news-source {
+  color: var(--primary-blue);
+  font-weight: 500;
+}
+
+.news-title {
+  color: var(--primary-blue);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.news-description {
+  color: #444;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--white);
+  color: var(--primary-blue);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--primary-blue);
+}
+
+.pagination-button:hover:not(.disabled) {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.pagination-button.active {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  font-weight: bold;
+}
+
+.pagination-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+}

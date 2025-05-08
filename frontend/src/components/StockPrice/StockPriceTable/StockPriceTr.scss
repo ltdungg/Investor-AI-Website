@@ -5,8 +5,8 @@
     border-bottom: 1px;
     cursor: pointer;
 
-    &:nth-child(2n + 1) {
-        background-color: #e6f1fe;
+    &:nth-child(2n) {
+        background-color: #f8f8f8;
     }
 
     td {
@@ -32,10 +32,11 @@
     }
 
     .fluctuation {
-        font-weight: bold;
+        font-weight: 600;
     }
 
     &:hover {
-        background-color: main.$gray-white-200;
+       background-color: #e9f4ff;
+        transition: background-color 0.2s ease;
     }
 }

@@ -12,8 +12,8 @@ function OurView() {
             <div className="our-view__content">
                 <div className="our-view__container">
                     <Square bold="LỢI NHUẬN">NHÂN ĐÔI</Square>
-                    <Square bold="PHÂN TÍCH" className="bg-gray-100">
-                        REAL-TIME
+                    <Square bold="REAL-TIME" className="bg-gray-100">
+                         PHÂN TÍCH
                         <IoMdTime />
                     </Square>
                     <Rectangle

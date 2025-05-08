@@ -1,12 +1,11 @@
 package com.stockai.backend.controller.stock;
 
-import com.stockai.backend.service.stock.QuarterlyFinancialData;
+import com.stockai.backend.service.stock.StockPriceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockPriceController {
     @Autowired
     @Qualifier("StockPrice")
-    QuarterlyFinancialData quarterlyFinancialData;
+    StockPriceService stockPriceService;
 
     @Operation(summary = "lấy giá cổ phiếu theo từng trước đến nay", description = "lấy giá của từng cổ phiếu theo mã cổ phiếu")
     @ApiResponses({
@@ -33,6 +32,26 @@ public class StockPriceController {
     })
     @GetMapping("/{symbol}")
     public ResponseEntity<?> getStockPrice(@PathVariable String symbol) {
-        return ResponseEntity.ok(quarterlyFinancialData.getFinancialData(symbol));
+        return ResponseEntity.ok(stockPriceService.getFinancialData(symbol));
+    }
+
+    @GetMapping("/1-month/{symbol}")
+    public ResponseEntity<?> getPriceStockBy1Month(@PathVariable String symbol) {
+        return ResponseEntity.ok(stockPriceService.getFinancialDataIn1Month(symbol));
+    }
+
+    @GetMapping("/3-month/{symbol}")
+    public ResponseEntity<?> getPriceStockBy3Month(@PathVariable String symbol) {
+        return ResponseEntity.ok(stockPriceService.getFinancialDataIn3Month(symbol));
+    }
+
+    @GetMapping("/1-year/{symbol}")
+    public ResponseEntity<?> getPriceStockBy1Year(@PathVariable String symbol) {
+        return ResponseEntity.ok(stockPriceService.getFinancialDataIn1Year(symbol));
+    }
+
+    @GetMapping("3-year/{symbol}")
+    public ResponseEntity<?> getPriceStockBy3Year(@PathVariable String symbol) {
+        return ResponseEntity.ok(stockPriceService.getFinancialDataIn3Year(symbol));
     }
 }

@@ -1,0 +1,212 @@
+@use "./../../../styles/main";
+
+.favorite-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: max(1vw, 0.95rem);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: slideUp 0.8s ease-out;
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  thead {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: white;
+
+    th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+
+      &:nth-child(5) {
+        width: 50px; /* Minimal width for empty column */
+      }
+    }
+  }
+
+  tbody tr {
+    cursor: pointer;
+    transition: var(--transition);
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: backwards;
+    animation-delay: calc(0.1s * var(--index));
+
+    &:nth-child(even) {
+      background: rgba(248, 249, 250, 0.8);
+    }
+
+    &:hover {
+      background: rgba(233, 244, 255, 0.9);
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  }
+
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+    &:nth-child(5) {
+      width: 50px; /* Minimal width for empty column */
+    }
+  }
+
+  .company-name {
+    @extend .text-overflow;
+    max-width: 30vw;
+  }
+
+  .fa-stock-btn {
+    @include main.flex(center, center, 0);
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0.3rem;
+    transition: var(--transition);
+
+    &:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .more-area {
+    position: relative;
+  }
+
+  .more-box {
+    @include main.padding-y(0.5rem);
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 10px;
+    z-index: 10;
+    right: 0;
+    width: 120px;
+    box-shadow: var(--shadow);
+    animation: dropDown 0.4s ease-out;
+
+    div {
+      @extend .text-overflow;
+      padding: 0.5rem 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      transition: var(--transition);
+
+      &:hover {
+        background: rgba(233, 244, 255, 0.9);
+        color: var(--primary);
+      }
+    }
+
+    @keyframes dropDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  }
+}
+
+.add-stock-btn {
+  width: 12rem;
+  height: 2.5rem;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  margin-bottom: 1rem;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  animation: scaleIn 0.6s ease-out;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+}
+
+@media (max-width: 739px) {
+  .favorite-list-table {
+    font-size: 0.875rem;
+
+    th, td {
+      padding: 0.5rem;
+
+      &:nth-child(5) {
+        width: 40px;
+      }
+    }
+
+    .company-name {
+      max-width: 50vw;
+    }
+
+    .more-box {
+      width: 100px;
+      right: 0;
+
+      div {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+
+    .fa-stock-btn {
+      font-size: 1.2rem;
+      padding: 0.2rem;
+    }
+  }
+
+  .add-stock-btn {
+    width: 10rem;
+    height: 2rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 740px) and (max-width: 1024px) {
+  .favorite-list-table {
+    font-size: 0.9rem;
+
+    .company-name {
+      max-width: 40vw;
+    }
+
+    th, td {
+      &:nth-child(5) {
+        width: 45px;
+      }
+    }
+  }
+}

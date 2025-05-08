@@ -1,35 +1,76 @@
 @use "./../../styles/main";
 
 footer.footer {
-    @include main.background("./../../assets/images/background.png");
+    @include main.background("./../../assets/images/wave-haikei.svg");
     position: relative;
     color: main.$white;
-    padding: 1rem;
+    padding: 300px 2rem 1rem 2rem;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    min-height: 600px;
+    background-position: top;
 
-    header {
-        @include main.flex(center, center, 0);
-        $font-size: 1.5rem;
-
-        font-size: $font-size;
-
-        .Logo {
-            height: 3.5rem;
-            font-size: $font-size;
-            color: main.$white;
-        }
-    }
 
     section {
         @include main.flex(space-around, flex-start, 0);
         margin-bottom: 3rem;
-        gap: 2rem;
+        gap: 1rem;
 
         .left-side {
+
+            .logo {
+                $font-size: 2rem;
+                .Logo {
+                height: 3.5rem;
+                font-size: $font-size;
+                color: main.$white;
+                }
+                p {
+                    margin-left: 3px;
+                }
+            }
             .infor {
                 margin-left: 1rem;
+                div {
+                    display: flex;
+                }
+                .p1 {
+                    margin-right:5px;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .right-side {
+            grid-template-columns: auto auto;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 3rem;
+
+            h3 {
+                @include main.margin-y(0.8rem);
+            }
+
+            .item-list {
+                display: flex;
+                .item {
+                    margin-right: 5rem;
+                }
+                .item a {
+                    display: block;
+                    text-decoration: none;
+                    color: main.$white;
+                    @include main.margin-y(0.5rem);
+
+                    &:hover {
+                        color: main.$blue;
+                        }
+                }
             }
 
             .subcribe {
+                display: flex;
+
                 label {
                     @include main.flex(unset, center, 1rem);
                     @include main.margin-y(2rem);
@@ -54,7 +95,11 @@ footer.footer {
                         }
                     }
                 }
-
+                form {
+                    margin-left: 5rem;
+                    @include main.flex(unset, center, 1rem);
+                    @include main.margin-y(2rem);
+                }
                 $radius: 1rem;
                 #sub,
                 button {
@@ -86,29 +131,7 @@ footer.footer {
                     }
                 }
             }
-        }
 
-        .right-side {
-            display: grid;
-            grid-template-columns: auto auto;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 3rem;
-
-            h3 {
-                @include main.margin-y(0.8rem);
-            }
-
-            .item a {
-                display: block;
-                text-decoration: none;
-                color: main.$white;
-                @include main.margin-y(0.5rem);
-
-                &:hover {
-                    color: main.$blue;
-                }
-            }
         }
     }
 }

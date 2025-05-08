@@ -1,5 +1,6 @@
 package com.stockai.backend.service.stock;
 
+import com.stockai.backend.dto.response.FindStockResponse;
 import com.stockai.backend.dto.response.StockInformationResponse;
 import com.stockai.backend.entity.stock.StockInformation;
 import com.stockai.backend.exception.AppException;
@@ -7,19 +8,19 @@ import com.stockai.backend.exception.ErrorCode;
 import com.stockai.backend.mapper.StockMapper;
 import com.stockai.backend.repository.stock.StockInformationRepository;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StockInformationService {
-    StockMapper stockMapper;
-    StockInformationRepository stockInformationRepository;
+    final StockMapper stockMapper;
+    final StockInformationRepository stockInformationRepository;
 
     public StockInformationResponse getStockInformation(String symbol) {
         symbol = symbol.toUpperCase();
@@ -38,9 +39,15 @@ public class StockInformationService {
     }
 
     public List<?> getAllStock() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -2);
+        return stockInformationRepository.findAllStockInformation();
+    }
 
-        return stockInformationRepository.findAllStockInformation(calendar.getTime());
+    public List<?> findStocks(String symbol) {
+        List<StockInformation> symbols = stockInformationRepository.findBySymbolIsContainingIgnoreCase(symbol);
+        List<FindStockResponse> response = new ArrayList<>();
+        for (StockInformation stock : symbols) {
+            response.add(new FindStockResponse(stock.getSymbol(), stock.getCompanyName()));
+        }
+        return response;
     }
 }

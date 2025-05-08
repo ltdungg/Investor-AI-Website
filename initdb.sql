@@ -24,8 +24,8 @@ CREATE TABLE stock.stock_information (
     "company_promise" TEXT,
     "business_risk" TEXT,
     "key_developments" TEXT,
-    "business_strategies" TEXT
-
+    "business_strategies" TEXT,
+    "group" VARCHAR(10)
 );
 
 CREATE TABLE stock.stock_price (
@@ -203,4 +203,33 @@ CREATE TABLE stock.finance_income_statement (
 	"provision_expense" REAL,
 	"operation_income" REAL,
     PRIMARY KEY ("symbol", "quarter", "year")
+);
+
+CREATE TABLE stock.predicted_stock (
+    "symbol" TEXT,
+    "date" DATE NOT NULL,
+    "price" FLOAT NOT NULL,
+    PRIMARY KEY ("symbol", "date")
+);
+
+CREATE TABLE stock.analysis_report (
+    "id" INT,
+    "symbol" TEXT,
+    "source" TEXT,
+    "report_year" INT,
+    "name" TEXT,
+    "published_at" DATE,
+    "body_url" TEXT,
+    PRIMARY KEY ("id")
+);
+
+CREATE TABLE stock.news (
+    "id" INT,
+    "title" TEXT,
+    "date" TIMESTAMP,
+    "redirect_url" TEXT,
+    "thumb" TEXT,
+    "publisher" TEXT,
+    "description" TEXT,
+    PRIMARY KEY ("id")
 );

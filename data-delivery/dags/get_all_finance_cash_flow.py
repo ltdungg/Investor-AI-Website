@@ -18,21 +18,9 @@ default_args = {
     default_args=default_args,
     description='Get all finance cash flow data',
     catchup=False,
-    schedule_interval=None
+    schedule_interval='0 2 1 4,7,10,1 *'
 )
 def get_all_finance_cash_flow(**kwargs):
-
-    @task(task_id='reset_finance_cash_flow_table')
-    def reset_finance_cash_flow_table():
-        pg_hook = PostgresHook(postgres_conn_id)
-        connection = pg_hook.get_conn()
-        cursor = connection.cursor()
-
-        query = "DELETE FROM stock.finance_cash_flow;"
-        cursor.execute(query)
-        connection.commit()
-
-        connection.close()
 
     @task(task_id='get_all_finance_cash_flow_table')
     def get_all_finance_cash_flow_table():
@@ -40,11 +28,10 @@ def get_all_finance_cash_flow(**kwargs):
         data = vnstock.get_list_finance_cash_flow()
 
         engine = create_engine(postgres_connection_url)
-        data.to_sql('finance_cash_flow', con=engine, if_exists='append', index=False, schema='stock', chunksize=10000)
+        data.to_sql('finance_cash_flow', con=engine, if_exists='replace', index=False, schema='stock', chunksize=10000)
 
         print("Get all finance cash flow table success")
 
-    reset_finance_cash_flow_table()
     get_all_finance_cash_flow_table()
 
 get_all_finance_cash_flow()

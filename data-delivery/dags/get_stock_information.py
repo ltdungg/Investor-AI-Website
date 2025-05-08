@@ -17,6 +17,7 @@ def get_company_information() -> pd.DataFrame:
     vnstock = VnStockClient()
 
     data = vnstock.get_all_companies_profile()
+    print(data)
 
     time_end = datetime.now()
     print(f"Tổng thời gian lấy dữ liệu thông tin các công ty {(time_end - time_start).total_seconds()}s")
@@ -25,7 +26,6 @@ def get_company_information() -> pd.DataFrame:
 default_args = {
     'owner': 'InvestorAI',
     'start_date': datetime(2025, 1, 5),
-    'email': 'admin@investorai.live',
     'retries': 3,
     'retry_delay': timedelta(minutes=5)
 }
@@ -33,45 +33,45 @@ default_args = {
 @dag(
     dag_id='get_stock_information',
     default_args=default_args,
-    schedule='0 18 * * 6',
-    catchup=False
+    catchup=False,
+    schedule_interval=None
 )
 def get_stock_information():
-    
+
     @task(task_id='extract_industries_code')
     def extract_industries_code() -> pd.DataFrame:
         vnstock = VnStockClient()
-        
+
         data = vnstock.get_industries_icb()
-        
+
         return data
-    
+
     @task(task_id='load_industries_code')
     def load_industries_code(data: pd.DataFrame):
         if data.empty:
             return
-        
+
         pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
         connection = pg_hook.get_conn()
         cur = connection.cursor()
-        
+
         # DELETE ALL INDUSTRIES
         delete_query = f'DELETE FROM {industries_code_table}'
         try:
             cur.execute(delete_query)
             connection.commit()
-        except: 
+        except:
             pass
         else:
             for index, row in data.iterrows():
                 insert_query = "INSERT INTO " + industries_code_table + " (icb_id, icb_name, en_icb_name, level) \
                     VALUES (%s, %s, %s, %s)"
-                
+
                 data = (row['icb_code'], row['icb_name'], row['en_icb_name'], row['level'])
-                
+
                 cur.execute(insert_query, data)
                 connection.commit()
-        
+
         cur.close()
         connection.close()
     
@@ -92,21 +92,14 @@ def get_stock_information():
         cur = connection.cursor()
         
         # DELETE ALL STOCK INFORMATION AND GET IT AGAIN
-        delete_query = f'DELETE FROM {stock_information_table}'
-        
-        try:
-            cur.execute(delete_query)
+
+        for index, row in data.iterrows():
+            insert_query = "INSERT INTO {stock_information_table} (symbol, company_name, description, icb1, icb2, icb3, icb4, exchange, history_dev, company_promise, business_risk, key_developments, business_strategies) \
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            data = (row['symbol'],row['company_name'] ,row['company_profile'], row['icb_code1'], row['icb_code2'], row['icb_code3'], row['icb_code4'],
+                       row['exchange'], row['history_dev'], row['company_promise'], row['business_risk'], row['key_developments'], row['business_strategies'])
+            cur.execute(insert_query, data)
             connection.commit()
-        except: 
-            pass
-        else:
-            for index, row in data.iterrows():
-                insert_query = "INSERT INTO stock.stock_information (symbol, company_name, description, icb1, icb2, icb3, icb4, exchange, history_dev, company_promise, business_risk, key_developments, business_strategies) \
-                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-                data = (row['symbol'],row['company_name'] ,row['company_profile'], row['icb_code1'], row['icb_code2'], row['icb_code3'], row['icb_code4'], 
-                           row['exchange'], row['history_dev'], row['company_promise'], row['business_risk'], row['key_developments'], row['business_strategies'])
-                cur.execute(insert_query, data)
-                connection.commit()
 
             print("Get stock information success")
             

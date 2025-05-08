@@ -20,13 +20,13 @@ function StockPriceTr(props) {
                 <h3>{props.id}</h3>
                 <p>{props.name}</p>
             </td>
-            <td>{NumberFormat(props.capitalization)}T</td>
+            {props.capitalization && <td>{NumberFormat(props.capitalization)}T</td>}
             <td>{NumberFormat(props.price)}</td>
             <td className="fluctuation">
                 {FluctuationFormat(props.fluctuation, "%")}
             </td>
             <td>{props.platform}</td>
-            <td>{props.industry}</td>
+            {props.industry && <td>{props.industry}</td>}
         </tr>
     );
 }

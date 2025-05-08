@@ -11,6 +11,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -27,5 +29,39 @@ public class StockPriceService implements QuarterlyFinancialData {
         if (list == null || list.isEmpty())
             throw new AppException(ErrorCode.NOT_FOUND_STOCK);
         return list.stream().map(item -> stockPriceMapper.toStockPriceResponse(item)).toList();
+    }
+
+    public List<?> getFinancialDataIn1Month(String symbol) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+
+        return getFinancialDataByDate(symbol, calendar.getTime());
+    }
+
+    public List<?> getFinancialDataIn3Month(String symbol) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -3);
+
+        return getFinancialDataByDate(symbol, calendar.getTime());
+    }
+
+    public List<?> getFinancialDataIn1Year(String symbol) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -1);
+
+        return getFinancialDataByDate(symbol, calendar.getTime());
+    }
+
+    public List<?> getFinancialDataIn3Year(String symbol) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -3);
+
+        return getFinancialDataByDate(symbol, calendar.getTime());
+    }
+
+    private List<?> getFinancialDataByDate(String symbol, Date date) {
+        List<StockPrice> list = stockPriceRepository.findByIdInDate(symbol, date);
+        return list.stream()
+                .map(item -> stockPriceMapper.toStockPriceResponse(item)).toList();
     }
 }

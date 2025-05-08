@@ -2,3 +2,5 @@ data-delivery/logs/
 __pycache__
 *.tar/gz
 data-delivery/.venv/
+frontend/node_modules
+LLM_analysis/.env

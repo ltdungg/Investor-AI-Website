@@ -1,0 +1,67 @@
+@use "./../../styles/main";
+
+.market_container h2 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: 700;
+  text-align: center;
+}
+
+.market-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: var(--card-background);
+  border-radius: 8px;
+  overflow: hidden;
+
+  th {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    @extend .text-overflow;
+  }
+
+  .table-row {
+    transition: all 0.3s ease;
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: backwards;
+
+    &:nth-child(even) {
+      background-color: rgba(248, 249, 250, 0.8);
+    }
+
+    &:hover {
+      background-color: rgba(233, 244, 255, 0.9);
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  }
+
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+  }
+
+  .company-name {
+    @extend .text-overflow;
+    max-width: 200px;
+  }
+}

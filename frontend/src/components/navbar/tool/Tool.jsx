@@ -20,27 +20,27 @@ function Tool(props) {
             tool: "Cổ phiếu",
         },
         {
-            link: "./2",
+            link: "/analysis-report",
             icon: FaMagnifyingGlassChart,
             tool: "Phân tích cổ phiếu",
         },
         {
-            link: "./3",
+            link: "/industrySectors",
             icon: TiGroup,
             tool: "Nhóm ngành",
         },
         {
-            link: "./4",
+            link: "/4",
             icon: FaFilterCircleDollar,
             tool: "Bộ lọc cổ phiếu",
         },
         {
-            link: "./5",
+            link: "/news",
             icon: FaRegNewspaper,
             tool: "Tin tức",
         },
         {
-            link: "./6",
+            link: "/6",
             icon: TbReportAnalytics,
             tool: "Báo cáo phân tích",
         },

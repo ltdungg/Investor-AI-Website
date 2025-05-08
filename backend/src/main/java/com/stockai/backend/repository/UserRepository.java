@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
-    User findByUserId(Integer username);
+    User findByUserId(Integer id);
     boolean existsByEmailOrPhone(final String email, final String phone);
     Optional<User> findByEmailOrPhone(final String email, final String phone);
     User findByEmail(final String email);

@@ -1,8 +1,8 @@
 // thay đổi màu phù hợp với dữ liệu tăng giảm
 function ColorForData(value, front = undefined, back = undefined) {
     const colorPalette = {
-        red: "red",
-        green: "green",
+        red: "#e14b40",
+        green: "#25b770",
         yellow: "#fece0c",
     }
     let color;

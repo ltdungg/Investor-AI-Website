@@ -18,21 +18,9 @@ default_args = {
     default_args=default_args,
     description='Get all finance ratio data',
     catchup=False,
-    schedule_interval=None
+    schedule_interval='0 4 1 4,7,10,1 *'
 )
 def get_all_finance_ratio(**kwargs):
-
-    @task(task_id='reset_finance_ratio_table')
-    def reset_finance_ratio_table():
-        pg_hook = PostgresHook(postgres_conn_id)
-        connection = pg_hook.get_conn()
-        cursor = connection.cursor()
-
-        query = "DELETE FROM stock.finance_ratio;"
-        cursor.execute(query)
-        connection.commit()
-
-        connection.close()
 
     @task(task_id='get_all_finance_ratio_table')
     def get_all_finance_ratio_table():
@@ -40,11 +28,10 @@ def get_all_finance_ratio(**kwargs):
         data = vnstock.get_list_of_stock_finance_ratio()
 
         engine = create_engine(postgres_connection_url)
-        data.to_sql('finance_ratio', con=engine, if_exists='append', index=False, schema='stock', chunksize=10000)
+        data.to_sql('finance_ratio', con=engine, if_exists='replace', index=False, schema='stock', chunksize=10000)
 
         print("Get all finance ratio table success")
 
-    reset_finance_ratio_table()
     get_all_finance_ratio_table()
 
 get_all_finance_ratio()
