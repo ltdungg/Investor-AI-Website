@@ -251,9 +251,7 @@ class VnStockClient:
 
 if __name__ == '__main__':
     vnstock = VnStockClient()
-    pd.set_option('display.max_colwidth', None)
-    data = vnstock._get_stock_finance_cash_flow('XMC')
-    print(data.info())
+    data = vnstock.get_vn30_stock_list()
     print(data)
 
 

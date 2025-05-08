@@ -7,6 +7,7 @@ import pandas as pd
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
+from data.load_posgres import load_df_to_postgres
 
 
 def predict_future(dataframe, ticker, n_days_future=7, sequence_length=3, model_path=None, scaler_path=None):
@@ -122,6 +123,14 @@ if __name__ == "__main__":
                 sequence_length=3
             )
 
-            print(df_future)
+            df_future['symbol'] = symbol
+            df_future.rename(columns={'predicted_price': 'price'}, inplace=True)
+
+            df_future['date'] = pd.to_datetime(df_future['date'])
+            df_weekdays = df[~df['date'].dt.weekday.isin([5, 6])]
+
+            load_df_to_postgres(table='predicted_stock', schema='stock', df=df_weekdays)
+
+            print(df_weekdays)
         else:
             continue

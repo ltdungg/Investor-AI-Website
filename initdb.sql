@@ -24,8 +24,8 @@ CREATE TABLE stock.stock_information (
     "company_promise" TEXT,
     "business_risk" TEXT,
     "key_developments" TEXT,
-    "business_strategies" TEXT
-
+    "business_strategies" TEXT,
+    "group" VARCHAR(10)
 );
 
 CREATE TABLE stock.stock_price (

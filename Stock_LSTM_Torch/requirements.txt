@@ -6,3 +6,5 @@ pandas==2.1.4
 fastparquet
 s3fs
 ta
+sqlalchemy
+psycopg2-binary
