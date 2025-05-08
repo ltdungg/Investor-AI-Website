@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./analysis_report.scss";
 import { useState } from "react";
 import StockBox from "./StockBox/StockBox";
@@ -12,6 +12,8 @@ function AnalysisReport() {
   const totalPages = stocks.length;
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
+  const [condition, setCondition] = useState(2025);
+  const years = useRef(new Set([]));
 
   useEffect(() => {
     api.get(`/analysis-report/find?keyword=${keyword}`).then((response) => {
@@ -23,16 +25,21 @@ function AnalysisReport() {
       const list = [];
       let j = 0;
       for (let i = 0; i < responseData.length; i++) {
-        if (!list[j]) list[j] = [];
-        list[j].push(responseData[i]);
-        if (list[j].length === 15) j++;
+        years.current.add(responseData[i].publishedAt.getUTCFullYear());
+        if (condition == responseData[i].publishedAt.getUTCFullYear()) {
+          if (!list[j]) list[j] = [];
+          list[j].push(responseData[i]);
+          if (list[j].length === 15) j++;
+        }
       }
+
+      console.log(years.current);
 
       console.log(list);
       setCurrentPage(0);
       setStocks(list);
     });
-  }, [keyword]);
+  }, [keyword, condition]);
 
   useEffect(() => {
     updatePagination();
@@ -56,6 +63,11 @@ function AnalysisReport() {
     }
   };
 
+  const findByYear = (e) => {
+    const value = e.target.value;
+    setCondition(value);
+  };
+
   return (
     <div className="stock-slider">
       <h1 className="phan-tich-co-phieu-title">Phân tích cổ phiếu</h1>
@@ -68,6 +80,11 @@ function AnalysisReport() {
             setKeyword(e.target.value);
           }}
         />
+        <select name="year-filter" id="year-filter" onChange={findByYear}>
+          {[...years.current].map((val) => (
+            <option value={val} key={val} children={val} />
+          ))}
+        </select>
       </div>
       <div className="pages-container">
         {stocks.map((page, index) => (
@@ -76,18 +93,20 @@ function AnalysisReport() {
             key={index}
           >
             <div className="stock-container">
-              {page.map((stock, stockIndex) => (
-                <StockBox
-                  key={stockIndex}
-                  symbol={stock.symbol}
-                  name={stock.name}
-                  source={stock.source}
-                  date={DateFormat(stock.publishedAt)}
-                  onClick={() => {
-                    navigate(`/analysis/${stock.id}`);
-                  }}
-                />
-              ))}
+              {page.map((stock, stockIndex) => {
+                return (
+                  <StockBox
+                    key={stockIndex}
+                    symbol={stock.symbol}
+                    name={stock.name}
+                    source={stock.source}
+                    date={DateFormat(stock.publishedAt)}
+                    onClick={() => {
+                      navigate(`/analysis/${stock.id}`);
+                    }}
+                  />
+                );
+              })}
             </div>
           </div>
         ))}
