@@ -7,7 +7,6 @@ import { useEffect } from "react";
 function StockHeader({ stockInformation, tabs }) {
     const { symbol } = useParams();
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-    const [stockPrice, setStockPrice] = useState([{}]);
     const [newestStockPrice, setNewestStockPrice] = useState([{}]);
     const [secondNewestStockPrice, setSecondNewestStockPrice] = useState([{}]);
 
@@ -33,7 +32,6 @@ function StockHeader({ stockInformation, tabs }) {
             });
             getStockPrice(symbol).then((response) => {
                 const prices = response.data;
-                setStockPrice(prices);
 
                 if (prices && prices.length > 0) {
                     const sortedPrices = prices.sort(
@@ -47,8 +45,6 @@ function StockHeader({ stockInformation, tabs }) {
             });
         }
     }, [symbol]);
-    console.log(newestStockPrice);
-    console.log(secondNewestStockPrice);
 
     const formatDecimal = (value) => {
         return value !== null && value !== undefined

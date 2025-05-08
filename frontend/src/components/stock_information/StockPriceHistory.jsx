@@ -1,35 +1,41 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import getStockInformation from "../../utils/api/stock_api_utils/GetStockInformation.js";
+import getStockPrice from "../../utils/api/stock_api_utils/GetStockPrice.js";
 import StockHeader from "./StockHeader.jsx";
-import getFinanceRatio from "../../utils/api/stock_api_utils/GetFinanceRatio.js";
+import "./StockPriceHistory.scss"
+
 function StockPriceHistory() {
     const { symbol } = useParams();
     const [stockInformation, setStockInformation] = useState(null);
+    const [stockPrice, setStockPrice] = useState([]);
 
     useEffect(() => {
         if (symbol) {
             getStockInformation(symbol).then((response) =>
                 setStockInformation(response.data)
             );
-            getFinanceRatio(symbol).then((response) => {
-                const data = response.data;
-                if (data && data.length > 0) {
-                    let latestData = data[0];
-                    for (let i = 1; i < data.length; i++) {
-                        if (
-                            data[i].year > latestData.year ||
-                            (data[i].year === latestData.year &&
-                                data[i].quarter > latestData.quarter)
-                        ) {
-                            latestData = data[i];
-                        }
-                    }
-                    setFinanceRatio(latestData);
-                }
+            getStockPrice(symbol).then((response) => {
+                const sortedPrices = response.data.sort((a, b) => 
+                    new Date(b.tradingDate) - new Date(a.tradingDate)
+                );
+                setStockPrice(sortedPrices);
             });
         }
     }, [symbol]);
+
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+        return new Date(dateString).toLocaleDateString("vi-VN", options);
+    };
+
+    const formatNumber = (number) => {
+        return number.toLocaleString("vi-VN");
+    };
+
+    const formatCurrency = (number) => {
+        return number.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    };
 
     return (
         <div className="stock-detail-page">
@@ -62,6 +68,34 @@ function StockPriceHistory() {
             )}
             <div className="price-history-section">
                 <h3>Lịch sử giá & Cổ tức</h3>
+                <table className="price-history-table">
+                    <thead>
+                        <tr>
+                            <th>Ngày giao dịch</th>
+                            <th>Sàn giao dịch</th>
+                            <th>Giá mở cửa</th>
+                            <th>Giá cao nhất</th>
+                            <th>Giá thấp nhất</th>
+                            <th>Giá đóng cửa</th>
+                            <th>Khối lượng</th>
+                            <th>Giá trị</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {stockPrice.map((price, index) => (
+                            <tr key={index}>
+                                <td>{formatDate(price.tradingDate)}</td>
+                                <td>{price.exchange}</td>
+                                <td>{formatCurrency(price.open)}</td>
+                                <td>{formatCurrency(price.high)}</td>
+                                <td>{formatCurrency(price.low)}</td>
+                                <td>{formatCurrency(price.close)}</td>
+                                <td>{formatNumber(price.volume)}</td>
+                                <td>{formatCurrency(price.value)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
