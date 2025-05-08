@@ -27,13 +27,10 @@ function StockPriceGraphByPeriod({
           tradingDate: new Date(i[STOCK_ENUM.TRADING_DATE]),
         };
       });
-
       setStockData(responseData.map((stock) => stock[STOCK_ENUM.CLOSE]));
       setStockDate(responseData.map((stock) => stock[STOCK_ENUM.TRADING_DATE]));
       avg.current = responseData[0][STOCK_ENUM.CLOSE];
-      lastData.current =
-        responseData[responseData.length - 1][STOCK_ENUM.CLOSE];
-      console.log(lastData.current);
+      lastData.current = responseData[responseData.length - 1][STOCK_ENUM.CLOSE];
     });
   }, [endpoint, symbol]);
 
@@ -77,20 +74,15 @@ function StockPriceGraphByPeriod({
   }, []);
 
   if (stockData.length <= 0) {
-    return (
-      <div
-        className="chart-no-data"
-        children="Khoảng thời gian này cổ phiểu đang không có dữ liệu :("
-      />
-    );
+    return null;
   }
 
   return (
     <Line
-    className={className}
-      data={getChartData(stockDate, stockData)}
-      options={getChartOptions(avg.current, mousePos.current, stockDate, stockData, endpoint)}
       ref={chartRef}
+      data={getChartData(stockDate, stockData)}
+      options={getChartOptions(avg.current, mousePos, stockDate, stockData, endpoint)}
+      className={className}
     />
   );
 }
