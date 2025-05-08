@@ -7,7 +7,6 @@ import getFinanceRatio from "../../utils/api/stock_api_utils/GetFinanceRatio.js"
 function StockFinancial() {
     const { symbol } = useParams();
     const [stockInformation, setStockInformation] = useState(null);
-    const [financeRatio, setFinanceRatio] = useState(null);
 
     useEffect(() => {
         if (symbol) {
@@ -46,7 +45,6 @@ function StockFinancial() {
             {stockInformation && (
                 <StockHeader
                     stockInformation={stockInformation}
-                    financeRatio={financeRatio}
                     tabs={
                       <>
                           <Link to={`/stocks/${symbol}`} className="tab-link">
