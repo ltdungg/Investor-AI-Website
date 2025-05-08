@@ -10,11 +10,13 @@ import com.stockai.backend.repository.stock.StockInformationRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -40,6 +42,12 @@ public class StockInformationService {
 
     public List<?> getAllStock() {
         return stockInformationRepository.findAllStockInformation();
+    }
+
+    public List<?> getAllStock(List<String> exchange, List<Integer> icb) {
+        if (exchange == null) exchange = new ArrayList<>();
+        if (icb == null) icb = new ArrayList<>();
+        return stockInformationRepository.findAllStockInformation(exchange, icb);
     }
 
     public List<?> findStocks(String symbol) {

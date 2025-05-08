@@ -1,5 +1,6 @@
 package com.stockai.backend.controller.stock;
 
+import com.stockai.backend.dto.request.GetAllStockRequest;
 import com.stockai.backend.service.stock.StockInformationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -36,8 +38,15 @@ public class StockInformationController {
             @ApiResponse(responseCode = "200", description = "trả về thông tin cơ bản của tất cả các cổ phiếu")
     })
     @GetMapping("/")
-    public ResponseEntity<?> getAllStockInformation() {
-        return ResponseEntity.ok(stockInformationService.getAllStock());
+    public ResponseEntity<?> getAllStockInformation(
+            @RequestParam(required = false) List<String> exchange,
+            @RequestParam(required = false) List<Integer> icb
+    ) {
+//        System.out.println(request);
+        if (exchange == null && icb == null) {
+            return ResponseEntity.ok(stockInformationService.getAllStock());
+        }
+        return ResponseEntity.ok(stockInformationService.getAllStock(exchange, icb));
     }
 
     @GetMapping("/find-stock")

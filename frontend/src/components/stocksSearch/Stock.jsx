@@ -1,10 +1,10 @@
 import SearchBar from "./SearchBar";
 import "./Stock.css";
 import MarketStocks from "./MarketTable";
-import StockPrice from "../StockPrice/StockPrice";
 import { useEffect, useState } from "react";
 import api from "../../utils/api/Api";
 import Loading from "../loading/loading";
+import StocksTable from "../StockPrice/StocksTable";
 
 function Stock() {
   const limit = 5;
@@ -16,7 +16,6 @@ function Stock() {
     api.get("/stock/").then((response) => {
       const data = response.data || [];
       data.sort((a, b) => a.priceChange - b.priceChange);
-      console.log(data);
 
       const low = [];
       const high = [];
@@ -54,7 +53,7 @@ function Stock() {
         <MarketStocks title="Top Tăng Giá" stocks={highestStocks} />
         <MarketStocks title="Top Giảm Giá" stocks={lowestStocks} />
       </div>
-      <StockPrice />
+      <StocksTable />
       {isLoading && <Loading />}
     </div>
   );
