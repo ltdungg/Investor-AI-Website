@@ -2,6 +2,7 @@ from airflow.decorators import dag, task, task_group
 import pandas as pd
 from airflow.operators.bash import BashOperator
 from modules.vnstock_client import VnStockClient
+from datetime import datetime
 
 CUDA_CONTAINER = 'investor-ai-website-cuda-1'
 batch_size = 10
@@ -36,7 +37,8 @@ def create_batch_task_group(stock_list, batch_size, parent_group_id):
 
 @dag(
     dag_id="daily_predict_model",
-    schedule=None,
+    schedule_interval='0 17 * * 0',
+    start_date=datetime(2025, 5, 7),
     catchup=False,
     default_args={
         'depends_on_past': False,
