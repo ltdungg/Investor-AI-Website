@@ -2,7 +2,7 @@ import React from "react";
 import StockPriceGraphByPeriod from "./RenderDatas/RenderStockPriceGraphByPeriod.jsx";
 import RenderStockPredict from "./RenderDatas/RenderStockPredict.jsx";
 
-function StockOverview({ stockInformation, symbol, currPeriod, handleChangePeriod, lastData, formatPrice }) {
+function StockOverview({ stockInformation, symbol, currPeriod, handleChangePeriod, lastData}) {
   const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year", "/all"];
   const KEY_ENUM = ["1M", "3M", "1Y", "3Y", "ALL"];
 

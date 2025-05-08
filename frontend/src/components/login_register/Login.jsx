@@ -2,12 +2,13 @@ import LogoItem from "../LogoItem/LogoItem";
 import "./Login.css";
 import { useState, useEffect, useRef } from "react";
 import authenticationApi from "../../utils/api/AccountApi";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const emailOrPhoneRef = useRef();
     const [emailOrPhone, setEmailOrPhone] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState(""); // State để lưu thông báo lỗi
     const navigate = useNavigate();
 
     const registerClick = () => {
@@ -17,15 +18,36 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        authenticationApi({
-            url: "/login",
-            data: {
-                emailOrPhone,
-                password,
-            },
-        });
+        // Kiểm tra nếu thiếu email/số điện thoại hoặc mật khẩu
+        if (!emailOrPhone) {
+            setErrorMessage("Bạn thiếu email hoặc số điện thoại.");
+            return;
+        }
+        if (!password) {
+            setErrorMessage("Bạn thiếu mật khẩu.");
+            return;
+        }
 
-        console.log("handle submit");
+        try {
+            const response = await authenticationApi({
+                url: "/login",
+                data: {
+                    emailOrPhone,
+                    password,
+                },
+            });
+
+            // Giả sử response có trường success để kiểm tra đăng nhập thành công
+            if (response.success) {
+                setErrorMessage(""); // Xóa thông báo lỗi nếu thành công
+                console.log("handle submit");
+                navigate('/dashboard'); // Điều hướng đến trang dashboard
+            } else {
+                setErrorMessage("Tài khoản không tồn tại.");
+            }
+        } catch (error) {
+            setErrorMessage("Đã xảy ra lỗi. Vui lòng thử lại.");
+        }
     };
 
     useEffect(() => {
@@ -34,7 +56,6 @@ function Login() {
 
     return (
         <div className="login_container">
-
             <div className="login_page">
                 <h1>Đăng nhập</h1>
                 <form onSubmit={handleSubmit} className="form_container">
@@ -58,6 +79,7 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <p>Quên mật khẩu?</p>
+                    {errorMessage && <p className="error_message">{errorMessage}</p>} 
                     <button className="login_button">Đăng nhập</button>
                     <div className="register">
                         <p className="register-text">

@@ -32,16 +32,12 @@ function StockPriceHistory() {
         }
     }, [symbol]);
 
-    const formatPrice = (price) => {
-        return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || "N/A";
-    };
     return (
         <div className="stock-detail-page">
             {stockInformation && (
                 <StockHeader
                     stockInformation={stockInformation}
                     financeRatio={financeRatio}
-                    formatPrice={formatPrice}
                     tabs={
                         <>
                             <Link

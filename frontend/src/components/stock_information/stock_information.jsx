@@ -7,6 +7,7 @@ import "./stock_information.scss";
 import getFinanceRatio from "../../utils/api/stock_api_utils/GetFinanceRatio.js";
 import StockHeader from "./StockHeader.jsx";
 import StockOverview from "./StockOverview.jsx";
+import getStockPrice from "../../utils/api/stock_api_utils/GetStockPrice.js";
 
 function StockInfor() {
     const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year", "/all"];
@@ -17,6 +18,11 @@ function StockInfor() {
     const [activeTab, setActiveTab] = useState("overview");
     const lastData = useRef(0);
     const [financeRatio, setFinanceRatio] = useState(null);
+    const [stockPrice, setStockPrice] = useState([{}]);
+    const [newStockPrice, setStockPrice] = useState([{}]);
+
+    
+
     useEffect(() => {
         if (symbol) {
             getStockInformation(symbol).then((response) =>
@@ -38,20 +44,15 @@ function StockInfor() {
                     setFinanceRatio(latestData);
                 }
             });
+            getStockPrice(symbol).then((response) =>
+                setStockPrice(response.data)
+            )
         }
     }, [symbol]);
+
     function handleChangePeriod(index) {
         setCurrPeriod(index);
     }
-    const formatPrice = (price) => {
-        return price !== null && price !== undefined
-            ? parseFloat(price)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            : "N/A";
-    };
-
     // const renderTabContent = () => {
     //     switch (activeTab) {
     //         case "overview":
@@ -197,7 +198,6 @@ function StockInfor() {
                 <StockHeader
                     stockInformation={stockInformation}
                     financeRatio={financeRatio}
-                    formatPrice={formatPrice}
                     tabs={
                         <>
                             <Link to={`/stocks/${symbol}`} className="tab-link active">
@@ -217,6 +217,7 @@ function StockInfor() {
                 stockInformation={stockInformation}
                 symbol={symbol}
                 currPeriod={currPeriod}
+                stockPrice={newestStockPrice}
                 handleChangePeriod={handleChangePeriod}
                 lastData={lastData}
             />

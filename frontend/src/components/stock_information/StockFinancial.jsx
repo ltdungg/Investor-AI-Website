@@ -46,7 +46,6 @@ function StockFinancial() {
             {stockInformation && (
                 <StockHeader
                     stockInformation={stockInformation}
-                    formatPrice={formatPrice}
                     financeRatio={financeRatio}
                     tabs={
                       <>
