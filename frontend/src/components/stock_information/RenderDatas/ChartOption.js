@@ -8,11 +8,11 @@ export const getChartData = (stockDate, stockData) => ({
     {
       label: "Giá",
       data: stockData,
-      borderColor: LINE_COLOR_ENUM.GREEN,
+      borderColor: LINE_COLOR_ENUM.BLUE,
       pointRadius: 0,
       pointHoverRadius: 5,
-      pointHoverBackgroundColor: LINE_COLOR_ENUM.GREEN,
-      pointHoverBorderColor: LINE_COLOR_ENUM.GREEN,
+      pointHoverBackgroundColor: "rgb(255,165,0)",
+      pointHoverBorderColor: LINE_COLOR_ENUM.BLUE,
       // tension: 0.5,
     },
   ],
@@ -51,7 +51,7 @@ export const getChartOptions = (avg, mousePos) => ({
           type: "line",
           yMin: avg,
           yMax: avg,
-          borderColor: "#f59e0b",
+          borderColor: "rgb(255,165,0)",
           borderWidth: 1.5,
           borderDash: [5, 5],
           label: {

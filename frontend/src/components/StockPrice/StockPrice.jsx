@@ -52,7 +52,6 @@ function StockPrice() {
         new Set(
           Object.values(data).map((val) => {
             if (val.level == 1) {
-              console.log(val);
               return val.icbName;
             }
             return undefined;

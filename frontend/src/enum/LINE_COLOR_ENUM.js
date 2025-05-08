@@ -1,5 +1,6 @@
 const LINE_COLOR_ENUM = Object.freeze({
   GREEN: "rgb(37,183,112)",
+  BLUE: "#1e40af",
   RED: "rgb(225,64,64)",
 });
 
