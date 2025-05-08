@@ -19,7 +19,7 @@ function Feature() {
         {
             link: "/analysis-report",
             icon: FaMagnifyingGlassChart,
-            feature: "Cổ phiếu",
+            feature: "Phân tích",
         },
         {
             link: "/industrySectors",
@@ -32,9 +32,9 @@ function Feature() {
             feature: "Tin tức",
         },
         {
-            link: "/6",
+            link: "/favorite-list",
             icon: TbReportAnalytics,
-            feature: "Báo cáo",
+            feature: "Quan sát",
         },
     ];
     return (
