@@ -3,7 +3,7 @@ import "./Login.css";
 import { useState, useEffect, useRef } from "react";
 import authenticationApi from "../../utils/api/AccountApi";
 import { useNavigate } from "react-router-dom";
-
+import { isValidEmail, isValidPhone, isValidPassword } from "../../utils/validate/Validate";
 function Login() {
     const emailOrPhoneRef = useRef();
     const [emailOrPhone, setEmailOrPhone] = useState("");
@@ -20,14 +20,21 @@ function Login() {
 
         // Kiểm tra nếu thiếu email/số điện thoại hoặc mật khẩu
         if (!emailOrPhone) {
-            setErrorMessage("Bạn thiếu email hoặc số điện thoại.");
+            setErrorMessage("Thiếu email hoặc số điện thoại.");
             return;
         }
         if (!password) {
-            setErrorMessage("Bạn thiếu mật khẩu.");
+            setErrorMessage("Thiếu mật khẩu.");
             return;
         }
-
+        if (!isValidEmail(emailOrPhone) && !isValidPhone(emailOrPhone)) {
+            setErrorMessage("Email hoặc số điện thoại không hợp lệ.");
+            return;
+        }
+        if(!isValidPassword(password)){
+            setErrorMessage("Mật khảu không hợp lệ.");
+            return;
+        }
         try {
             const response = await authenticationApi({
                 url: "/login",
@@ -37,11 +44,10 @@ function Login() {
                 },
             });
 
-            // Giả sử response có trường success để kiểm tra đăng nhập thành công
             if (response.success) {
-                setErrorMessage(""); // Xóa thông báo lỗi nếu thành công
+                setErrorMessage(""); 
                 console.log("handle submit");
-                navigate('/dashboard'); // Điều hướng đến trang dashboard
+                navigate('/dashboard');
             } else {
                 setErrorMessage("Tài khoản không tồn tại.");
             }

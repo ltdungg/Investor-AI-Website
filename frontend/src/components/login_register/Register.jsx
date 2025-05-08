@@ -2,8 +2,8 @@ import "./Register.css";
 import LogoItem from "../LogoItem/LogoItem";
 import { useEffect, useRef, useState } from "react";
 import authenticationApi from "../../utils/api/AccountApi";
-import { registerValid } from "../../utils/validate/Validate";
-import { useNavigate } from 'react-router-dom';
+import { isValidEmail, isValidPhone, isValidPassword } from "../../utils/validate/Validate";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
     const nameRef = useRef();
@@ -12,6 +12,7 @@ function Register() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [repassword, setRepassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState(""); // State để lưu thông báo lỗi
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,25 +20,67 @@ function Register() {
     }, []);
 
     const loginClick = () => {
-        navigate('/login');
+        navigate("/login");
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!registerValid(e.target)) {
+
+        // Kiểm tra dữ liệu đầu vào
+        if (!name) {
+            setErrorMessage("Họ và tên không được để trống.");
             return;
         }
-        authenticationApi({
-            url: "/sign-up",
-            data: {
-                name,
-                email,
-                phone,
-                password,
-            },
-        });
+        if (!email) {
+            setErrorMessage("Email không được để trống.");
+            return;
+        }
+        if (!isValidEmail(email)) {
+            setErrorMessage("Email không hợp lệ.");
+            return;
+        }
+        if (!phone) {
+            setErrorMessage("Số điện thoại không được để trống.");
+            return;
+        }
+        if (!isValidPhone(phone)) {
+            setErrorMessage("Số điện thoại không hợp lệ.");
+            return;
+        }
+        if (!password) {
+            setErrorMessage("Mật khẩu không được để trống.");
+            return;
+        }
+        if (!isValidPassword(password)) {
+            setErrorMessage("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái, số và ký tự đặc biệt.");
+            return;
+        }
+        if (password !== repassword) {
+            setErrorMessage("Mật khẩu nhập lại không khớp.");
+            return;
+        }
 
-        console.log("handle submit!");
+        try {
+            const response = await authenticationApi({
+                url: "/sign-up",
+                method: "POST",
+                data: {
+                    name,
+                    email,
+                    phone,
+                    password,
+                },
+            });
+
+            if (response.success) {
+                setErrorMessage("Đăng ký thành công!");
+                navigate("/login"); 
+            } else {
+                setErrorMessage("Đăng ký thất bại. Vui lòng thử lại.");
+            }
+        } catch (error) {
+            setErrorMessage("Đã xảy ra lỗi. Vui lòng thử lại.");
+        }
     };
 
     return (
@@ -54,7 +97,7 @@ function Register() {
                         name="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                    />{" "}
+                    />
                     <br />
                     <label htmlFor="email">Email</label>
                     <br />
@@ -64,7 +107,7 @@ function Register() {
                         name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />{" "}
+                    />
                     <br />
                     <label htmlFor="phone">Số điện thoại</label>
                     <br />
@@ -75,11 +118,12 @@ function Register() {
                         placeholder="+84"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                    />{" "}
+                    />
                     <br />
                     <div className="row">
                         <div>
-                            <label htmlFor="passworkd">Mật khẩu</label> <br />
+                            <label htmlFor="password">Mật khẩu</label>
+                            <br />
                             <input
                                 type="password"
                                 id="password"
@@ -89,7 +133,7 @@ function Register() {
                             />
                         </div>
                         <div>
-                            <label htmlFor="repassword">Nhập lại mật khẩu</label>{" "}
+                            <label htmlFor="repassword">Nhập lại mật khẩu</label>
                             <br />
                             <input
                                 type="password"
@@ -100,15 +144,18 @@ function Register() {
                             />
                         </div>
                     </div>
+                    {errorMessage && <p className="error_message">{errorMessage}</p>} {/* Hiển thị thông báo lỗi */}
                     <button className="register_button">Đăng ký</button>
                 </form>
                 <p>
                     Đã có tài khoản?
-                    <b className="login_button" onClick={loginClick}> Đăng nhập ngay</b>
+                    <b className="login_button" onClick={loginClick}>
+                        {" "}
+                        Đăng nhập ngay
+                    </b>
                 </p>
             </div>
-            <div className="register_content">
-            </div>
+            <div className="register_content"></div>
         </div>
     );
 }
