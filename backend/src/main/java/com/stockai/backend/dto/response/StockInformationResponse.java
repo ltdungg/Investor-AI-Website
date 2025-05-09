@@ -23,4 +23,5 @@ public class StockInformationResponse {
     String businessRisk;
     String keyDevelopments;
     String businessStrategies;
+    String group;
 }

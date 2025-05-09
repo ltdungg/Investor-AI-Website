@@ -11,7 +11,7 @@ function StocksTable() {
   const [industries, setIndustries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const exchangeTemplate = useRef(["HOSE", "UPCOM", "HNX"]);
-  const [exchange, setExchange] = useState([...exchangeTemplate.current]);
+  const [exchange, setExchange] = useState(["HOSE", "HNX"]);
   const [icb, setIcb] = useState([]);
   const [curIcb, setCurIcb] = useState([]);
   const newsPerPage = 20;

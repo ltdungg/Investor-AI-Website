@@ -98,13 +98,6 @@ function RenderStockPredict({ symbol = "" }) { // Đã bỏ prop lastData
       chart.canvas.addEventListener("mousemove", handleMouseMove);
       chart.canvas.addEventListener("mouseleave", handleMouseLeave);
     }
-
-    return () => {
-      if (chart) {
-        chart.canvas.removeEventListener("mousemove", handleMouseMove);
-        chart.canvas.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
   }, [dataLoaded]);
 
   if (!dataLoaded || historicalData.length === 0) return null;

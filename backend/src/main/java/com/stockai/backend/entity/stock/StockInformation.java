@@ -60,4 +60,7 @@ public class StockInformation {
 
     @Column(name = "business_strategies")
     String businessStrategies;
+
+    @Column(name = "group")
+    String group;
 }
