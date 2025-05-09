@@ -44,10 +44,16 @@ public class StockInformationService {
         return stockInformationRepository.findAllStockInformation();
     }
 
-    public List<?> getAllStock(List<String> exchange, List<Integer> icb) {
+    public List<?> getAllStock(List<String> exchange, List<Integer> icb, Integer page) {
         if (exchange == null) exchange = new ArrayList<>();
         if (icb == null) icb = new ArrayList<>();
-        return stockInformationRepository.findAllStockInformation(exchange, icb);
+        return stockInformationRepository.findAllStockInformation(exchange, icb, Math.max(0, page - 1));
+    }
+
+    public Integer getPage(List<String> exchange, List<Integer> icb){
+        if (exchange == null) exchange = new ArrayList<>();
+        if (icb == null) icb = new ArrayList<>();
+        return stockInformationRepository.getPages(exchange, icb);
     }
 
     public List<?> findStocks(String symbol) {
@@ -58,4 +64,5 @@ public class StockInformationService {
         }
         return response;
     }
+
 }
