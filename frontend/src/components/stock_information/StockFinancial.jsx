@@ -39,6 +39,15 @@ function StockFinancial() {
     const [financeIncomeStatement, setFinanceIncomeStatement] = useState(null);
     const [financeBalanceSheet, setFinanceBalanceSheet] = useState(null);
     const [financeCashFlow, setFinanceCashFlow] = useState(null);
+    const [financeIncomeStatement3, setFinanceIncomeStatement3] = useState(null);
+    const [financeBalanceSheet3, setFinanceBalanceSheet3] = useState(null);
+    const [financeCashFlow3, setFinanceCashFlow3] = useState(null);
+    const filterTop3Years = (data) => {
+        if (!data || data.length === 0) return [];
+        const uniqueYears = [...new Set(data.map((item) => item.year))].sort((a, b) => b - a); // Lấy danh sách năm duy nhất và sắp xếp giảm dần
+        const top3Years = uniqueYears.slice(0, 3); 
+        return data.filter((item) => top3Years.includes(item.year)); 
+    };
     const balanceSheetChartData = financeBalanceSheet
     ? {
           labels: getLabels(financeBalanceSheet),
@@ -148,34 +157,37 @@ function StockFinancial() {
               labels: [],
               datasets: [],
           };
-    useEffect(() => {
-        if (symbol) {
-            getStockInformation(symbol).then((response) =>
-                setStockInformation(response.data)
-            );
-            getFinanceIncomeStatement(symbol).then((response) =>
-                setFinanceIncomeStatement(
-                    response.data.sort((a, b) =>
+          useEffect(() => {
+            if (symbol) {
+                getStockInformation(symbol).then((response) =>
+                    setStockInformation(response.data)
+                );
+        
+                getFinanceIncomeStatement(symbol).then((response) => {
+                    const sortedData = response.data.sort((a, b) =>
                         a.year === b.year ? a.quarter - b.quarter : a.year - b.year
-                    )
-                )
-            );
-            getStockBalanceSheel(symbol).then((response) =>
-                setFinanceBalanceSheet(
-                    response.data.sort((a, b) =>
+                    );
+                    setFinanceIncomeStatement(sortedData);
+                    setFinanceIncomeStatement3(filterTop3Years(sortedData)); 
+                });
+        
+                getStockBalanceSheel(symbol).then((response) => {
+                    const sortedData = response.data.sort((a, b) =>
                         a.year === b.year ? a.quarter - b.quarter : a.year - b.year
-                    )
-                )
-            );
-            getStockFinanceCashFlow(symbol).then((response) =>
-                setFinanceCashFlow(
-                    response.data.sort((a, b) =>
+                    );
+                    setFinanceBalanceSheet(sortedData);
+                    setFinanceBalanceSheet3(filterTop3Years(sortedData)); 
+                });
+        
+                getStockFinanceCashFlow(symbol).then((response) => {
+                    const sortedData = response.data.sort((a, b) =>
                         a.year === b.year ? a.quarter - b.quarter : a.year - b.year
-                    )
-                )
-            );
-        }
-    }, [symbol]);
+                    );
+                    setFinanceCashFlow(sortedData);
+                    setFinanceCashFlow3(filterTop3Years(sortedData)); 
+                });
+            }
+        }, [symbol]);
     const chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
@@ -317,6 +329,138 @@ function StockFinancial() {
                     </div>
                 </div>
             </div>
+            <div className="table">
+    <h2>Bảng Báo cáo Thu nhập</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Thuộc tính</th>
+                {financeIncomeStatement3 &&
+                    financeIncomeStatement3.map((item, index) => (
+                        <th key={index}>
+                            Q{item.quarter}-{item.year}
+                        </th>
+                    ))}
+            </tr>
+        </thead>
+        <tbody>
+            {[
+                { label: "Doanh thu", key: "revenue" },
+                { label: "Tăng trưởng Doanh thu ", key: "yearRevenueGrowth" },
+                { label: "Tăng trưởng Doanh thu ", key: "quarterRevenueGrowth" },
+                { label: "Lợi nhuận gộp", key: "grossProfit" },
+                { label: "Lợi nhuận hoạt động", key: "operationProfit" },
+                { label: "Thu nhập cổ đông", key: "shareHolderIncome" },
+            ].map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                    <td>{row.label}</td>
+                    {financeIncomeStatement3 &&
+                        financeIncomeStatement3.map((item, colIndex) => (
+                            <td key={colIndex}>
+                                {item[row.key] !== null && item[row.key] !== undefined
+                                    ? typeof item[row.key] === "number"
+                                        ? item[row.key].toLocaleString(undefined, {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                          })
+                                        : item[row.key]
+                                    : "-"}
+                            </td>
+                        ))}
+                </tr>
+            ))}
+        </tbody>
+    </table>
+</div>
+
+<div className="table">
+    <h2>Bảng Dòng tiền</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Thuộc tính</th>
+                {financeCashFlow3 &&
+                    financeCashFlow3.map((item, index) => (
+                        <th key={index}>
+                            Q{item.quarter}-{item.year}
+                        </th>
+                    ))}
+            </tr>
+        </thead>
+        <tbody>
+            {[
+                { label: "Chi phí đầu tư", key: "investCost" },
+                { label: "Thu từ đầu tư", key: "fromInvest" },
+                { label: "Thu từ tài chính", key: "fromFinancial" },
+                { label: "Thu từ bán hàng", key: "fromSale" },
+                { label: "Dòng tiền tự do", key: "freeCashFlow" },
+            ].map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                    <td>{row.label}</td>
+                    {financeCashFlow3 &&
+                        financeCashFlow3.map((item, colIndex) => (
+                            <td key={colIndex}>
+                                {item[row.key] !== null && item[row.key] !== undefined
+                                    ? typeof item[row.key] === "number"
+                                        ? item[row.key].toLocaleString(undefined, {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                          })
+                                        : item[row.key]
+                                    : "-"}
+                            </td>
+                        ))}
+                </tr>
+            ))}
+        </tbody>
+    </table>
+</div>
+
+<div className="table">
+    <h2>Bảng Cân đối kế toán</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Thuộc tính</th>
+                {financeBalanceSheet3 &&
+                    financeBalanceSheet3.map((item, index) => (
+                        <th key={index}>
+                            Q{item.quarter}-{item.year}
+                        </th>
+                    ))}
+            </tr>
+        </thead>
+        <tbody>
+            {[
+                { label: "Tài sản ngắn hạn", key: "shortAsset" },
+                { label: "Tiền mặt", key: "cash" },
+                { label: "Đầu tư ngắn hạn", key: "shortInvest" },
+                { label: "Hàng tồn kho", key: "inventory" },
+                { label: "Tổng tài sản", key: "asset" },
+                { label: "Tổng nợ", key: "debt" },
+                { label: "Vốn chủ sở hữu", key: "equity" },
+            ].map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                    <td>{row.label}</td>
+                    {financeBalanceSheet3 &&
+                        financeBalanceSheet3.map((item, colIndex) => (
+                            <td key={colIndex}>
+                                {item[row.key] !== null && item[row.key] !== undefined
+                                    ? typeof item[row.key] === "number"
+                                        ? item[row.key].toLocaleString(undefined, {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                          })
+                                        : item[row.key]
+                                    : "-"}
+                            </td>
+                        ))}
+                </tr>
+            ))}
+        </tbody>
+    </table>
+</div>
+
         </div>
     );
 }
