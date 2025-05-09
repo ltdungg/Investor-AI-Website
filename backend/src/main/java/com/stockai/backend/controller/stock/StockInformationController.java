@@ -40,13 +40,21 @@ public class StockInformationController {
     @GetMapping("/")
     public ResponseEntity<?> getAllStockInformation(
             @RequestParam(required = false) List<String> exchange,
-            @RequestParam(required = false) List<Integer> icb
+            @RequestParam(required = false) List<Integer> icb,
+            @RequestParam(required = false) Integer page
     ) {
-//        System.out.println(request);
-        if (exchange == null && icb == null) {
+        if (exchange == null && icb == null && page == null) {
             return ResponseEntity.ok(stockInformationService.getAllStock());
         }
-        return ResponseEntity.ok(stockInformationService.getAllStock(exchange, icb));
+        return ResponseEntity.ok(stockInformationService.getAllStock(exchange, icb, page));
+    }
+
+    @GetMapping("/page/")
+    public ResponseEntity<?> getPage(
+            @RequestParam(required = false) List<String> exchange,
+            @RequestParam(required = false) List<Integer> icb
+    ) {
+        return ResponseEntity.ok(stockInformationService.getPage(exchange, icb));
     }
 
     @GetMapping("/find-stock")

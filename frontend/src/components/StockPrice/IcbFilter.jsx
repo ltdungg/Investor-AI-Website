@@ -11,7 +11,6 @@ function IcbFilter({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   function aCondition(id) {
-    console.log(id, industries[id]);
 
     if (!id) return undefined;
 

@@ -14,6 +14,7 @@ function StocksTable() {
   const [exchange, setExchange] = useState(["HOSE", "HNX"]);
   const [icb, setIcb] = useState([]);
   const [curIcb, setCurIcb] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const newsPerPage = 20;
 
   useEffect(() => {
@@ -36,8 +37,50 @@ function StocksTable() {
     api
       .get("/stock/", {
         params: {
+          exchange: exchange, // Mảng chuỗi, ví dụ: ["NYSE", "NASDAQ"] hoặc chuỗi "NYSE"
+          icb: curIcb, // Mảng số, ví dụ: [1, 2] hoặc số 1
+          page: currentPage, // Số, ví dụ: 1
+        },
+        paramsSerializer: (params) => {
+          // Tùy chỉnh serialize để hỗ trợ danh sách
+          const searchParams = new URLSearchParams();
+          if (params.exchange) {
+            if (Array.isArray(params.exchange)) {
+              params.exchange.forEach((value) =>
+                searchParams.append("exchange", value)
+              );
+            } else {
+              searchParams.append("exchange", params.exchange);
+            }
+          }
+          if (params.icb) {
+            if (Array.isArray(params.icb)) {
+              params.icb.forEach((value) => searchParams.append("icb", value));
+            } else {
+              searchParams.append("icb", params.icb);
+            }
+          }
+          if (params.page) {
+            searchParams.append("page", params.page);
+          }
+          return searchParams.toString();
+        },
+      })
+      .then((response) => {
+        const responseData = response.data;
+        setStocks(responseData);
+      })
+      .catch((error) => {
+        console.error("Error fetching stocks:", error);
+      });
+  }, [exchange, curIcb, currentPage]);
+
+  useEffect(() => {
+    api
+      .get("/stock/page/", {
+        params: {
           exchange: exchange, // Có thể là mảng ["NYSE", "NASDAQ"] hoặc chuỗi "NYSE"
-          icb: curIcb,
+          icb: curIcb, // Có thể là mảng [1, 2] hoặc số 1
         },
         paramsSerializer: (params) => {
           // Tùy chỉnh cách serialize để hỗ trợ danh sách
@@ -63,16 +106,15 @@ function StocksTable() {
       })
       .then((response) => {
         const responseData = response.data;
-        setStocks(responseData);
+        setTotalPages(Math.ceil(responseData / newsPerPage));
+        setCurrentPage(1);
+      })
+      .catch((error) => {
+        console.error("Error fetching stocks:", error);
       });
   }, [exchange, curIcb]);
 
   // Tính toán phân trang
-  const indexOfLastStocks = currentPage * newsPerPage;
-  const indexOfFirstStocks = indexOfLastStocks - newsPerPage;
-  const currentStocks = stocks.slice(indexOfFirstStocks, indexOfLastStocks);
-  const totalPages = Math.ceil(stocks.length / newsPerPage);
-
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
@@ -183,7 +225,7 @@ function StocksTable() {
           </tr>
         </thead>
         <tbody>
-          {currentStocks.map((stock) => {
+          {stocks.map((stock) => {
             return (
               <StockPriceTr
                 key={stock.symbol}
