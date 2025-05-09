@@ -25,7 +25,7 @@ function Contact() {
                     </a>
                 </div>
                 <p>
-                    Hotline: <strong>0123456789</strong>
+                    Hotline: <strong>+84 97 679 51 13</strong>
                 </p>
             </div>
             <div className="contact__right-side">

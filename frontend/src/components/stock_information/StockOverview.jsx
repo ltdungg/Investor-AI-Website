@@ -40,19 +40,19 @@ function StockOverview({ stockInformation, symbol, currPeriod, handleChangePerio
         <div className="company-info-section">
           <div className="company-info-box">
             <h4>Lịch sử phát triển</h4>
-            <p>{stockInformation.historyDev || "Chưa có thông tin lịch sử."}</p>
+            <p>{stockInformation.historyDev.trim() || "Chưa có thông tin lịch sử."}</p>
           </div>
           <div className="company-info-box">
             <h4>Chiến lược kinh doanh</h4>
-            <p>{stockInformation.businessStrategies || "Chưa có thông tin chiến lược."}</p>
+            <p>{stockInformation.businessStrategies.trim() || "Chưa có thông tin chiến lược."}</p>
           </div>
           <div className="company-info-box">
             <h4>Rủi ro kinh doanh</h4>
-            <p>{stockInformation.businessRisk || "Chưa có thông tin rủi ro."}</p>
+            <p>{stockInformation.businessRisk.trim() || "Chưa có thông tin rủi ro."}</p>
           </div>
           <div className="company-info-box">
             <h4>Các sự kiện phát triển</h4>
-            <p>{stockInformation.keyDevelopments || "Chưa có thông tin sự kiện."}</p>
+            <p>{stockInformation.keyDevelopments.trim() || "Chưa có thông tin sự kiện."}</p>
           </div>
         </div>
       )}
