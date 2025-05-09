@@ -14,22 +14,15 @@ import axios from "axios";
 function Navbar() {
     const breakPoint = 768;
 
-    const [isSearch, setSearch] = useState(false);
+    const [activeMenu, setActiveMenu] = useState(""); // State để quản lý menu đang mở
     const [isVisible, setVisible] = useState(false);
-    const [isToolOpen, setToolOpen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(
         window.innerWidth > breakPoint
     );
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userName, setUserName] = useState("");
 
-    const handleUserMenuToggle = () => {
-        setIsUserMenuOpen(!isUserMenuOpen);
-    };
-
-    // const handleLogout = () => {
-    //     window.localStorage.removeItem(jwtTagStorage);
-    //     window.location.reload();
-    // };
     const handleLogout = () => {
         const token = window.localStorage.getItem(jwtTagStorage);
         axios
@@ -51,14 +44,6 @@ function Navbar() {
             });
     };
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    const [userName, setUserName] = useState("");
-
-    function handleSearch() {
-        setSearch(!isSearch);
-    }
-
     useEffect(() => {
         function checkLoginStatus() {
             const token = window.localStorage.getItem(jwtTagStorage);
@@ -66,7 +51,6 @@ function Navbar() {
                 setIsLoggedIn(false);
                 return;
             }
-            // const response = api.get("/user/1").then(()=>{setIsLoggedIn(true)}).catch(()=>{setIsLoggedIn(false)})
             axios
                 .get(`${urlBackend}/user`, {
                     headers: {
@@ -91,13 +75,23 @@ function Navbar() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
-        <nav className="nav-containter">
+        <nav className={`nav-containter ${isScrolled ? "scrolled" : ""}`}>
             <LogoItem className="nav__logo" />
             <div className="nav__menu-btn">
                 <div className="nav-mob-btn__search nav__item">
                     <IoMdSearch
-                        onClick={handleSearch}
+                        onClick={() =>
+                            setActiveMenu(activeMenu === "search" ? "" : "search")
+                        }
                         className="search-icon"
                     />
                 </div>
@@ -106,6 +100,7 @@ function Navbar() {
                         className="search-icon"
                         onClick={() => {
                             setVisible(!isVisible);
+                            setActiveMenu(""); // Đóng các menu khác
                         }}
                     />
                 </div>
@@ -122,18 +117,20 @@ function Navbar() {
                         className="nav__item nav__tool"
                         onMouseEnter={() => {
                             if (window.innerWidth >= breakPoint)
-                                setToolOpen(true);
+                                setActiveMenu("tool");
                         }}
                         onMouseLeave={() => {
                             if (window.innerWidth >= breakPoint)
-                                setToolOpen(false);
+                                setActiveMenu("");
                         }}
-                        onClick={() => setToolOpen(!isToolOpen)}
+                        onClick={() =>
+                            setActiveMenu(activeMenu === "tool" ? "" : "tool")
+                        }
                     >
                         <span className="span-tool">Công cụ</span>
                         <FaAngleDown />
                         <Tool
-                            isToolopen={isToolOpen}
+                            isToolopen={activeMenu === "tool"}
                             className="nav__tool-container"
                         />
                     </div>
@@ -142,23 +139,29 @@ function Navbar() {
                     </div>
                     <div className="nav__item nav__search">
                         <IoMdSearch
-                            onClick={handleSearch}
+                            onClick={() =>
+                                setActiveMenu(activeMenu === "search" ? "" : "search")
+                            }
                             className="search-icon"
                         />
                     </div>
                     {isLoggedIn ? (
                         <div
-                            className="nav__item nav__user
-                            onMouseEnter={() => setIsUserMenuOpen(true)}
-                            onMouseLeave={() => setIsUserMenuOpen(false)}"
+                            className="nav__item nav__user"
+                            onMouseEnter={() => setActiveMenu("userMenu")}
+                            onMouseLeave={() => setActiveMenu("")}
                         >
                             <img
                                 src={userImage}
                                 alt="User"
                                 className="nav__user-image"
-                                onClick={handleUserMenuToggle}
+                                onClick={() =>
+                                    setActiveMenu(
+                                        activeMenu === "userMenu" ? "" : "userMenu"
+                                    )
+                                }
                             />
-                            {isUserMenuOpen && (
+                            {activeMenu === "userMenu" && (
                                 <div className="user-menu">
                                     <div className="user-menu__item-container user-menu__username">
                                         <div className="user-menu__item">
@@ -169,7 +172,7 @@ function Navbar() {
                                         <Link
                                             to="/favorite-list"
                                             className="user-menu__item"
-                                            onClick={() => setIsUserMenuOpen(false)} 
+                                            onClick={() => setActiveMenu("")}
                                         >
                                             Cổ phiếu yêu thích
                                         </Link>
@@ -198,8 +201,8 @@ function Navbar() {
                 </div>
             )}
             <Search
-                isvisible={isSearch}
-                onClose={setSearch}
+                isvisible={activeMenu === "search"}
+                onClose={() => setActiveMenu("")}
                 className="nav__search-container"
             />
         </nav>
