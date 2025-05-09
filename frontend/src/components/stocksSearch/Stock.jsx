@@ -13,20 +13,29 @@ function Stock() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/stock/top").then((response) => {
-      const data = response.data || [];
-      data.sort((a, b) => a.priceChange - b.priceChange);
+    const localLow = localStorage.getItem("low");
+    const localHigh = localStorage.getItem("high");
+    if (localHigh && localLow) {
+      setLowestStocks(JSON.parse(localLow));
+      setHighestStocks(JSON.parse(localHigh));
+    } else {
+      api.get("/stock/top").then((response) => {
+        const data = response.data || [];
+        data.sort((a, b) => a.priceChange - b.priceChange);
 
-      const low = [];
-      const high = [];
-      for (let i = 0; i < limit; i++) {
-        low.push(data[i]);
-        high.push(data[data.length - i - 1]);
-      }
+        const low = [];
+        const high = [];
+        for (let i = 0; i < limit; i++) {
+          low.push(data[i]);
+          high.push(data[data.length - i - 1]);
+        }
 
-      setLowestStocks(low);
-      setHighestStocks(high);
-    });
+        localStorage.setItem("high", JSON.stringify(high));
+        localStorage.setItem("low", JSON.stringify(low));
+        setLowestStocks(low);
+        setHighestStocks(high);
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -40,7 +49,9 @@ function Stock() {
     <div className="stocks_page">
       <div className="flex_container">
         <div className="search_container">
-          <h1 className="search_container__title">Tìm kiếm một cổ phiếu để bắt đầu phân tích của bạn</h1>
+          <h1 className="search_container__title">
+            Tìm kiếm một cổ phiếu để bắt đầu phân tích của bạn
+          </h1>
           <p>
             Thông tin chính xác về gần 2000 cổ phiếu. Xem giá cổ phiếu, tin tức,
             tài chính, dự báo, biểu đồ và nhiều thông tin khác.
