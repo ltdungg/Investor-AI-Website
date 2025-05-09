@@ -1,6 +1,7 @@
 package com.stockai.backend.service.stock;
 
 import com.stockai.backend.dto.response.FindStockResponse;
+import com.stockai.backend.dto.response.SimpleStockInformationDTO;
 import com.stockai.backend.dto.response.StockInformationResponse;
 import com.stockai.backend.entity.stock.StockInformation;
 import com.stockai.backend.exception.AppException;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
@@ -40,7 +43,7 @@ public class StockInformationService {
         return stockInformationResponse;
     }
 
-    public List<?> getAllStock() {
+    public List<SimpleStockInformationDTO> getAllStock() {
         return stockInformationRepository.findAllStockInformation();
     }
 
@@ -65,4 +68,17 @@ public class StockInformationService {
         return response;
     }
 
+    public List<?> topTangVaGiamGia() {
+        List<SimpleStockInformationDTO> list = getAllStock();
+        list.sort(Comparator.comparing(SimpleStockInformationDTO::getPriceChange));
+
+        int limit = 5;
+        List<SimpleStockInformationDTO> response = new LinkedList<>();
+        for (int i = 0; i < Math.min(limit, list.size()); i++) {
+            response.addFirst(list.get(i));
+            response.addLast(list.get(list.size() - 1 - i));
+        }
+
+        return  response;
+    }
 }

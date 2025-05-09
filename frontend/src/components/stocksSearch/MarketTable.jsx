@@ -1,6 +1,7 @@
 import "./MarketTable.scss";
 import ColorForData from "../../utils/ColorForData";
 import NumberFormat from "../../utils/NumberFormat";
+import { memo } from "react";
 function MarketStocks({ stocks = [], title = "" }) {
   function renderTableData() {
     return stocks.map((stock) => {
@@ -54,4 +55,4 @@ function MarketStocks({ stocks = [], title = "" }) {
   );
 }
 
-export default MarketStocks;
+export default memo(MarketStocks);

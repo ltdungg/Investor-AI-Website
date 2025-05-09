@@ -13,7 +13,7 @@ function Stock() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/stock/").then((response) => {
+    api.get("/stock/top").then((response) => {
       const data = response.data || [];
       data.sort((a, b) => a.priceChange - b.priceChange);
 

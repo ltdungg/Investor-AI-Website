@@ -4,13 +4,16 @@ import getStockInformation from "../../utils/api/stock_api_utils/GetStockInforma
 import getStockPrice from "../../utils/api/stock_api_utils/GetStockPrice.js";
 import StockHeader from "./StockHeader.jsx";
 import "./StockPriceHistory.scss"
+import Loading from "../loading/loading.jsx";
 
 function StockPriceHistory() {
     const { symbol } = useParams();
     const [stockInformation, setStockInformation] = useState(null);
     const [stockPrice, setStockPrice] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         if (symbol) {
             getStockInformation(symbol).then((response) =>
                 setStockInformation(response.data)
@@ -20,6 +23,7 @@ function StockPriceHistory() {
                     new Date(b.tradingDate) - new Date(a.tradingDate)
                 );
                 setStockPrice(sortedPrices);
+                setLoading(false);
             });
         }
     }, [symbol]);
@@ -97,6 +101,7 @@ function StockPriceHistory() {
                     </tbody>
                 </table>
             </div>
+            {loading && <Loading />}
         </div>
     );
 }

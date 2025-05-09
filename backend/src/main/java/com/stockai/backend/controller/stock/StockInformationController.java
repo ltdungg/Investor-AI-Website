@@ -64,4 +64,9 @@ public class StockInformationController {
         }
         return ResponseEntity.ok(stockInformationService.findStocks(symbol));
     }
+
+    @GetMapping("/top")
+    public ResponseEntity<?> getTopStockInformation() {
+        return ResponseEntity.ok(stockInformationService.topTangVaGiamGia());
+    }
 }
