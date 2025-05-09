@@ -1,0 +1,18 @@
+
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chart-wrapper {
+  width: 100%; /* Hoặc một giá trị cụ thể như 800px */
+  height: 500px; /* Tăng chiều cao để biểu đồ to hơn */
+}
+
+/* Đảm bảo canvas của biểu đồ chiếm toàn bộ kích thước wrapper */
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

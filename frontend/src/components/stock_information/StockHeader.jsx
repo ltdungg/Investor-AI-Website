@@ -100,7 +100,7 @@ function StockHeader({ stockInformation, tabs }) {
                                     Ngành nghề:
                                 </span>
                                 <span className="stock-intro-value">
-                                    {stockInformation.industry || "N/A"}
+                                    {stockInformation.icb1 || "N/A"}
                                 </span>
                             </div>
                             <div className="stock-intro-row">
@@ -137,7 +137,7 @@ function StockHeader({ stockInformation, tabs }) {
                             </span>
                             <span
                                 className={`stock-price-change ${
-                                    stockInformation.priceChange >= 0
+                                    formatDecimal((newestStockPrice.close-secondNewestStockPrice.close)/secondNewestStockPrice.close*100) >= 0
                                         ? "positive"
                                         : "negative"
                                 }`}
