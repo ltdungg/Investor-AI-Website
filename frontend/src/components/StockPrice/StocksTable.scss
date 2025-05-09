@@ -1,0 +1,66 @@
+@use "./../../styles/main";
+.stock-price-container {
+  min-height: 100vh;
+
+  header {
+    display: flex;
+    align-items: center;
+  }
+
+  header {
+    @include main.flex(space-between, center, 1rem);
+    padding: 0 2rem;
+    margin: 4rem 0 0 0;
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .stock-price__filters {
+      display: flex;
+      gap: 1rem;
+
+      .stock-price__filter {
+        background-color: main.$gray-white-100;
+        padding: 0.5rem 1rem;
+        border-radius: 0.3rem;
+      }
+    }
+  }
+
+  .stock-price__table {
+    border-collapse: collapse;
+    font-size: 0.95em;
+    width: 100%;
+    min-width: 65rem;
+    border-spacing: 0px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 15px;
+    margin-bottom: 30px;
+
+    thead {
+      background: linear-gradient(to right, #81e6ea, #014bae);
+      color: #f3fafc;
+      text-align: center;
+
+      th {
+        @include main.padding-y(0.5rem);
+        $radius: 0.5rem;
+
+        &:first-child {
+          border-start-start-radius: $radius;
+        }
+        &:last-child {
+          border-top-right-radius: $radius;
+        }
+        background-color: var(--primary);
+        color: white;
+        padding: 12px;
+        text-align: center;
+        font-weight: 500;
+      }
+    }
+  }
+}

@@ -81,7 +81,7 @@ function StockPriceGraphByPeriod({
     <Line
       ref={chartRef}
       data={getChartData(stockDate, stockData)}
-      options={getChartOptions(avg.current, mousePos, stockDate, stockData, endpoint)}
+      options={getChartOptions(avg.current, mousePos, stockDate, stockData, endpoint, true)}
       className={className}
     />
   );
