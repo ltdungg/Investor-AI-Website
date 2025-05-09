@@ -67,7 +67,7 @@ function StockPriceHistory() {
                 />
             )}
             <div className="price-history-section">
-                <h3>Lịch sử giá & Cổ tức</h3>
+                <h3>Lịch sử giá</h3>
                 <table className="price-history-table">
                     <thead>
                         <tr>

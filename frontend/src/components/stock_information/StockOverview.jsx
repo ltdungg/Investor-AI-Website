@@ -3,7 +3,7 @@ import StockPriceGraphByPeriod from "./RenderDatas/RenderStockPriceGraphByPeriod
 import RenderStockPredict from "./RenderDatas/RenderStockPredict.jsx";
 
 function StockOverview({ stockInformation, symbol, currPeriod, handleChangePeriod, lastData}) {
-  const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year", "/all"];
+  const PERIOD_ENUM = ["/1-month", "/3-month", "/1-year", "/3-year", ""];
   const KEY_ENUM = ["1M", "3M", "1Y", "3Y", "ALL"];
 
   return (
@@ -29,9 +29,13 @@ function StockOverview({ stockInformation, symbol, currPeriod, handleChangePerio
           />
         )}
       </div>
-      <div className="stock-predict">
+        <div className="chart-section">
+        <h3>Biểu đồ giá dự đoán</h3>
+            <div className="stock-predict">
         <RenderStockPredict symbol={symbol} lastData={lastData.current} />
       </div>
+      </div>
+
       {stockInformation && (
         <div className="company-info-section">
           <div className="company-info-box">

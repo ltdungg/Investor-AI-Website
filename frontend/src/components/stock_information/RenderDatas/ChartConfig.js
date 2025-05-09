@@ -26,7 +26,6 @@ ChartJS.register(
   Legend,
   zoomPlugin,
   Annotation,
-  backgroundPlugin,
   crosshairPlugin,
   TimeScale,
 );

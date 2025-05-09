@@ -78,7 +78,7 @@ export const getChartData = (stockDate, stockData) => {
   };
 };
 
-export const getChartOptions = (avg, mousePos, stockDate, stockData, endpoint) => {
+export const getChartOptions = (avg, mousePos, stockDate, stockData, endpoint, showLastValue) => {
 
   const minDate = Math.min(...stockDate);
   const maxDate = Math.max(...stockDate);
@@ -88,10 +88,12 @@ export const getChartOptions = (avg, mousePos, stockDate, stockData, endpoint) =
     animation: false,
     scales: {
       y: {
+        grid: {display: false},
         beginAtZero: false,
         position: 'right'
       },
       x: {
+        grid: {display: false},
         type: 'time',
         min: minDate,
         max: maxDate,
@@ -207,7 +209,7 @@ export const getChartOptions = (avg, mousePos, stockDate, stockData, endpoint) =
           font: {size: 12, weight: 'bold'},
           position: "end",
           padding: 2,
-          display: true,
+          display: showLastValue,
         },
         line1: {
           type: "line",
