@@ -3,6 +3,8 @@ import pandas as pd
 import datetime
 import time
 
+BATCH_SIZE = 30
+
 class VnStockClient:
     def __init__(self):
         self._client = Vnstock()
@@ -158,7 +160,7 @@ class VnStockClient:
         finance_ratio_data = []
         symbol_list = self.get_stock_list()
         for i, symbol in enumerate(symbol_list):
-            if (i % 100 == 0):
+            if (i % BATCH_SIZE == 0 and i != 0):
                 print("Sleep 30 seconds")
                 time.sleep(30)
             print("Getting finance ratio for", symbol)
@@ -186,7 +188,7 @@ class VnStockClient:
         finance_balance_sheet_data = []
         symbol_list = self.get_stock_list()
         for i, symbol in enumerate(symbol_list):
-            if (i % 100 == 0):
+            if (i % BATCH_SIZE == 0 and i != 0):
                 print("Sleep 30 seconds")
                 time.sleep(30)
             print("Getting finance balance sheet for", symbol)
@@ -212,7 +214,7 @@ class VnStockClient:
         finance_cash_flow_data = []
         symbol_list = self.get_stock_list()
         for i, symbol in enumerate(symbol_list):
-            if (i % 100 == 0):
+            if (i % BATCH_SIZE == 0 and i != 0):
                 print("Sleep 30 seconds")
                 time.sleep(30)
             print("Getting finance cash flow for", symbol)
@@ -239,7 +241,7 @@ class VnStockClient:
         finance_income_statement_data = []
         symbol_list = self.get_stock_list()
         for i, symbol in enumerate(symbol_list):
-            if (i % 50 == 0):
+            if (i % BATCH_SIZE == 0 and i != 0):
                 print("Sleep 30 seconds")
                 time.sleep(30)
 

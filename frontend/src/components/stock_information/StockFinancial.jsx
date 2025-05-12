@@ -216,7 +216,7 @@ function StockFinancial() {
                 beginAtZero: false,
                 title: {
                     display: true,
-                    text: "Số tiền ($)",
+                    text: "Số tiền (Tỷ đồng)",
                 },
             },
         },

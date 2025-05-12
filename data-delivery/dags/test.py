@@ -19,7 +19,8 @@ def test(**kwargs):
     @task
     def test_task():
         vnstock = VnStockClient()
-        vn30 = vnstock.get_vn100_stock_list()
+        vn30 = vnstock._get_stock_finance_ratio('ACB')
+        print(vn30['value_before_ebitda'])
         print(vn30)
 
     test_task()
