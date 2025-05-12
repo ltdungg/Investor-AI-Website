@@ -202,7 +202,7 @@ export const getChartOptions = (avg, mousePos, stockDate, stockData, endpoint, s
             return value > avg ? LINE_COLOR_ENUM.GREEN : LINE_COLOR_ENUM.RED;
           },
           borderWidth: 0,
-          xAdjust: 50,
+          xAdjust: 40,
           yAdjust: 10,
           color: 'white',
           content: [`${NumberFormat(stockData[stockData.length - 1])}`],

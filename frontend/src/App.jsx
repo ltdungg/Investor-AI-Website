@@ -21,6 +21,7 @@ import AnalysisTemplate from "./components/analysis_report/analysis/AnalysisTemp
 import StockOverview from "./components/stock_information/StockOverview";
 import StockFinancial from "./components/stock_information/StockFinancial";
 import StockPriceHistory from "./components/stock_information/StockPriceHistory";
+import ScrollToAnchor from "./components/UtilButton/ScrollToAnchor.jsx";
 
 function App() {
     const location = useLocation();
@@ -29,6 +30,7 @@ function App() {
     return (
         <div className="App">
             <ScrollToTop />
+            <ScrollToAnchor />
             {/* Navbar chỉ hiển thị nếu không phải trang login/register */}
             {!isAuthRoute && <Navbar />}
 

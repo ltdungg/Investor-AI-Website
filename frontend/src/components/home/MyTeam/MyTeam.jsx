@@ -38,7 +38,7 @@ function MyTeam() {
 
     return (
         <div className="introducing-members">
-            <h2>Innovative</h2>
+            <h2  id="about-section">Innovative</h2>
             <h1>MEET OUR TEAM</h1>
             <div className="members">
                 {members.map((item) => {

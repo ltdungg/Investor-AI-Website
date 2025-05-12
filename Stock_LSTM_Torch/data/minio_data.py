@@ -34,7 +34,7 @@ def get_data(symbol):
             print("Cổ phiếu này không được giao dịch gần đây!")
             return -1
 
-        time_filtered = time_filtered[['time', 'close', 'volume', 'high', 'low']]
+        time_filtered = time_filtered[['time', 'close']]
 
         return time_filtered
 

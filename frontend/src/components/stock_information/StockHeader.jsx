@@ -3,17 +3,21 @@ import { useParams } from "react-router-dom";
 import getFinanceRatio from "../../utils/api/stock_api_utils/GetFinanceRatio";
 import getStockPrice from "../../utils/api/stock_api_utils/GetStockPrice";
 import { useEffect } from "react";
+import getAllIndustries from "../../utils/api/stock_api_utils/GetAllIndustries";
 
 function StockHeader({ stockInformation, tabs }) {
     const { symbol } = useParams();
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     const [newestStockPrice, setNewestStockPrice] = useState([{}]);
     const [secondNewestStockPrice, setSecondNewestStockPrice] = useState([{}]);
-
+     const [industries, setIndustries] = useState([]);
     const [financeRatio, setFinanceRatio] = useState(null);
 
     useEffect(() => {
         if (symbol) {
+            getAllIndustries().then((response) =>
+                setIndustries(response.data)
+            );
             getFinanceRatio(symbol).then((response) => {
                 const data = response.data;
                 if (data && data.length > 0) {
@@ -45,7 +49,10 @@ function StockHeader({ stockInformation, tabs }) {
             });
         }
     }, [symbol]);
-
+    const getIndustryName = (icbId) => {
+        const industry = industries.find((item) => item.icbId === icbId);
+        return industry ? industry.icbName : "N/A";
+    };
     const formatDecimal = (value) => {
         return value !== null && value !== undefined
             ? parseFloat(value)
@@ -100,7 +107,7 @@ function StockHeader({ stockInformation, tabs }) {
                                     Ngành nghề:
                                 </span>
                                 <span className="stock-intro-value">
-                                    {stockInformation.icb1 || "N/A"}
+                                    {getIndustryName(stockInformation.icb1) || "N/A"}
                                 </span>
                             </div>
                             <div className="stock-intro-row">

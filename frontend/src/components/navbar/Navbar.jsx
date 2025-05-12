@@ -10,6 +10,7 @@ import "./Navbar.scss";
 import userImage from "../../assets/images/user.png";
 import { jwtTagStorage, urlBackend } from "../../utils/const/Global";
 import axios from "axios";
+import { HashLink } from 'react-router-hash-link';
 
 function Navbar() {
     const breakPoint = 768;
@@ -85,7 +86,9 @@ function Navbar() {
 
     return (
         <nav className={`nav-containter ${isScrolled ? "scrolled" : ""}`}>
-            <LogoItem className="nav__logo" />
+            <Link to="/">
+                <LogoItem className="nav__logo" />
+            </Link>
             <div className="nav__menu-btn">
                 <div className="nav-mob-btn__search nav__item">
                     <IoMdSearch
@@ -111,7 +114,17 @@ function Navbar() {
                         <Link to="/">Trang chủ</Link>
                     </div>
                     <div className="nav__item">
-                        <Link to="/about-us">Về chúng tôi</Link>
+                        <HashLink
+                          smooth
+                          to="/#about-section"
+                          scroll={el => {
+                            const yOffset = -70; // chiều cao header cố định
+                            const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                            window.scrollTo({ top: y, behavior: 'smooth' });
+                          }}
+                        >
+                          Về chúng tôi
+                        </HashLink>
                     </div>
                     <div
                         className="nav__item nav__tool"

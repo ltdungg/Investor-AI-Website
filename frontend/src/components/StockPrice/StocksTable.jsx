@@ -5,6 +5,7 @@ import StockFilter from "./StockFilter";
 import "./StocksTable.scss";
 import api from "../../utils/api/Api";
 import IcbFilter from "./IcbFilter";
+import { Element, scroller } from 'react-scroll';
 
 function StocksTable() {
   const [stocks, setStocks] = useState([]);
@@ -116,10 +117,15 @@ function StocksTable() {
 
   // Tính toán phân trang
   const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
-  };
+  setCurrentPage(pageNumber);
+
+  // Cuộn đến phần tử có id="my-section"
+  scroller.scrollTo('stock-price-container', {
+    duration: 600,
+    smooth: 'easeInOutQuart',
+    offset: -80, // bù trừ cho header nếu có
+  });
+};
 
   // Tạo danh sách các nút phân trang
   const getPaginationButtons = () => {
@@ -194,7 +200,7 @@ function StocksTable() {
   };
 
   return (
-    <div className="stock-price-container">
+    <div id="stock-price-container" className="stock-price-container">
       <header className="stock-price__header">
         <h1>Bảng giá cổ phiếu</h1>
         <div className="stock-price__filters">
